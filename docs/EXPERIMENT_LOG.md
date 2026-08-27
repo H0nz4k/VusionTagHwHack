@@ -4,6 +4,51 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-013 — cc-tool -t after debug path to tag
+
+**Status:** FAIL (no target) / PASS (USB stayed with both coil groups)
+
+**Firmware / commit:**
+
+```text
+v0.3a, no reflash
+human: DD/DC/RESET průchozí relé → deska tagu, USB debugger znovu v USB, červená LED
+```
+
+**Hypotéza**
+
+GPIO17 ON + GPIO27 ON (NO, active-low) → `cc-tool -t` uvidí CC2510.
+
+**Vstupní stav**
+
+Idle: USB `0451:16a2` přítomné. Polarita GPIO27 OVĚŘENA vizuálem (LOW = 3 LED + kontakty spojené).
+
+**Jedna hlavní změna**
+
+Jen identify, žádný flash. USB kontrola po dbg-on i po tag-on.
+
+**Očekávaný výsledek**
+
+Name CC2510, ID 0x2510.
+
+**Skutečný výsledek**
+
+USB zůstalo po 3 cívkách i po tag+debug. `Programmer: CC Debugger` / `No target detected`. EXP-013a bez USB v portu byl `device not found` (debugger fyzicky odpojen).
+
+**Klasifikace**
+
+FAIL na target. PASS na USB enumeraci při obou relé ON (tentokrát bez 5V sag).
+
+**Závěr**
+
+Cesta k desce tagu a polarita relé nestačí. Debugger čip na debug busu nevidí. Další: 3 V na DVDD při GPIO17 ON, nebo DD/DC prohozené / RESET na špatný net.
+
+**Další krok**
+
+Lidské měření DVDD na tagu při GPIO17 ON, nebo kontrola pinů debuggeru 3/4/7.
+
+---
+
 ### EXP-20260827-012 — GPIO27 ganged RESET/DD/DC
 
 **Status:** FAIL (debug bus) / PASS (USB stays) / diagnosticky cenné

@@ -20,4 +20,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp012_por.bin` | EXP-012 GPIO27 dh + GPIO17 on — 15 dots, no banner |
 | `ov26_exp012_ident.txt` | EXP-012 GPIO27 dl `cc-tool -t` — no target |
 | `ov26_exp012b_idle.bin` | EXP-012b GPIO17 off — 8 dots / 8 s |
-| `ov26_exp012b_ident_dh.txt` | EXP-012b GPIO27 dh `cc-tool -t` — no target |
+| `ov26_exp013b_ident.txt` | EXP-013b: programmer OK, no target |
