@@ -5,7 +5,7 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-research/gu140-autonomous (this session init + EXP-001..005)
+b2a6dbb on research/gu140-autonomous
 ```
 
 ## Current firmware variant
