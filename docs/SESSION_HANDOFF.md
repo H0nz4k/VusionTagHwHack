@@ -3,12 +3,18 @@
 ## Current firmware
 
 ```text
-v0.3j_led_onoff — ~4 s LED ON (P2_1+P2_2), ~4 s OFF
-GPIO17 ON, debug isolated
+v0.3k_led_regdump — na DEV tagu, TAG OFF
+GPIO17/27/21 = dh (idle)
 ```
 
-## Human action
+## EXP-021
 
-```text
-YES — potvrdit pravidelné zapnutí/vypnutí obou LED.
-```
+Registry: RGB WHITE = jen P2_1+P2_2. Žádný R/G/B GPIO.
+
+## Human action — JEDNO měření, TAG OFF
+
+Kontinuita **za** třemi katodovými rezistory RGB (ne na pouzdru LED):
+
+společný sink uzel, nebo tři samostatné tranzistory?
+
+Viz `docs/LED_GL340_TRACE.md`.

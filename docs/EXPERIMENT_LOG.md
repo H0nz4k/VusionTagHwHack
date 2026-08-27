@@ -4,6 +4,53 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-021 — LED register delta OFF / P2_1 / P2_2 / BOTH
+
+**Status:** PASS (UART + registry)
+
+**HYPOTÉZA**
+
+RGB WHITE (P2_1+P2_2) aktivuje i další GPIO jako low-side R-/G-/B-. Delta P0/P1 DIR/SEL to ukáže.
+
+**Vstupní stav**
+
+DEV tag. v0.3k. Debugger isolated (GPIO27 dh, GPIO21 dh). Runtime = GPIO17 ON.
+
+**Jedna hlavní změna**
+
+Firmware jen dumpuje registry; žádný extra GPIO drive. Stavy: OFF → P2_1 → P2_2 → BOTH.
+
+**Očekávaný výsledek**
+
+1× banner. DIR/SEL konstantní kromě P2 bitů 1–2. Pokud RGB WHITE používá další sink GPIO, změní se P0DIR/P1DIR nebo P0/P1 data.
+
+**Skutečný výsledek (OVĚŘENO)**
+
+1× `v0.3k`. Capture `captures/ov26_exp021_por.bin`. Tag po capture OFF.
+
+```text
+STATE OFF   P0=FF P1=FF P2=19  P0DIR=00 P1DIR=10 P2DIR=06  P0SEL=00 P1SEL=40 P2SEL=00 PERCFG=02
+STATE P2_1  P0=FF P1=FF P2=1B  (DIR/SEL beze změny)
+STATE P2_2  P0=FF P1=FF P2=1D  (DIR/SEL beze změny)
+STATE BOTH  P0=FF P1=FF P2=1F  (DIR/SEL beze změny)
+```
+
+P2: `0x19=P2_0+P2_3+P2_4`, `0x1B=+P2_1`, `0x1D=+P2_2`, `0x1F=oba`. P1DIR bit4 = flash CS (uart1). P1SEL bit6 = UART TX. PERCFG bit1 = USART1 alt2.
+
+**Klasifikace**
+
+PASS. Žádný třetí LED GPIO v registrech. R-/G-/B- nejsou MCU výstupy v tomto stavu.
+
+**ZÁVĚR**
+
+RGB WHITE = jen P2_1+P2_2. Kanály R/G/B z firmwaru nejde vyčíst. Další krok = fyzická kontinuita katod (sdílený sink vs tři FET).
+
+**DALŠÍ KROK**
+
+Jeden měřicí požadavek v `docs/LED_GL340_TRACE.md`. TAG OFF.
+
+---
+
 ### EXP-20260828-020 — LED pair ON/OFF control
 
 **Status:** PASS UART / optika čeká potvrzení blikání

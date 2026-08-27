@@ -1,7 +1,67 @@
 # LED map — GL340 PCB overlay vs GU140
 
 Zdroj: [fanhuanji/VUSION4.2BWR_GL340](https://github.com/fanhuanji/VUSION4.2BWR_GL340)
-`PCB_Tool/savefile.txt`, `src/util.h`. Deska je **4.2" GL340**, ne GU140 — vše kromě firmwarových maker je **REFERENCE**, na GU140 **HYPOTÉZA**, dokud EXP nepotvrdí.
+`PCB_Tool/savefile.txt`, `src/util.h`, `top.png`/`bottom.png` (overlay, ne netlist). Deska je **4.2" GL340**, ne GU140 — overlay je **REFERENCE**. Na GU140 povyšuj jen to, co potvrdil test.
+
+## GU140 RGB pouzdro (OVĚŘENO, diode-test)
+
+Člověk, multimetr diode-test:
+
+- RGB LED je **common-anode**
+- 1 pin = společné **+**
+- 3 piny = katody R / G / B (každá samostatně rozsvítí svou barvu)
+- všechny tři čipy fungují
+
+```text
+         COMMON +
+            |
+     +------+------+
+     |      |      |
+     R      G      B
+     |      |      |
+    R-     G-     B-
+```
+
+Samostatná **bílá** LED existuje vedle RGB (předchozí optika EXP-016..020).
+
+## EXP-021 register delta (OVĚŘENO)
+
+Firmware `v0.3k`, debugger isolated. Jediné řízené LED GPIO = **P2_1 a P2_2**.
+
+| Stav | P2 | P0 | P1 | P0DIR | P1DIR | P2DIR | P0SEL | P1SEL | P2SEL | PERCFG |
+|---|---|---|---|---|---|---|---|---|---|---|
+| OFF | `19` | `FF` | `FF` | `00` | `10` | `06` | `00` | `40` | `00` | `02` |
+| P2_1 | `1B` | `FF` | `FF` | stejné | | | | | | |
+| P2_2 | `1D` | `FF` | `FF` | stejné | | | | | | |
+| BOTH | `1F` | `FF` | `FF` | stejné | | | | | | |
+
+`P2` bity: `P2_0` a krystal `P2_3/P2_4` zůstávají 1 (vstupy). Mění se jen `P2_1` a `P2_2`.
+
+Při stavu, který dává **RGB WHITE** (BOTH), MCU **nedriveuje** žádný další pin jako výstup. R-/G-/B- proto **nejsou** tři volné GPIO v P0/P1.
+
+GL340 `util.h` (**REFERENCE**): jen `LED_ON=P2_1`, `LED_BOOST=P2_2`. Žádné RGB kanály v kódu. Overlay sítě `LED_A/B/C/D` v `savefile.txt` **nedobíhají k MCU** — končí u pouzdra LED (rezistor/tranzistor). `LED_COM` je dlouhá k boost oblasti. `TPS61071EN` je krátká u boost EN.
+
+## API — co HW teď dovolí
+
+| Funkce | Stav |
+|---|---|
+| `led_rgb_off()` | **HYPOTÉZA** `P2_1=0` (typicky i `P2_2=0`) |
+| `led_rgb_white()` | **HYPOTÉZA** `P2_1=1` + boost `P2_2=1` (R+G+B současně) |
+| `led_rgb_red/green/blue` | **blokováno** — chybí mapování tří sink větví |
+| yellow/cyan/magenta | později, jen pokud existují nezávislé katodové spínače |
+
+Nesmí se implementovat falešné R/G/B přepínáním náhodných GPIO.
+
+## Jeden měřicí požadavek (TAG je OFF)
+
+Sonda na **far-side** (ne na pouzdru LED) tří katodových rezistorů RGB:
+
+**Jsou tři uzly za R-/G-/B- rezistory navzájem spojené (jeden společný sink), nebo jdou každý do vlastního tranzistoru?**
+
+- společný uzel → software umí jen off / RGB-white; R/G/B API nejde
+- tři tranzistory → další krok = gate **jen červeného** FET na který pin MCU
+
+Žádný GPIO sweep, dokud není tahle dichotomie.
 
 ## Firmware (REFERENCE, GL340 `src/util.h`)
 
@@ -29,21 +89,21 @@ TPS61071 = boost, pin **EN**. Krátká síť = EN pad. Firmware: EN = **P2_2**. 
 
 LED_COM končí u boost oblasti, ne u MCU. To je **VOUT** boostu, ne GPIO.
 
-## Kandidátní mapa (REFERENCE / HYPOTÉZA)
+## Kandidátní mapa (REFERENCE GL340 / HYPOTÉZA GU140)
+
+Pořadí A/B/C ≠ ověřené R/G/B. Overlay barva sítě je kresba, ne barva čipu.
 
 | Net | Kandidát | GPIO? |
 |---|---|---|
-| LED_A | katoda **R** (RGBW die) přes R → N-spínač | ne přímo |
-| LED_B | katoda **G** | ne přímo |
-| LED_C | katoda **B** | ne přímo |
-| LED_D | katoda **W** (bílá die) | ne přímo |
-| LED_COM | **common anode** = TPS61071 **VOUT** | ne |
-| TPS61071EN | boost enable | **P2_2** LED_BOOST |
-| (unnamed sink) | společný spínač katod | **P2_1** LED_ON |
+| LED_A/B/C | tři RGB katody přes R → N-spínač | ne přímo (EXP-021) |
+| LED_D | katoda samostatné bílé LED | ne přímo |
+| LED_COM | common anode = TPS61071 VOUT | ne |
+| TPS61071EN | boost enable | **P2_2** |
+| (unnamed sink) | společný nebo sdílený spínač | **P2_1** |
 
-Čtyři barevné sítě v overlay **nedobíhají k CC2510**. V GL340 fw **nejsou** čtyři GPIO na R/G/B/W. Barvy se míchají na společném anodovém railu; bílá má vyšší Vf → RGB naskočí dřív, pak bílá přezáří. To sedí s pozorováním na GU140 (EXP-016..018).
+Čtyři katodové sítě v overlay **nedobíhají k CC2510**. GL340 fw nemá R/G/B GPIO. EXP-021 to na GU140 potvrdil v registrech.
 
-**LED_COM = common anode.** Common cathode by LED_COM šla na GND, ne k boost VOUT.
+**LED_COM = common anode** sedí s GU140 diode-testem. Common cathode by LED_COM šla na GND, ne k boost VOUT.
 
 ## Co z overlay nejde
 

@@ -113,7 +113,9 @@ GL340 [`util.h`](https://github.com/fanhuanji/VUSION4.2BWR_GL340/blob/main/src/u
 
 PCB overlay: LED_A/B/C/D = krátké katody RGBW; LED_COM = long net k boost VOUT = **common anode**; TPS61071EN = P2_2. Detail `docs/LED_GL340_TRACE.md`.
 
-GU140: P2_1/P2_2 budí LED (EXP-016+), bílá přezáří RGB. Mapování kanálů na GPIO **není**.
+GU140 RGB pouzdro **OVĚŘENO** diode-test: common-anode, tři katody R/G/B, všechny čipy živé. Bílá je samostatná LED.
+
+EXP-021 **OVĚŘENO**: při OFF / P2_1 / P2_2 / BOTH (RGB WHITE) se mění jen P2 bity 1 a 2. `P0DIR=00`, žádný třetí LED výstup. R-/G-/B- nejsou MCU GPIO v tomto stavu. Detail `docs/LED_GL340_TRACE.md`.
 
 ## Session 2026-08-27 — GPIO pozorování (chování OVĚŘENO, identita HYPOTÉZA)
 
