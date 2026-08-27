@@ -21,9 +21,9 @@
 
 ## Phase 2 — GPIO validation
 - [x] passive reads first (P1_3)
-- [ ] confirm safe EPD candidates (P0_0/P2_0 bezpečně buditelné, identita ne)
-- [ ] confirm BUSY behavior (P1_3 se mění, ready=HIGH po resetu NE)
-- [ ] confirm reset/power candidates (REFERENCE; EXP-C isolated, ne historický storm)
+- [x] confirm safe EPD candidates (P0_0 EXP-023, P2_0 EXP-024 isolated; identita ne OVĚŘENO)
+- [ ] confirm BUSY behavior (EXP-024: P1_3 0→1 po H-L-H; command/polarita ne)
+- [x] confirm reset/power candidates buditelné isolated (REFERENCE identita; EXP-024 no storm)
 - [x] avoid P2_3/P2_4
 
 ## Phase 3 — EPD low-risk bring-up
@@ -32,9 +32,9 @@ Po LED continuity. Isolated debugger. P0_2 untouched. Detail `docs/EPD_REFERENCE
 
 Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 
-- [ ] EXP-A passive BUSY
-- [ ] EXP-B PWR only
-- [ ] EXP-C RESET H-L-H + BUSY (P2_0 = REFERENCE candidate; historický storm ≠ vlastnost pinu)
+- [x] EXP-A passive BUSY
+- [x] EXP-B PWR only
+- [x] EXP-C RESET H-L-H + BUSY (EXP-024; P2_0 isolated no storm; P1_3 0→1)
 - [ ] EXP-D SPI idle / clock (P0_3/P0_5, ne P0_2)
 - [ ] EXP-E command 0x00 + data 0x0E
 - [ ] EXP-F minimal reference init

@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-024 — Phase 3 PWR ON + P2_0 H-L-H
+
+**Status:** PASS MCU/UART / STRONG EVIDENCE P1_3 kandidát BUSY
+
+Isolated (GPIO27+21 dh). P0_0=0, P2_0 HIGH→LOW→HIGH, žádné SPI. `RESET_CAUSE=01`, 1× banner, HB 00–13. P1_3: 0 před/během pulzu, 1 po RST H2 a dál. Storm se nereprodukoval. První obrazy UART garbage (SDCC overlay); finále `--nooverlay`. Detail `docs/experiments/EXP-024.md`. **Další krok není SPI** — nejdřív vyhodnocení.
+
+---
+
 ### EXP-20260828-023 — Phase 2 P0_0 PWR only
 
 **Status:** PASS MCU / INCONCLUSIVE napájení CoG a BUSY

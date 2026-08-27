@@ -124,6 +124,8 @@ USART0 Alt1: MOSI+SCLK na P0_3/P0_5, CS bitbang P0_1. **P0_2 neselectovat.** P0_
 
 **UNKNOWN:** kauzalita `P2_0 → reset MCU` **není prokázána**. Storm nepovyšuj na vlastnost EPD_RESET/P2_0.
 
+**OVĚŘENO (EXP-024, isolation):** P2_0 H-L-H po P0_0=0, GPIO27+21 `dh`: MCU nestormuje (`RESET_CAUSE=01`, 1× banner, heartbeat). Historický storm se za těchto podmínek nereprodukoval.
+
 EXP-C (RESET H-L-H) opakuj **jen** s aktuálním isolation workflow: GPIO27 `dh` (RESET_N+DD+DC odříznuté), GPIO21 `dh`, TAG ON jen 3 V.
 
 ---
@@ -146,7 +148,7 @@ Každá vrstva = jeden HIL test. **Bez konzistentního výsledku nepokračuj.** 
 |---|---|---|---|
 | A | passive BUSY | nic; P1_3 input | 1× banner, P1_3 čitelný, MCU žije po celý capture |
 | B | PWR only | P0_0 OFF→ON; bez RESET/SPI | MCU žije; log PWR+BUSY; žádný reset storm |
-| C | RESET H-L-H + BUSY | po PWR ON: P2_0 1→0→1; P1_3 vzorkovat | MCU žije; H-L-H dokončen; BUSY log (identita může zůstat REFERENCE) |
+| C | RESET H-L-H + BUSY | po PWR ON: P2_0 1→0→1; P1_3 vzorkovat | EXP-024 PASS MCU; P1_3 0→1 po H2 (silná evidence BUSY, identita ne OVĚŘENO) |
 | D | SPI idle / clock | USART0 Alt1, CS=1, P0_3/P0_5 periferní, **žádný byte** | MCU žije; P0_2 DIR/SEL nezměněné |
 | E | command `0x00` + data `0x0E` | soft-reset, wait BUSY s timeoutem | UART dokončí command; žádný 3× stejný timeout/storm |
 | F | minimal reference init | GU-small non-4.2: E5=19, E0=02, PSR CF 8D | init doběhne; BUSY timeout ok |
@@ -165,4 +167,4 @@ Starší EXP-003..006 **nenahrazují** A–C. Byly za jiného debugger/RESET_N r
 
 Než EXP-H `0x12`: EXP-A…G musí mít konzistentní PASS (ne 3× stejná failure signature).
 
-`P1_3 == 1` samo o sobě **není** potvrzení BUSY.
+`P1_3 == 1` samo o sobě **není** potvrzení BUSY. EXP-024: přechod **0→1 vázaný na uvolnění P2_0** po PWR ON je první silná evidence kandidáta; polarita a CoG command response až EXP-E.
