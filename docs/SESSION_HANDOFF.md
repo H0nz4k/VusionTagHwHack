@@ -21,7 +21,7 @@ Previous physical DEV: suspected damaged, do not reconnect
 TAG: ON (GPIO17 dl)
 DBG 5V: ON (GPIO27 dl)
 cc-tool: CC2510 0x2510 UNLOCKED
-UART capture after flash: no banner (P1_6 path unproven on this unit)
+UART: OVĚŘENO — v0.3a banner + heartbeat after P1_6 fix
 ```
 
 ## Last experiment
@@ -48,5 +48,5 @@ Confirm P1_6 wiring, then UART capture around cc-tool --reset. No extra flash un
 ## Human action required?
 
 ```text
-OPTIONAL: confirm CP2102 RXD is on the NEW tag pin 33 / P1_6, GND common.
+NO
 ```

@@ -4,6 +4,59 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-009 — UART after P1_6 rewired on new DEV
+
+**Status:** PASS
+
+**Firmware / commit:**
+
+```text
+v0.3a already in flash (no reflash)
+```
+
+**Hypotéza**
+
+Po správném P1_6 → CP2102 RXD uvidíme banner a heartbeat.
+
+**Vstupní stav**
+
+Nový DEV odemčený, v0.3a, člověk opravil UART pin. GND společná.
+
+**Jedna hlavní změna**
+
+Jen zapojení P1_6. Relé 2 pak 1, `cc-tool --reset`, 15 s UART.
+
+**Očekávaný výsledek**
+
+`RESET CAUSE TEST` + tečky.
+
+**Skutečný UART / pozorování**
+
+```text
+OpenVusion GU140 RESET CAUSE TEST
+RESET_CAUSE=1 EXTERNAL_RESET_N
+.
+OpenVusion GU140 RESET CAUSE TEST
+RESET_CAUSE=1 EXTERNAL_RESET_N
+..............
+```
+
+2 bannery z debugger resetu (jako dřív), pak 14 teček, žádný POR loop v okně.
+
+**Klasifikace**
+
+PASS
+
+**Závěr**
+
+Nový DEV + v0.3a + UART na P1_6 je OVĚŘENO. MCU běží.
+
+**Další krok**
+
+True POR bez debuggeru (GPIO27 off, cyklus GPIO17), nebo dál baseline.
+
+---
+
 ### EXP-20260827-008 — sacrifice new locked tag, flash v0.3a
 
 **Status:** PASS (erase/unlock/write/verify) / INCONCLUSIVE (UART)
