@@ -4,6 +4,62 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-007 — reflash UART-only v0.3a after debugger return
+
+**Status:** PASS
+
+**Firmware / commit:**
+
+```text
+v0.3a_uart_baseline rebuilt and flashed
+no P2_0 / P0_0 drive
+```
+
+**Hypotéza**
+
+Debugger znovu programuje DEV tag. UART-only image nahradí nebezpečné v0.3e a s debuggerem dá jeden banner + heartbeat.
+
+**Vstupní stav**
+
+Debugger USB+wiring zpět. `cc-tool -t` vidí CC2510 `0x2510`. Relé bylo OFF, target ale viditelný (parazitní napájení).
+
+**Jedna hlavní změna**
+
+Erase+write+verify v0.3a místo v0.3e.
+
+**Postup**
+
+```text
+TAG ON, build_one.sh v0.3a, hil-capture-through-flash 20s
+```
+
+**Očekávaný výsledek**
+
+Verify OK. Jeden `RESET CAUSE TEST`, potom tečky. Reset po flashi = EXTERNAL_RESET_N.
+
+**Skutečný UART / pozorování**
+
+```text
+(leftover v0.3e) OFF/RST1 BUSY=0 / POWER ON
+OpenVusion GU140 RESET CAUSE TEST
+RESET_CAUSE=1 EXTERNAL_RESET_N
+.................   (17 dots, no second banner)
+```
+
+**Klasifikace**
+
+PASS
+
+**Závěr**
+
+Debugger zapisuje a verifikuje. v0.3a s debuggerem je stabilní. True POR bez debuggeru na v0.3a ještě není.
+
+**Další krok**
+
+Odpojit debugger, true POR v0.3a (jeden banner + tečky, RESET_CAUSE=0 očekávaný na power-on).
+
+---
+
 ### EXP-20260827-006 — true POR without CC Debugger (v0.3e)
 
 **Status:** PASS (relay really cuts power) / FAIL (v0.3e reset storm after P2_0 high)
