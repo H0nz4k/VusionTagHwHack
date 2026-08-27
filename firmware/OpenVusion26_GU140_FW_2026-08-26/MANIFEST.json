@@ -1,0 +1,30 @@
+{
+  "name": "OpenVusion26_GU140_FW_2026-08-26",
+  "created": "2026-08-26",
+  "targets": [
+    "v0.3_reference_probe",
+    "v0.4_cog_probe",
+    "v0.5_epd_testpattern",
+    "v0.6_nfc_probe"
+  ],
+  "shell_syntax_checks": {
+    "build_one.sh": [
+      0,
+      ""
+    ],
+    "build_all.sh": [
+      0,
+      ""
+    ],
+    "flash.sh": [
+      0,
+      ""
+    ],
+    "monitor.sh": [
+      0,
+      ""
+    ]
+  },
+  "note": "SDCC is not installed in the artifact runtime, so target compilation must be validated on the user's Raspberry Pi with SDCC 4.2.0.",
+  "build_note": "build_one.sh compiles each C source separately to .rel, then links main.rel first, per SDCC multi-file requirements."
+}

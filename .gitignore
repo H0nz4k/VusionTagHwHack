@@ -1,0 +1,27 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Temporary logs
+*.tmp
+*.bak
+*.swp
+
+# SDCC / build intermediates
+firmware/**/*.asm
+firmware/**/*.lk
+firmware/**/*.lst
+firmware/**/*.map
+firmware/**/*.mem
+firmware/**/*.rel
+firmware/**/*.rst
+firmware/**/*.sym
+firmware/**/build/
+firmware/**/.build/
+
+# Keep source and final .hex artifacts unless intentionally removed
+
+# Remote tree archives
+firmware/**/*.zip
+firmware/*.zip

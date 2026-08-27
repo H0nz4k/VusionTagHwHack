@@ -1,0 +1,20 @@
+---
+description: OpenVusion 2.6 GU140 autonomous firmware and HIL rules
+alwaysApply: true
+---
+
+Při práci na tomto projektu vždy přečti a respektuj `AGENTS.md`.
+
+Klíčové zásady:
+- Lokální projekt je source of truth.
+- Hardware je na `ssh vusion-rpi`.
+- DEV tag lze bezpečně autonomně flashovat.
+- Stock/golden tagy nikdy nemaž ani neflashuj bez explicitního potvrzení.
+- GPIO17 relay: `dl = TAG ON`, `dh = TAG OFF`.
+- Každý hardware test musí být bounded, s timeoutem.
+- Žádné nekonečné experimentální smyčky.
+- Všechny dokončené experimenty dokumentuj a commituj.
+- Rozlišuj OVĚŘENO / REFERENCE / HYPOTÉZA.
+- P2_3/P2_4 nikdy nekonfiguruj jako GPIO.
+- P0_3 nepoužívej jako diagnostický UART.
+- Před destruktivní operací na neověřeném targetu zastav.

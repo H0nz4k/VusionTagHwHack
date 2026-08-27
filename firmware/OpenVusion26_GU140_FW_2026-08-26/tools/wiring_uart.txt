@@ -1,0 +1,31 @@
+OpenVusion 2.6 GU140 diagnostic UART wiring
+=============================================
+
+During runtime diagnostics, after programming:
+
+CC2510 P1_6 / physical pin 33  ---->  RX of 3.3-V USB-TTL adapter
+CC2510 AGND / board GND        ---->  GND of USB-TTL adapter
+
+DO NOT CONNECT:
+- USB-TTL VCC / 5 V / 3.3 V power output
+- classic ±12 V RS-232
+
+The tag remains powered from its own battery/supply.
+
+UART:
+115200 baud
+8 data bits
+no parity
+1 stop bit
+no flow control
+
+Why P1_6?
+- USART1 Alternative 2 TX maps there.
+- It is also a candidate flash-MOSI signal.
+- Diagnostic firmware forces FLASH_CS (P1_4) HIGH first, so the external flash
+  should remain deselected while UART is active.
+
+If you prefer a logic analyzer:
+- connect CH0 to P1_6
+- GND to GND
+- decode Async Serial / UART, 115200, 8N1, idle high.

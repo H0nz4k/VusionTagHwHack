@@ -1,0 +1,21 @@
+POWER ON NOW
+
+OpenVusion GU140 v0.3e RESET PROBE START
+OFF/RST0 BUSY=1
+OFF/RST1 BUSY=0
+POWER ON
+ON/pre-reset BUSY=0
+RESET H/L/H NOW
+sample 0  BUSY=0
+sample 1  BUSY=0
+sample 2  BUSY=0
+sample 3  BUSY=0
+sample 4  BUSY=0
+sample 5  BUSY=0
+sample 6  BUSY=0
+sample 7  BUSY=0
+sample 8  BUSY=0
+sample 9  BUSY=0
+sample 10  BUSY=0
+sample 11  BUSY=0
+DONE / safe shutdown
