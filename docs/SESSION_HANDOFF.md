@@ -5,51 +5,49 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-9ed65cf EXP-006; EXP-007 in progress
+270eb27 EXP-007 v0.3a; relay NO polarity documenting now
 ```
 
 ## Current firmware variant
 
 ```text
 v0.3a_uart_baseline  (UART only, no P2_0/P0_0)
-26 MHz XOSC, heartbeat dots, RESET_CAUSE print
 ```
 
 ## Current hardware state
 
 ```text
-TAG: ON (GPIO17 lo)
-Debugger: CONNECTED and working (cc-tool sees CC2510 0x2510)
-UART: available
+TAG: OFF (GPIO17 dh, NO open)
+Debugger 5V relay: OFF (GPIO27 dh, NO open)
+Debugger USB: expected absent while GPIO27 dh
+UART CP2102: independent, should stay up
 ```
 
 ## Last experiment
 
 ```text
-EXP-20260827-007 flash v0.3a
-verify OK, one banner RESET_CAUSE=1 EXTERNAL_RESET_N, 17 idle dots, no reset loop
+Relay sequence 17 ON → 27 ON → 17 OFF → 27 OFF: PASS (human heard correct clicks)
+Contacts: NO — unenergized = open = power disconnected
 ```
 
 ## Verified findings
 
-- Debugger funguje: USB 0451:16a2, program + verify.
-- v0.3a s debuggerem je stabilní.
-- Bez debuggeru relé řeže napájení; v0.3e bez debuggeru stormovalo na P2_0=1.
+- GPIO17/GPIO27 active-low coil, NO contacts.
+- dl = power on, dh = power off. Idle both dh is fail-safe.
+- v0.3a is in flash. True POR without human unplug is now possible: GPIO27 dh first, then GPIO17 cycle.
 
 ## Open hypotheses
 
-- True POR v0.3a (bez P2_0) bude stabilní, nebo se POR smyčka vrátí i bez EPD GPIO.
-- P2_0 high bez debugger hold-up = brownout.
+- True POR v0.3a (no P2_0) stable vs POR loop without debugger hold-up.
 
 ## Next recommended experiment
 
-1. Odpojit CC Debugger (CP2102 RXD+GND nechat).
-2. True POR v0.3a přes relé, 20–30 s UART.
-3. Čekat: právě jeden banner, `RESET_CAUSE=0 POR/BROWNOUT`, kontinuální tečky.
+1. GPIO27 dh (debugger 5V off).
+2. GPIO17 dh 2s, UART arm, GPIO17 dl (true POR).
+3. 20 s capture: one RESET CAUSE banner + dots, no storm.
 
 ## Human action required?
 
 ```text
-OPTIONAL: odpojit CC Debugger od tagu, napsat „debugger odpojen“.
-Pak umím ověřit true POR na v0.3a (bez P2_0).
+NO
 ```

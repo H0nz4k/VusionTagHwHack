@@ -60,7 +60,9 @@ pinctrl set 17 op dh
 
 **Při připojeném CC Debuggeru TAG OFF MCU nevypne.** UART heartbeat pokračuje. Parazitní napájení je OVĚŘENO. Dokud je debugger na tagu, nech TAG ON (běh jen z debug pinů je horší než 3V relé).
 
-**Bez CC Debuggeru TAG OFF MCU vypne.** EXP-006: 8 s listen při GPIO17 hi dal 1× `0x00` a žádný heartbeat. TAG ON spustí skutečný POR. Relé teď správně vypíná/zapíná.
+**Bez napájení debuggeru TAG OFF MCU vypne.** EXP-006: 8 s listen při GPIO17 hi dal 1× `0x00` a žádný heartbeat. TAG ON spustí skutečný POR.
+
+Obě Pi relé jsou **NO**: `dh` = cívka OFF = kontakt otevřený = odpojeno. `dl` = cívka ON = sepne. GPIO27 = debugger USB +5V (stejná logika). UART CP2102 relé 2 neovládá.
 
 Debugger pin 9 (3.3 V) zůstává nepřipojený. Parazitní cesta při připojeném debuggeru je tedy jiná (DD/DC/RESET_N / TVCC sense) — detaily jsou HYPOTÉZA.
 

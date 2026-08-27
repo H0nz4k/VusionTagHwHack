@@ -34,6 +34,26 @@ RESET_N        ----------> pin 7 RESET
 
 Debugger pin 9 nepřipojovat.
 
+## Raspberry Pi relé — OVĚŘENO 2026-08-27
+
+Obě relé jsou **NO** (normally open): bez proudu v cívce je výstup trvale otevřený = napájení odpojeno. Fail-safe po rebootu Pi, pokud GPIO držíme HIGH (cívka OFF).
+
+Active-low cívka, stejné jako dřív u tagu:
+
+```text
+BCM GPIO17  Pi pin 11  relé 1  tag 3V
+BCM GPIO27  Pi pin 13  relé 2  debugger USB +5V
+
+dl / GPIO LOW  = cívka ON  = NO sepne  = napájení PŘIPOJENO
+dh / GPIO HIGH = cívka OFF = NO otevře = napájení ODPOJENO
+```
+
+Sekvence `scripts/relay-sequence.sh` (17 ON → 27 ON → 17 OFF → 27 OFF) slyšitelně sedí.
+
+Po rebootu Pi jdou GPIO do vstupu → relé cvakají. Vždy je hned nastavit jako výstup; idle = obě `dh` (obojí odpojeno).
+
+GPIO27 řeže jen +5V USB debuggeru. UART CP2102 má vlastní USB a relé 2 ho nespíná.
+
 ## Kandidátní GPIO mapa — REFERENCE/HYPOTÉZA
 
 Odvozeno z příbuzného VUSION 4.2, exact-model reverse engineeringu a Pervasive driveru:
