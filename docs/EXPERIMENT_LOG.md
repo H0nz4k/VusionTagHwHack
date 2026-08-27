@@ -4,6 +4,43 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-017 — slow P2 LED states (white vs RGB)
+
+**Status:** PASS UART (fixed overlay) / LED map čeká člověka
+
+**Firmware / commit:**
+
+```text
+v0.3g_led_slow 901 B
+~5 s hold, ~2 s OFF mezi stavy
+```
+
+**Hypotéza**
+
+v0.3f vypadalo jako blikání bílé, protože 2 s je moc rychlé. Pomalý cyklus rozliší 00/10/01/11. RGB možná potřebuje jiný pin nebo PWM — HYPOTÉZA.
+
+**Vstupní stav**
+
+Člověk: 2 LED (bílá + RGB). v0.3f = zapínání/vypínání bílé.
+
+**Jedna hlavní změna**
+
+Delší hold + OFF mezery. První build s `delay_n` overlay = UART garbage. Reflash bez vnořené smyčky.
+
+**Skutečný UART**
+
+1× `v0.3g LED SLOW`, pak OFF / 00 / 10 / 01. Tag nechán ON.
+
+**Klasifikace**
+
+PASS MCU. Optika: čeká report.
+
+**Další krok**
+
+Člověk: u každého 5s stavu bílá on/off a RGB on/off/barva.
+
+---
+
 ### EXP-20260828-016 — v0.3f LED P2_1/P2_2, debugger isolated
 
 **Status:** PASS (UART/MCU) / LED barva čeká na člověka
