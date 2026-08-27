@@ -3,17 +3,12 @@
 ## Current firmware
 
 ```text
-v0.3k_led_regdump — na DEV tagu, TAG OFF
-GPIO17/27/21 = dh (idle)
+v0.4a_busy_passive — EXP-022 na DEV tagu, TAG OFF (idle)
 ```
 
-## LED (čeká člověk)
+## EPD
 
-Kontinuita **za** třemi katodovými rezistory RGB: společný sink, nebo tři FET?
-Viz `docs/LED_GL340_TRACE.md`.
+EXP-022: P1_3=0 stable isolated POR. Identita BUSY INCONCLUSIVE.
+Další: EXP-023 P0_0 PWR only.
 
-## Po LED měření — EXP-A…H k first refresh
-
-P2_0 = EPD_RESET **REFERENCE**. Historický storm = korelace, kauzalita **UNKNOWN**.
-First-refresh GPIO: P0_0, P0_1, P0_3, P0_5, P1_2, P1_3, P2_0. **P0_2 nedriveovat.**
-Po každém stupni commit + EXP log. `docs/EPD_REFERENCE.md`.
+UART CP2102 nechat v USB (jen RXD+GND).

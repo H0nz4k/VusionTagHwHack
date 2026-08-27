@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-022 — Phase 1 passive BUSY (isolated)
+
+**Status:** PASS UART/MCU / INCONCLUSIVE identita P1_3=BUSY
+
+**Firmware:** v0.4a. Debugger isolated. `BUSY=0` staticky, 1× banner, `RESET_CAUSE=01`. Detail `docs/experiments/EXP-022.md`.
+
+---
+
 ### EXP-20260828-021 — LED register delta OFF / P2_1 / P2_2 / BOTH
 
 **Status:** PASS (UART + registry)
