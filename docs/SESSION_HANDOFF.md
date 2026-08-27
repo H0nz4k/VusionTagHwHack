@@ -5,49 +5,54 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-270eb27 EXP-007 v0.3a; relay NO polarity documenting now
+bb02cf5 relay GPIO hold/guard
 ```
 
 ## Current firmware variant
 
 ```text
-v0.3a_uart_baseline  (UART only, no P2_0/P0_0)
+Unknown on the NEXT tag.
+Previous DEV last flashed: v0.3a_uart_baseline
+Previous DEV may be damaged (debugger LED dies when connected) — HYPOTÉZA short/DVDD collapse
 ```
 
 ## Current hardware state
 
 ```text
-TAG: OFF (GPIO17 dh, NO open)
-Debugger 5V relay: OFF (GPIO27 dh, NO open)
-Debugger USB: expected absent while GPIO27 dh
-UART CP2102: independent, should stay up
+TAG relay GPIO17: dh (coil off, NO open)
+DBG relay GPIO27: dh (coil off, NO open)
+Relay hold/guard systemd: enabled on Pi
+UART / debugger USB: last seen unplugged from Pi
 ```
 
 ## Last experiment
 
 ```text
-Relay sequence 17 ON → 27 ON → 17 OFF → 27 OFF: PASS (human heard correct clicks)
-Contacts: NO — unenergized = open = power disconnected
+Could not UART-test previous tag: CP2102 and CC Debugger were not on USB,
+relay contact outputs were disconnected.
 ```
 
 ## Verified findings
 
-- GPIO17/GPIO27 active-low coil, NO contacts.
-- dl = power on, dh = power off. Idle both dh is fail-safe.
-- v0.3a is in flash. True POR without human unplug is now possible: GPIO27 dh first, then GPIO17 cycle.
+- GPIO17/27 NO, active-low: dh=off, dl=on.
+- Dual coils ON can collapse Pi 5V → GPIO float → relay chatter.
+- Guard/idle services keep pins as outputs HIGH.
 
 ## Open hypotheses
 
-- True POR v0.3a (no P2_0) stable vs POR loop without debugger hold-up.
+- Previous DEV tag debug/DVDD path shorted (programmer LED off on connect).
+- Next physical tag identity unknown (DEV vs stock).
 
 ## Next recommended experiment
 
-1. GPIO27 dh (debugger 5V off).
-2. GPIO17 dh 2s, UART arm, GPIO17 dl (true POR).
-3. 20 s capture: one RESET CAUSE banner + dots, no storm.
+WAIT for human: new tag wired.
+Then ONLY: relays idle, debugger+tag power one coil at a time, `cc-tool -t`, UART observe.
+**NO erase/write/flash/lock** unless the human explicitly says this unit is the sacrificial DEV.
 
 ## Human action required?
 
 ```text
-NO
+YES: wire the new tag. State whether it is a new sacrificial DEV
+(original FW already gone / allowed to flash) or a stock/golden tag
+(flash FORBIDDEN without a second explicit YES).
 ```
