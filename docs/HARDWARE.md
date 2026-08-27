@@ -107,18 +107,13 @@ P2_3 -> 32 kHz crystal — OVĚŘENO
 P2_4 -> 32 kHz crystal — OVĚŘENO
 ```
 
-## P2 LED pozorování
+## P2 LED — REFERENCE GL340 + GU140 stav
 
-Historické experimenty na P2_1/P2_2:
-- různé kombinace vedly k bílé a cyan/azure LED aktivitě,
-- debugger sdílí P2_1/P2_2,
-- výsledky nejsou dostatečně čisté pro definitivní mapu.
+GL340 [`util.h`](https://github.com/fanhuanji/VUSION4.2BWR_GL340/blob/main/src/util.h): P2_1=`LED_ON`, P2_2=`LED_BOOST`. Ne RGB kanály.
 
-Reference VUSION 4.2:
-- P2_1 = LED control
-- P2_2 = LED boost
+PCB overlay: LED_A/B/C/D = krátké katody RGBW; LED_COM = long net k boost VOUT = **common anode**; TPS61071EN = P2_2. Detail `docs/LED_GL340_TRACE.md`.
 
-Na GU140 to zatím eviduj jako REFERENCE/HYPOTÉZA.
+GU140: P2_1/P2_2 budí LED (EXP-016+), bílá přezáří RGB. Mapování kanálů na GPIO **není**.
 
 ## Session 2026-08-27 — GPIO pozorování (chování OVĚŘENO, identita HYPOTÉZA)
 

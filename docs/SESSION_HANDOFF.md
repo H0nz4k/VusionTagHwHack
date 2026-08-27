@@ -3,12 +3,13 @@
 ## Current firmware
 
 ```text
-v0.3h_led_named — 6s RGB (P2_1), 6s WHITE (P2_2), 6s BOTH
+v0.3i_led_boost_sink
 GPIO17 ON, debug isolated
+Cycle ~6s: ON/BOOST 00, 10, 01, 11
 ```
 
 ## Human action
 
 ```text
-YES — po tmě: jen RGB (barvy)? pak jen bílá? pak obě (přezáření)?
+YES — které z 00/10/01 svítí? 11 = RGB+bílá?
 ```

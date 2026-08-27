@@ -4,6 +4,18 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-019 — LED BOOST vs SINK (GL340 architecture)
+
+**Status:** PASS UART / optika čeká člověka
+
+**Firmware:** v0.3i, jen P2_1/P2_2, žádný GPIO sweep.
+
+**Očekávání (HYPOTÉZA common anode + boost):** 00 tma, 10 tma, 01 tma, 11 RGB pak bílá.
+
+**UART:** 1× `v0.3i`, stavy ON/BOOST. Tag ON.
+
+---
+
 ### EXP-20260828-018 — named RGB vs WHITE (isolate white washout)
 
 **Status:** PASS UART / optika čeká člověka
