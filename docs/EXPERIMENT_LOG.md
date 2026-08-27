@@ -4,6 +4,53 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-008 — sacrifice new locked tag, flash v0.3a
+
+**Status:** PASS (erase/unlock/write/verify) / INCONCLUSIVE (UART)
+
+**Firmware / commit:**
+
+```text
+v0.3a_uart_baseline 843 B
+human: explicit YES to erase/sacrifice this unit
+```
+
+**Hypotéza**
+
+Locked stock CC2510 jde odemknout mass erase a naběhne náš UART-only FW.
+
+**Vstupní stav**
+
+Nový tag, `Target is locked`. Relé 1+2, UART CP2102 přítomen.
+
+**Jedna hlavní změna**
+
+`cc-tool -v read -e -w v0.3a_uart_baseline.hex` (žádný lock po zápisu).
+
+**Očekávaný výsledek**
+
+Verify OK, lock pryč, UART banner + tečky.
+
+**Skutečný UART / pozorování**
+
+Erase+write+verify dokončeno. Po flashi `cc-tool -t`: CC2510 ID `0x2510`, **už není locked**.
+
+UART 15 s po flashi: 0 B. `cc-tool --reset` + 12 s: 3× `0x00`, žádný banner.
+
+**Klasifikace**
+
+PASS programování. INCONCLUSIVE UART (P1_6 na tomto kusu pravděpodobně není na CP2102, nebo TX nejde ven).
+
+**Závěr**
+
+Tenhle kus je nový DEV: odemčený, v0.3a ve flashi, debug žije. Diagnostický UART zatím nepotvrzený.
+
+**Další krok**
+
+Ověřit fyzicky P1_6 → CP2102 RXD. Pokud sedí a UART pořád ticho, pak firmware/clock na tomto kusu.
+
+---
+
 ### EXP-20260827-007 — reflash UART-only v0.3a after debugger return
 
 **Status:** PASS

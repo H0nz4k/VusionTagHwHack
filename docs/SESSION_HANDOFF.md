@@ -5,54 +5,48 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-bb02cf5 relay GPIO hold/guard
+b99fbdf before EXP-008; EXP-008 flashing this session
 ```
 
 ## Current firmware variant
 
 ```text
-Unknown on the NEXT tag.
-Previous DEV last flashed: v0.3a_uart_baseline
-Previous DEV may be damaged (debugger LED dies when connected) — HYPOTÉZA short/DVDD collapse
+NEW DEV tag: v0.3a_uart_baseline (erase unlocked + verify OK)
+Previous physical DEV: suspected damaged, do not reconnect
 ```
 
 ## Current hardware state
 
 ```text
-TAG relay GPIO17: dh (coil off, NO open)
-DBG relay GPIO27: dh (coil off, NO open)
-Relay hold/guard systemd: enabled on Pi
-UART / debugger USB: last seen unplugged from Pi
+TAG: ON (GPIO17 dl)
+DBG 5V: ON (GPIO27 dl)
+cc-tool: CC2510 0x2510 UNLOCKED
+UART capture after flash: no banner (P1_6 path unproven on this unit)
 ```
 
 ## Last experiment
 
 ```text
-Could not UART-test previous tag: CP2102 and CC Debugger were not on USB,
-relay contact outputs were disconnected.
+EXP-008: mass-erase locked stock + v0.3a verify PASS; UART silent
 ```
 
 ## Verified findings
 
-- GPIO17/27 NO, active-low: dh=off, dl=on.
-- Dual coils ON can collapse Pi 5V → GPIO float → relay chatter.
-- Guard/idle services keep pins as outputs HIGH.
+- New unit was locked stock; human authorized sacrifice.
+- Erase+write+verify v0.3a succeeded; lock bit gone.
+- Debug interface works on the new tag.
 
 ## Open hypotheses
 
-- Previous DEV tag debug/DVDD path shorted (programmer LED off on connect).
-- Next physical tag identity unknown (DEV vs stock).
+- CP2102 not on this tag's P1_6 yet.
+- Old tag shorted.
 
 ## Next recommended experiment
 
-WAIT for human: new tag wired.
-Then ONLY: relays idle, debugger+tag power one coil at a time, `cc-tool -t`, UART observe.
-**NO erase/write/flash/lock** unless the human explicitly says this unit is the sacrificial DEV.
+Confirm P1_6 wiring, then UART capture around cc-tool --reset. No extra flash unless wiring confirmed.
 
 ## Human action required?
 
 ```text
-YES: wire the new tag. State whether it is a new sacrificial DEV
-(original FW already gone / allowed to flash) or a stock/golden tag
-(flash FORBIDDEN without a second explicit YES).
+OPTIONAL: confirm CP2102 RXD is on the NEW tag pin 33 / P1_6, GND common.
 ```
