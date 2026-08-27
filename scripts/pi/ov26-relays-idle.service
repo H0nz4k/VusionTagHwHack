@@ -1,0 +1,11 @@
+[Unit]
+Description=OV26 relay GPIOs idle (outputs HIGH, coils off)
+After=local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/home/hw/bin/ov26-relays.sh idle
+
+[Install]
+WantedBy=multi-user.target

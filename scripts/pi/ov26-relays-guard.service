@@ -1,0 +1,6 @@
+[Unit]
+Description=OV26 relay GPIO guard (if pin is input, force output HIGH)
+
+[Service]
+Type=oneshot
+ExecStart=/home/hw/bin/ov26-relays.sh guard

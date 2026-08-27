@@ -58,7 +58,15 @@ GPIO27 dl → do 1 s zpět jako nové USB device
 cc-tool: Programmer: CC Debugger, No target detected  (když není na tagu)
 ```
 
-Po rebootu Pi jdou GPIO do vstupu → relé cvakají. Vždy je hned nastavit jako výstup; idle = obě `dh` (obojí odpojeno).
+Po rebootu Pi jdou GPIO do vstupu → relé cvakají.
+
+Software (nainstalováno na Pi):
+- boot: `ov26-relays-idle.service` hned `17/27 op dh`
+- každé 2 s: `ov26-relays-guard.timer` — kdyby pin spadl do vstupu, znovu `op dh`
+- skripty **nikdy** nedávají GPIO do `ip`
+- idle = obě `dh`; zapínat cívky jen jednu po druhé
+
+Když mají obě cívky jet současně (flash), ideálně napájet cívky relé z **externích 5V**, ne z pinu 2 Pi.
 
 GPIO27 řeže jen +5V USB debuggeru. UART CP2102 má vlastní USB a relé 2 ho nespíná.
 

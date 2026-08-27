@@ -1,0 +1,11 @@
+[Unit]
+Description=Run OV26 relay GPIO guard every 2s
+
+[Timer]
+OnBootSec=1
+OnUnitActiveSec=2
+AccuracySec=1
+Unit=ov26-relays-guard.service
+
+[Install]
+WantedBy=timers.target
