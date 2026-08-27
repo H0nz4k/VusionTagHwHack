@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-023 — Phase 2 P0_0 PWR only
+
+**Status:** PASS MCU / INCONCLUSIVE napájení CoG a BUSY
+
+Isolated. P0_0 OFF→ON→OFF, BUSY stále 0, MCU žije. `docs/experiments/EXP-023.md`.
+
+---
+
 ### EXP-20260828-022 — Phase 1 passive BUSY (isolated)
 
 **Status:** PASS UART/MCU / INCONCLUSIVE identita P1_3=BUSY

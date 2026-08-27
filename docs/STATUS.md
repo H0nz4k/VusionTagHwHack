@@ -6,8 +6,8 @@
 
 ## Now
 
-EXP-022 Phase 1 **PASS** (MCU/UART) / **INCONCLUSIVE** (BUSY identity).
-P1_3 = 0 po isolated POR, bez změny ~20 s. Další: EXP-023 PWR only.
+EXP-023 Phase 2 **PASS** (MCU) / **INCONCLUSIVE** (PWR/BUSY identita).
+P0_0 OFF→ON→OFF, P1_3 stále 0, žádný reset storm. Další: EXP-024 RESET H-L-H.
 
 ## Pin map (REFERENCE, not OVĚŘENO)
 
@@ -22,7 +22,7 @@ P0_2 input/untouched
 | Step | EXP | Result |
 |---|---|---|
 | A passive BUSY | 022 | PASS MCU / INCONCLUSIVE identity |
-| B PWR only | — | |
+| B PWR only | 023 | PASS MCU / INCONCLUSIVE CoG power |
 | C RESET H-L-H | — | |
 | D SPI idle | — | |
 | E 0x00/0x0E | — | |

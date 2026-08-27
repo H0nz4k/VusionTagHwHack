@@ -27,3 +27,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp016_por.bin` | EXP-016 v0.3f LED P2 UART — 1 banner + state cycle |
 | `ov26_exp021_por.bin` | EXP-021 v0.3k LED register dump OFF/P2_1/P2_2/BOTH |
 | `ov26_exp022_por.bin` | EXP-022 v0.4a passive BUSY isolated POR |
+| `ov26_exp023_por.bin` | EXP-023 v0.4b P0_0 PWR only isolated |
