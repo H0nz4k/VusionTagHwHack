@@ -4,6 +4,51 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-016 — v0.3f LED P2_1/P2_2, debugger isolated
+
+**Status:** PASS (UART/MCU) / LED barva čeká na člověka
+
+**Firmware / commit:**
+
+```text
+v0.3f_led_p2 889 B verify OK
+runtime GPIO27+21 off
+```
+
+**Hypotéza**
+
+P2_1/P2_2 jako GPIO bez debuggeru je stabilní (žádný P2_0). UART vypíše stavy po ~2 s. LED na desce zareagují — barvy ověří člověk.
+
+**Vstupní stav**
+
+v0.3a, attach funguje.
+
+**Jedna hlavní změna**
+
+Jen P2SEL/P2DIR bity 1+2 a cyklus 00/10/01/11. Žádný P2_0, P2_3/P2_4, EPD, WDT.
+
+**Očekávaný výsledek**
+
+1× banner `v0.3f LED P2 TEST`, stavy na UART, žádný storm.
+
+**Skutečný UART**
+
+20 s: 1 banner, RESET_CAUSE=01, 3× `00`, 3× `10`, 2× `01`, 2× `11`. Žádný v0.3a text.
+
+**Klasifikace**
+
+PASS na stabilitu. LED optika: čeká report.
+
+**Závěr**
+
+Budit P2_1/P2_2 bez debuggeru MCU nespadne. Mapování bílá/RGB je HYPOTÉZA, dokud člověk nepřiřadí barvy ke stavům.
+
+**Další krok**
+
+Lidský popis LED pro 00 / 10 / 01 / 11. Tag nechán ON.
+
+---
+
 ### EXP-20260828-015 — flash v0.3a přes attach
 
 **Status:** PASS

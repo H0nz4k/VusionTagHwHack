@@ -3,7 +3,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET="${1:-v0.3a_uart_baseline}"
 case "$TARGET" in
-  v0.3a_uart_baseline|v0.3b_hsrc_13mhz|v0.3c_busy_passive|v0.3d_power_only|v0.3e_reset_probe) ;;
+  v0.3a_uart_baseline|v0.3b_hsrc_13mhz|v0.3c_busy_passive|v0.3d_power_only|v0.3e_reset_probe|v0.3f_led_p2) ;;
   *) echo "Unknown target"; exit 2 ;;
 esac
 OBJ="$ROOT/build/obj_$TARGET"

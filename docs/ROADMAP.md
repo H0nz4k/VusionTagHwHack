@@ -54,7 +54,7 @@
 - [ ] CRC/payload framing
 
 ## Phase 7 — LEDs
-- [ ] isolate P2_1/P2_2 behavior from debugger
+- [x] isolate P2_1/P2_2 behavior from debugger (EXP-016 UART stable, colors pending)
 - [ ] map white/RGB
 - [ ] safe driver API
 

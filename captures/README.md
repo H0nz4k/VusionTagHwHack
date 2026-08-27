@@ -24,4 +24,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp014_ident.txt` | EXP-014 attach: CC2510 ID 0x2510 |
 | `ov26_exp015_ident.txt` | EXP-015 identify before flash |
 | `ov26_exp015_flash.txt` | EXP-015 erase+write+verify log |
-| `ov26_exp015_por.bin` | EXP-015 isolated POR UART — 1 banner + 14 dots |
+| `ov26_exp016_por.bin` | EXP-016 v0.3f LED P2 UART — 1 banner + state cycle |

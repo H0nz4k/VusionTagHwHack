@@ -34,6 +34,11 @@ Run one stage at a time:
    - adds P2_0 reset H/L/H
    - logs BUSY samples
 
+5. `v0.3f_led_p2`
+   - UART + P2_1/P2_2 GPIO only (LED candidates / debug DD+DC)
+   - does not drive P2_0 or P2_3/P2_4
+   - runtime with debugger lines OFF (GPIO27)
+
 Build/flash example:
 
 ```bash

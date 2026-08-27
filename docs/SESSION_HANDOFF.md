@@ -5,36 +5,35 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-00c407e exp: GPIO21 USB 5V attach sequence sees CC2510
+dd41bb4 exp: flash v0.3a via GPIO21 attach, isolated UART PASS
 ```
 
 ## Current firmware variant
 
 ```text
-NEW DEV: v0.3a_uart_baseline (just re-flashed, verify OK)
+NEW DEV: v0.3f_led_p2 — P2_1/P2_2 cycle, UART stable
 ```
 
 ## Current hardware state
 
 ```text
-GPIO17/27/21 idle (dh)
-UART POR after flash: 1 banner + 14 dots PASS
+GPIO17 dl  TAG ON (left on so human can watch LEDs)
+GPIO27 dh  debug isolated
+GPIO21 dh  USB debugger off
 ```
 
-## Verified findings
+## Last experiment
 
-- attach + flash + isolated POR: OVĚŘENO EXP-015
-
-## Open hypotheses
-
-- Power-on RESET_CAUSE=EXTERNAL_RESET_N: RC na RESET_N
+```text
+EXP-016 UART PASS; LED colors need human
+```
 
 ## Next recommended experiment
 
-EPD passive v0.3c, runtime GPIO27+21 off.
+Map LED colors to P2_1/P2_2 states from human report.
 
 ## Human action required?
 
 ```text
-NO
+YES — popsat barvu LED pro stavy 00 / 10 / 01 / 11 (~2 s, dokola).
 ```
