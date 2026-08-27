@@ -5,38 +5,33 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-71b8379 exp: debug path to tag still yields no cc-tool target
+00c407e exp: GPIO21 USB 5V attach sequence sees CC2510
 ```
 
 ## Current firmware variant
 
 ```text
-NEW DEV: v0.3a_uart_baseline
+NEW DEV: v0.3a_uart_baseline (just re-flashed, verify OK)
 ```
 
 ## Current hardware state
 
 ```text
-GPIO17 dh  tag OFF
-GPIO27 dh  debug isolated
-GPIO21 dh  debugger USB 5V OFF
-EXP-014 PASS: attach → CC2510
+GPIO17/27/21 idle (dh)
+UART POR after flash: 1 banner + 14 dots PASS
 ```
 
 ## Verified findings
 
-- GPIO21 řeže USB +5 V debuggeru (~1 s on/off)
-- `attach` (tag + RESET/DD/DC, pak USB 5V) → cc-tool vidí CC2510 bez ručního replugu
-- GPIO27 = debug linky, NO active-low
-- GPIO17 = tag 3 V
+- attach + flash + isolated POR: OVĚŘENO EXP-015
 
 ## Open hypotheses
 
-- Power-on RESET_CAUSE=EXTERNAL_RESET_N bez debuggeru: RC na RESET_N
+- Power-on RESET_CAUSE=EXTERNAL_RESET_N: RC na RESET_N
 
 ## Next recommended experiment
 
-EPD passive na novém DEV: runtime s GPIO27+21 off.
+EPD passive v0.3c, runtime GPIO27+21 off.
 
 ## Human action required?
 

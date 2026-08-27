@@ -4,6 +4,53 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-015 — flash v0.3a přes attach
+
+**Status:** PASS
+
+**Firmware / commit:**
+
+```text
+v0.3a_uart_baseline erase+write+verify
+GPIO17/27/21 attach, then isolated POR UART
+```
+
+**Hypotéza**
+
+Automatický `attach` + `cc-tool -e -w -v` na DEV projde. Po odříznutí debugu GPIO17 POR dá jeden banner jako EXP-011.
+
+**Vstupní stav**
+
+Idle. Hex na Pi. DEV, ne stock.
+
+**Jedna hlavní změna**
+
+Celý flash workflow bez ručního USB.
+
+**Očekávaný výsledek**
+
+Verify OK. UART 1× banner, heartbeat, žádný storm.
+
+**Skutečný výsledek**
+
+Identify CC2510. Erase completed. Write 843 B, 0.63 s. Verify completed 0.46 s.
+
+POR 15 s, debug isolated: 84 B, **1 banner**, `RESET_CAUSE=1 EXTERNAL_RESET_N`, 14 teček.
+
+**Klasifikace**
+
+PASS
+
+**Závěr**
+
+Ovládání tag + debug linky + USB 5 V je **OVĚŘENO** včetně flashe. Runtime UART bez debuggeru stabilní.
+
+**Další krok**
+
+EPD passive na novém DEV (v0.3c) s GPIO27+21 off.
+
+---
+
 ### EXP-20260828-014 — GPIO21 USB +5 V + attach → CC2510
 
 **Status:** PASS

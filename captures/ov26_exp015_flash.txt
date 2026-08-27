@@ -1,0 +1,8 @@
+  Programmer: CC Debugger
+  Target: CC2510
+  Erasing flash...
+                    Completed
+  Writing flash (843 B)...
+  Progress: 50%  Progress: 100%                    Completed (0.63 s.)
+  Verifying flash...
+  Progress: 0%  Progress: 0%  Progress: 2%  Progress: 6%  Progress: 6%  Progress: 11%  Progress: 11%  Progress: 26%  Progress: 30%  Progress: 45%  Progress: 60%  Progress: 67%  Progress: 72%  Progress: 81%  Progress: 85%  Progress: 97%  Progress: 100%                    Completed (0.46 s.)

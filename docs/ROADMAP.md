@@ -9,6 +9,7 @@
 - [x] autonomous bounded HIL loop
 - [x] relé vs debugger parasitic power zdokumentováno
 - [x] GPIO17 tag + GPIO27 RESET/DD/DC + GPIO21 USB 5V — EXP-014 attach → CC2510
+- [x] autonomous flash via attach (EXP-015 v0.3a verify + isolated UART)
 
 ## Phase 1 — Stable MCU baseline
 - [x] one boot banner only (nový DEV, EXP-011, bez debug kabelu)
