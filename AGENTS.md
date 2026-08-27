@@ -130,17 +130,13 @@ Pokud target není spolehlivě identifikovaný jako DEV, zastav zápisové opera
 
 Napájení je řízené relé na Raspberry Pi.
 
-GPIO:
-
 ```text
-BCM GPIO17
+BCM GPIO17  Pi pin 11  tag ~3 V
+BCM GPIO27  Pi pin 13  RESET_N + DD + DC
+BCM GPIO21  Pi pin 40  CC Debugger USB +5 V
 ```
 
-Relé je:
-
-```text
-ACTIVE LOW
-```
+Relé jsou **NO, active-low**: `dl` = ON/spojeno, `dh` = OFF/odpojeno.
 
 TAG ON:
 
@@ -154,13 +150,15 @@ TAG OFF:
 pinctrl set 17 op dh
 ```
 
-Hard power-cycle:
+Hard power-cycle tagu:
 
 ```bash
 pinctrl set 17 op dh
 sleep 2
 pinctrl set 17 op dl
 ```
+
+Programátor: nejdřív tag 3 V a debug linky, teprve potom USB +5 V (GPIO21), ať debugger enumeruje se zelenou LED / TVCC.
 
 Pamatuj:
 

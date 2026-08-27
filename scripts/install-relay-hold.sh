@@ -23,4 +23,5 @@ echo ENABLED_IDLE=$(systemctl is-enabled ov26-relays-idle.service)
 echo ENABLED_GUARD=$(systemctl is-enabled ov26-relays-guard.timer)
 pinctrl get 17
 pinctrl get 27
+pinctrl get 21
 '

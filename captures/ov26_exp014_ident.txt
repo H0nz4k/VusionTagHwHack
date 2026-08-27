@@ -1,0 +1,17 @@
+  Programmer: CC Debugger
+  Target: CC2510
+  Device info: 
+   Name: CC Debugger
+   Debugger ID: 0170
+   Version: 0x05CC
+   Revision: 0x0044
+
+  Target info: 
+   Name: CC2510
+   Revision: 0x81
+   Internal ID: 0x04
+   ID: 0x2510
+   Flash size: n/a
+   Flash page size: 1
+   RAM size: n/a
+   Lock data size: 1 B

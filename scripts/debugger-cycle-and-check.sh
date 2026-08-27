@@ -1,22 +1,26 @@
 #!/usr/bin/env bash
-# OBSOLETE: GPIO27 no longer power-cycles debugger USB.
-# USB 0451:16a2 should stay present. GPIO27 = RESET_N+DD+DC isolate.
+# GPIO21 USB +5 V cycle. Debugger lines stay isolated. Bounded.
 set -euo pipefail
-WAIT_SEC="${1:-10}"
+WAIT_SEC="${1:-8}"
+if ! [[ "$WAIT_SEC" =~ ^[0-9]+$ ]] || (( WAIT_SEC < 2 || WAIT_SEC > 20 )); then
+    echo "Usage: $0 [wait_seconds 2-20]" >&2
+    exit 2
+fi
 
 echo "== BEFORE =="
 pinctrl get 17
 pinctrl get 27
+pinctrl get 21
 lsusb | grep -E '0451:16a2' || echo "USB: no CC Debugger"
 
-echo "== RELAY 2 OFF 2s (GPIO27 dh) =="
-pinctrl set 27 op dh
-pinctrl get 27
+echo "== GPIO21 OFF 2s =="
+pinctrl set 21 op dh
+pinctrl get 21
 sleep 2
 
-echo "== RELAY 2 ON (GPIO27 dl) =="
-pinctrl set 27 op dl
-pinctrl get 27
+echo "== GPIO21 ON =="
+pinctrl set 21 op dl
+pinctrl get 21
 
 found=0
 i=0
@@ -31,15 +35,15 @@ while (( i < WAIT_SEC )); do
     echo "wait ${i}/${WAIT_SEC}"
 done
 
-echo "== lsusb =="
-lsusb
-echo "== cc-tool =="
-sudo cc-tool -t 2>&1 | head -20 || true
+echo "== AFTER =="
+pinctrl get 21
+lsusb | grep -E '0451:16a2' || echo "USB: no CC Debugger"
 
 if (( found == 1 )); then
     echo "RESULT: PASS debugger enumerated"
+    echo "GPIO21 left ON (dl). Run usb-off / idle when done."
     exit 0
 fi
 echo "RESULT: FAIL no 0451:16a2 in ${WAIT_SEC}s"
-echo "GPIO27 left ON (dl)"
+echo "GPIO21 left ON (dl)"
 exit 1

@@ -1,39 +1,26 @@
 #!/usr/bin/env bash
-# Four-step relay sequence. No loops.
-# Relay 1 = BCM GPIO17 (tag)     pin 11
-# Relay 2 = BCM GPIO27 (RESET_N+DD+DC ganged) pin 13
-# Active-low: dl = ON, dh = OFF
-#
-# Usage: bash scripts/relay-sequence.sh [delay_seconds]
+# Relay click check via ov26-relays.sh. Ends idle. No loops.
 set -euo pipefail
-
 DELAY="${1:-2}"
 if ! [[ "$DELAY" =~ ^[0-9]+$ ]] || (( DELAY < 1 || DELAY > 10 )); then
     echo "Usage: $0 [delay_seconds 1-10]" >&2
     exit 2
 fi
-
+R=/home/hw/bin/ov26-relays.sh
 ssh vusion-rpi "set -euo pipefail
+R='$R'
 DELAY='$DELAY'
-
-echo '1 ON  GPIO17 dl'
-pinctrl set 17 op dl
-pinctrl get 17
+\$R idle
+echo '1 tag-on'
+\$R tag-on
 sleep \"\$DELAY\"
-
-echo '2 ON  GPIO27 dl'
-pinctrl set 27 op dl
-pinctrl get 27
+echo '2 dbg-on'
+\$R dbg-on
 sleep \"\$DELAY\"
-
-echo '3 OFF GPIO17 dh'
-pinctrl set 17 op dh
-pinctrl get 17
+echo '3 usb-on'
+\$R usb-on
 sleep \"\$DELAY\"
-
-echo '4 OFF GPIO27 dh'
-pinctrl set 27 op dh
-pinctrl get 27
-
+echo '4 idle'
+\$R idle
 echo DONE
 "

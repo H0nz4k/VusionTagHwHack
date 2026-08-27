@@ -10,7 +10,10 @@ Klíčové zásady:
 - Hardware je na `ssh vusion-rpi`.
 - DEV tag lze bezpečně autonomně flashovat.
 - Stock/golden tagy nikdy nemaž ani neflashuj bez explicitního potvrzení.
-- GPIO17 relay: `dl = TAG ON`, `dh = TAG OFF`.
+- GPIO17: `dl = TAG ON`, `dh = TAG OFF`.
+- GPIO27: `dl = RESET/DD/DC spojené`, `dh = odříznuté`.
+- GPIO21: `dl = debugger USB +5 V ON`, `dh = OFF`.
+- Programátor: `ov26-relays.sh attach` (3 V + linky, pak USB cyklus).
 - Každý hardware test musí být bounded, s timeoutem.
 - Žádné nekonečné experimentální smyčky.
 - Všechny dokončené experimenty dokumentuj a commituj.

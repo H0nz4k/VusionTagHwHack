@@ -11,10 +11,10 @@ OUT=/tmp/ov26_exp008.bin
 [[ -f "$HEX" ]] || { echo "missing $HEX"; exit 1; }
 [[ -e "$UART" ]] || { echo "missing UART"; exit 1; }
 
-echo "== idle then DBG ON =="
+echo "== attach programmer (tag + debug lines + USB 5V cycle) =="
 "$RELAYS" idle
 sleep 1
-"$RELAYS" dbg-on
+"$RELAYS" attach
 i=0
 while (( i < 8 )); do
     sleep 1
@@ -25,10 +25,6 @@ while (( i < 8 )); do
     fi
 done
 lsusb | grep 0451:16a2
-
-echo "== TAG ON =="
-"$RELAYS" tag-on
-sleep 2
 
 echo "== identify =="
 sudo cc-tool -t 2>&1 | tee /tmp/ov26_exp008_ident.txt | head -24
@@ -62,6 +58,7 @@ print('DOTS', t.count('.'))
 print('V03E', t.count('RESET PROBE'))
 "
 
-echo "== leave TAG ON, DBG ON for inspection =="
+echo "== idle (debug isolated, USB off, tag off) =="
+"$RELAYS" idle
 "$RELAYS" status
 echo DONE

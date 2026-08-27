@@ -39,11 +39,12 @@ Linux path:
 
 ## OVĚŘENO — napájení tagu přes relé
 
-Raspberry Pi:
+Raspberry Pi, NO, active-low:
 
 ```text
-BCM GPIO17
-active-low relay
+BCM GPIO17  tag ~3 V
+BCM GPIO27  RESET_N + DD + DC
+BCM GPIO21  CC Debugger USB +5 V
 ```
 
 TAG ON:
@@ -58,21 +59,13 @@ TAG OFF:
 pinctrl set 17 op dh
 ```
 
-**Při připojeném CC Debuggeru TAG OFF MCU nevypne.** UART heartbeat pokračuje. Parazitní napájení je OVĚŘENO. Dokud je debugger na tagu, nech TAG ON (běh jen z debug pinů je horší než 3V relé).
+**Při připojeném CC Debuggeru (linky + USB) TAG OFF MCU nevypne.** Parazitní napájení přes debug piny je OVĚŘENO. Debug linky nejdřív odříznout (GPIO27 `dh`).
 
-**Bez napájení debuggeru a bez debug kabelu TAG OFF MCU vypne.** EXP-006 / EXP-011: GPIO17 hi → ticho / 1× `0x00`.
+**Bez debug kabelu / s odříznutými linkami TAG OFF MCU vypne.** EXP-011.
 
-Po přestavbě 2026-08-27 (USB debugger pořád napájený, GPIO27 má řezat RESET/DD/DC): GPIO17 `dh` **MCU nevypne** (EXP-012: 8 teček / 8 s). `cc-tool -t` target nevidí v obou polaritách GPIO27 — debug bus k čipu zatím není OVĚŘENÝ.
+USB debugger se musí enumerovat až po tag 3 V + DD/DC/RESET (GPIO21 cyklus). EXP-013 ruční replug → CC2510. GPIO21 to má dělat automaticky.
 
-Zamýšlená mapa relé:
-
-```text
-GPIO17 = tag 3V
-GPIO27 = RESET_N + DD + DC (3 relé, jeden GPIO)
-USB 5V debuggeru se nespíná
-```
-
-UART CP2102 relé 2 neovládá. Debugger pin 9 (3.3 V) zůstává nepřipojený.
+UART CP2102 GPIO21 nespíná. Debugger pin 9 (3.3 V) nepřipojený.
 
 ## OVĚŘENO — reset cause v této lab konfiguraci
 

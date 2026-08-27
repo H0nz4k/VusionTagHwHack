@@ -34,50 +34,48 @@ RESET_N        ----------> pin 7 RESET
 
 Debugger pin 9 nepřipojovat.
 
-## Raspberry Pi relé
+## Raspberry Pi relé — mapa 2026-08-28
 
-### Zamýšlené zapojení (lidský zásah 2026-08-27 večer)
+Všechny spínané kontakty jsou **NO**, cívka **active-low**:
 
 ```text
 BCM GPIO17  Pi pin 11  tag ~3 V
-BCM GPIO27  Pi pin 13  3× relé naráz: RESET_N + DD + DC
+BCM GPIO27  Pi pin 13  3× relé: RESET_N + DD + DC
+BCM GPIO21  Pi pin 40  CC Debugger USB +5 V (ne GND)
 
 dl / GPIO LOW  = cívka ON  = NO sepne  = spojeno
 dh / GPIO HIGH = cívka OFF = NO otevře = odpojeno
 ```
 
-USB CC Debugger (+5 V) už GPIO27 **neřeže** — má zůstat pořád enumerovaný.
-
-Trvale spojené (nespínat):
-- GND
+Trvale spojené:
+- GND debuggeru s tagem
 - DVDD → debugger pin 2 (TVCC sense)
-- debugger pin 9 (3V3) pořád nepřipojený
+- debugger pin 9 (3V3) **nepřipojený**
 
-Fail-safe: idle = obě `dh` = tag 3V off **a** debug linky odříznuté.
+Fail-safe idle = **17, 27 i 21 `dh`**: tag off, debug odříznutý, USB debugger bez 5 V.
 
-Software (nainstalováno na Pi):
-- boot: `ov26-relays-idle.service` hned `17/27 op dh`
-- každé 2 s: `ov26-relays-guard.timer` — kdyby pin spadl do vstupu, znovu `op dh`
-- skripty **nikdy** nedávají GPIO do `ip`
-
-Při flashi (GPIO17 + tři cívky GPIO27 naráz) ideálně cívky z **externích 5 V**, ne z pinu 2 Pi.
-
-### OVĚŘENO EXP-012 — USB a polarita GPIO
+Programátor (`ov26-relays.sh attach`):
 
 ```text
-GPIO27 dh, idle: USB 0451:16a2 přítomné  (5V vyhybka je pryč)
-GPIO27 dl i dh:  Programmer: CC Debugger, No target detected
+GPIO17 ON → GPIO27 ON → GPIO21 OFF 1 s → GPIO21 ON
 ```
 
-GPIO27 **už neovládá USB enumeraci**. Historické `dh → USB zmizí` platí jen pro staré zapojení (debugger USB +5 V).
+USB se musí enumerovat **až když** tag má 3 V a DD/DC/RESET jsou spojené. Jinak červená LED a `No target`. Zelená LED = debugger vidí TVCC.
 
-### EXP-012 — debug bus k CC2510 zatím NENÍ OVĚŘENÝ
+Software na Pi:
+- boot: `ov26-relays-idle.service` → idle všech tří pinů
+- `ov26-relays-guard.timer` každé 2 s: vstup → `op dh`
+- skripty **nikdy** nedávají GPIO do `ip`
 
-`cc-tool -t` nevidí CC2510 v **obou** polaritách GPIO27. To není NC vs NO (pak by jedna polarita target viděla). Debug cesta RESET/DD/DC k čipu je otevřená nebo není na tagu.
+Cívky ideálně z **externích 5 V**. Při `attach` jede tag + 3 debug + USB 5 V naráz.
 
-Zároveň MCU běží i při GPIO17 `dh`: 8 teček / 8 s. Tag 3V relé teď **nestačí k vypnutí**. Zdroj je HYPOTÉZA: parazit přes trvale zapojený DVDD sense do živého debuggeru, nebo baterie v tagu.
+UART CP2102 má vlastní USB; GPIO21 ho nespíná.
 
-UART CP2102 má vlastní USB a GPIO27 ho nespíná.
+### Historie polarit / USB (stručně)
+
+- GPIO27 dřív řezalo USB +5 V; teď jen RESET/DD/DC. NO + active-low OVĚŘENO (LOW = 3 LED + kontakty spojené).
+- EXP-013: USB ručně znovu zastrčené až po tag+debug ON → `cc-tool` viděl CC2510, zelená LED.
+- EXP-012 `No target` při enumeraci bez 3 V / bez USB cyklu.
 
 ## Kandidátní GPIO mapa — REFERENCE/HYPOTÉZA
 

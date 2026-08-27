@@ -4,6 +4,58 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-014 — GPIO21 USB +5 V + attach → CC2510
+
+**Status:** PASS
+
+**Firmware / commit:**
+
+```text
+v0.3a, no reflash
+GPIO21 = debugger USB +5 V (human)
+```
+
+**Hypotéza**
+
+GPIO21 `dh` USB pryč, `dl` enumerace `0451:16a2`. `attach` (17+27 ON, pak 21 cyklus) → `cc-tool -t` uvidí CC2510 bez ručního USB.
+
+**Vstupní stav**
+
+Idle 17/27/21 `dh`.
+
+**Jedna hlavní změna**
+
+Nový pin GPIO21 ve `ov26-relays.sh`. Žádný flash.
+
+**Očekávaný výsledek**
+
+Phase A: USB absent / present / absent. Phase B: CC2510.
+
+**Skutečný výsledek**
+
+```text
+IDLE_USB=absent
+usb-on → USB at 1s
+usb-off → USB absent at 1s
+attach → USB at 1s, Target: CC2510 ID 0x2510
+```
+
+Druhý USB cyklus nebyl potřeba. Konec idle všech tří pinů.
+
+**Klasifikace**
+
+PASS
+
+**Závěr**
+
+Automatické ovládání tag 3 V + debug linek + USB debuggeru je OVĚŘENO. Flash workflow má jít přes `ov26-relays.sh attach`.
+
+**Další krok**
+
+Runtime UART s GPIO27/21 off. EPD žebřík na novém DEV bez debuggeru na sběrnici.
+
+---
+
 ### EXP-20260827-013 — cc-tool -t after debug path to tag
 
 **Status:** FAIL (no target) / PASS (USB stayed with both coil groups)

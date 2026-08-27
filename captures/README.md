@@ -21,3 +21,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp012_ident.txt` | EXP-012 GPIO27 dl `cc-tool -t` — no target |
 | `ov26_exp012b_idle.bin` | EXP-012b GPIO17 off — 8 dots / 8 s |
 | `ov26_exp013b_ident.txt` | EXP-013b: programmer OK, no target |
+| `ov26_exp014_ident.txt` | EXP-014 attach: CC2510 ID 0x2510 |
