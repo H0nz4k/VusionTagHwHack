@@ -50,6 +50,14 @@ dh / GPIO HIGH = cívka OFF = NO otevře = napájení ODPOJENO
 
 Sekvence `scripts/relay-sequence.sh` (17 ON → 27 ON → 17 OFF → 27 OFF) slyšitelně sedí.
 
+GPIO27 ovládá USB enumeraci debuggeru — OVĚŘENO (tag odpojen, červená LED):
+
+```text
+GPIO27 dh → USB 0451:16a2 zmizí
+GPIO27 dl → do 1 s zpět jako nové USB device
+cc-tool: Programmer: CC Debugger, No target detected  (když není na tagu)
+```
+
 Po rebootu Pi jdou GPIO do vstupu → relé cvakají. Vždy je hned nastavit jako výstup; idle = obě `dh` (obojí odpojeno).
 
 GPIO27 řeže jen +5V USB debuggeru. UART CP2102 má vlastní USB a relé 2 ho nespíná.
