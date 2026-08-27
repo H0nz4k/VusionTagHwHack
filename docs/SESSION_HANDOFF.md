@@ -5,13 +5,13 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-18316a6 EXP-009 UART OK; EXP-010 true POR storm
+49ddbcf EXP-010; EXP-011 PASS this session
 ```
 
 ## Current firmware variant
 
 ```text
-NEW DEV: v0.3a_uart_baseline (unlocked, verify OK, UART OK with debugger 5V on)
+NEW DEV: v0.3a_uart_baseline — stable true POR without debug cable
 ```
 
 ## Current hardware state
@@ -19,34 +19,31 @@ NEW DEV: v0.3a_uart_baseline (unlocked, verify OK, UART OK with debugger 5V on)
 ```text
 TAG: OFF (GPIO17 dh)
 DBG 5V: OFF (GPIO27 dh)
-debugger USB: absent
-Do not TAG ON until debug cable is off the tag — v0.3a storms on RESET_N
+Debug cable: disconnected from tag (human)
+UART: CP2102 on P1_6
 ```
 
 ## Last experiment
 
 ```text
-EXP-010 true POR, debugger 5V off: 708x EXTERNAL_RESET_N in 20s (~28 ms/boot)
-Power cut itself works (tag off = no heartbeat).
+EXP-011: 1x banner EXTERNAL_RESET_N, 19 dots, no loop
 ```
 
 ## Verified findings
 
-- GPIO17 really cuts tag power (no battery keep-alive).
-- True POR with debug *cable still attached* but USB 5V off is a RESET_N storm, not POR/BROWNOUT.
-- With debugger USB powered, v0.3a heartbeats (EXP-009).
+- v0.3a one-boot + heartbeat without debugger: OVĚŘENO
+- EXP-010 storm was RESET_N via attached unpowered/powered debug cable
 
 ## Open hypotheses
 
-- Unpowered CC Debugger still wired to RESET_N is pulling/glitching reset.
+- Power-on reports EXTERNAL_RESET_N due to board RESET_N RC, not POR. Harmless.
 
 ## Next recommended experiment
 
-Human: disconnect debugger from tag (keep CP2102). Then GPIO17-only POR of v0.3a.
+EPD passive GPIO (v0.3c) with debugger disconnected for runtime; connect debugger only to flash.
 
 ## Human action required?
 
 ```text
-YES: unplug CC Debugger wires from the tag (RESET/DD/DC/DVDD/GND).
-Leave CP2102 RXD+GND. Then say „debugger odpojen od tagu“.
+NO
 ```

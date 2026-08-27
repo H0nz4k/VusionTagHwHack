@@ -82,7 +82,11 @@ Spontánní opakovaný
 RESET_CAUSE=0 POR/BROWNOUT
 ```
 
-se 2026-08-27 při debuggeru + TAG ON **neobjevil**. 26 MHz i 13 MHz idle heartbeat běžely bez nového boot banneru.
+se 2026-08-27 při debuggeru + TAG ON **neobjevil** na starém kusu.
+
+Nový DEV, v0.3a, **bez debug kabelu** (EXP-011): jeden boot, `RESET_CAUSE=1 EXTERNAL_RESET_N` (RC na RESET_N při náběhu — HYPOTÉZA), pak heartbeat, **žádná smyčka**.
+
+S debug kabelem na tagu a GPIO27 off (EXP-010): 708× `EXTERNAL_RESET_N` / 20 s. To byl RESET_N z debuggeru, ne brownout.
 
 Bez debuggeru (EXP-006, v0.3e) true POR **ano** spustil rychlou reset smyčku: 1714× banner za 30 s, vždy končí na `OFF/RST0 BUSY=1` (hned po `P2_0=1`). Firmware nahlásí RESET_CAUSE až po reflashi v0.3a; klasifikace příčiny je proto zatím HYPOTÉZA brownout zátěží P2_0, ne watchdog.
 

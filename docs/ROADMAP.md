@@ -10,12 +10,12 @@
 - [x] relé vs debugger parasitic power zdokumentováno
 
 ## Phase 1 — Stable MCU baseline
-- [x] one boot banner only (v aktuálním zapojení: debugger + TAG ON)
-- [x] no repeated POR/BROWNOUT (v tomto zapojení nereprodukováno)
-- [x] stable UART heartbeat (26 MHz i 13 MHz idle)
-- [x] compare 26 MHz XOSC vs ~13 MHz HS-RC
-- [x] document reset behavior (`cc-tool --reset` = EXTERNAL_RESET_N)
-- [x] true POR bez debuggeru (relé řeže; v0.3e na POR padá)
+- [x] one boot banner only (nový DEV, EXP-011, bez debug kabelu)
+- [x] no repeated POR/BROWNOUT (EXP-011; smyčka EXP-010 byla RESET_N z debuggeru)
+- [x] stable UART heartbeat (v0.3a true POR)
+- [x] compare 26 MHz XOSC vs ~13 MHz HS-RC (starý kus + debugger)
+- [x] document reset behavior (`cc-tool --reset` = EXTERNAL_RESET_N; true POR na desce taky EXT — RC HYPOTÉZA)
+- [x] true POR bez debuggeru (EXP-011 PASS)
 
 ## Phase 2 — GPIO validation
 - [x] passive reads first (P1_3)

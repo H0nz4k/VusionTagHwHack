@@ -4,6 +4,60 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-011 — true POR v0.3a, debug cable off tag
+
+**Status:** PASS
+
+**Firmware / commit:**
+
+```text
+v0.3a, no reflash
+human: debugger wires disconnected from tag
+GPIO27 off, GPIO17 POR, 20 s UART
+```
+
+**Hypotéza**
+
+EXP-010 smyčka byla z RESET_N přes připojený (i nevypnutý) debugger. Bez kabelu jeden boot a heartbeat.
+
+**Vstupní stav**
+
+Tag OFF ticho. Debugger USB absent.
+
+**Jedna hlavní změna**
+
+Fyzicky pryč DD/DC/RESET/DVDD. Jinak stejné jako EXP-010.
+
+**Očekávaný výsledek**
+
+Jeden banner, tečky, žádný loop.
+
+**Skutečný UART / pozorování**
+
+Tag OFF: 1 B. TAG ON 20 s, 89 B:
+
+```text
+OpenVusion GU140 RESET CAUSE TEST
+RESET_CAUSE=1 EXTERNAL_RESET_N
+...................
+```
+
+1 banner, 19 teček, 0 opakování. `EXTERNAL_RESET_N` místo POR: pravděpodobně RC na RESET_N při náběhu 3V (ne debugger).
+
+**Klasifikace**
+
+PASS
+
+**Závěr**
+
+v0.3a bez debuggeru je **stabilní**. EXP-010 storm = debug kabel na RESET_N. Baseline MCU+UART na novém DEV je OVĚŘENO.
+
+**Další krok**
+
+GPIO mapa / EPD po vrstvách. Debugger k tagu jen na flash, ne na runtime UART testy.
+
+---
+
 ### EXP-20260827-010 — true POR v0.3a, debugger 5V off
 
 **Status:** FAIL (reset storm) — diagnosticky cenné
