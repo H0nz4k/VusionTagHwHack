@@ -5,66 +5,61 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Last known good commit
 
 ```text
-b2a6dbb on research/gu140-autonomous
+b2a6dbb firmware+EXP-001..005; EXP-006 docs committing now
 ```
 
 ## Current firmware variant
 
 ```text
-v0.3e_reset_probe  (last flashed, sitting in while(1) after DONE / safe shutdown)
-26 MHz XOSC, USART1 Alt2 115200 P1_6
+v0.3e_reset_probe  (STILL IN FLASH — unsafe to leave powered without debugger)
+Do not TAG ON until a UART-only image is flashed.
 ```
 
 ## Current hardware state
 
 ```text
-TAG: ON (GPIO17 lo) — KEEP ON while debugger is connected
-Debugger: connected
-UART: available (CP2102 by-id ..._0001-if00-port0)
+TAG: OFF (GPIO17 hi) — fail-safe, debugger disconnected
+Debugger: DISCONNECTED (cc-tool: device not found)
+UART: available (CP2102 RXD+GND)
 ```
 
-TAG OFF při připojeném debuggeru MCU **nevypne** (parazitní napájení). Preferuj TAG ON, dokud je debugger na tagu.
+Bez debuggeru relé **opravdu vypíná/zapíná**. TAG ON se v0.3e spustí ~57 Hz reset storm — nenechávat zapnuté.
 
 ## Last experiment
 
 ```text
-EXP-20260827-005 v0.3e reset probe
-MCU: PASS (one banner, DONE, 15s silent idle)
-BUSY identity: INCONCLUSIVE (P1_3 follows P2_0 even with P0_0 in OFF state)
+EXP-20260827-006 true POR without debugger
+Relay cut: PASS (TAG OFF = no heartbeat)
+v0.3e POR: FAIL — 1714x START in 30s, dies at P2_0=1 / OFF/RST0
 ```
 
 ## Verified findings
 
-- SSH / SDCC 4.2.0 / cc-tool / pinctrl / UART adapter fungují.
-- `cc-tool -t` → CC2510 ID `0x2510`. Flash: erase + write `.hex` + verify method `read`. Target musí být napájen.
-- GPIO17 relé při připojeném CC Debuggeru neudělá hard POR; UART tečky pokračují při TAG OFF.
-- `cc-tool --reset` → `RESET_CAUSE=1 EXTERNAL_RESET_N` (v0.3a).
-- 26 MHz XOSC idle heartbeat je stabilní (~1 Hz tečky), žádný spontánní POR.
-- 13 MHz HS-RCOSC idle heartbeat je stabilní (~2.1 s/tečka), žádný spontánní POR; streamovaný UART text je mimo krystalovou přesnost.
-- v0.3c: P1_3 boot 1→0, dál 0, jeden banner.
-- v0.3d: P0_0 OFF→BUSY=1, ON→BUSY=0, sekvence DONE, žádný reset loop.
-- v0.3e: P2_0 0→1 při P0_0 OFF mění P1_3 1→0; po H/L/H BUSY zůstane 0; MCU stable.
+- Bez debuggeru GPIO17 hi = skutečný power cut.
+- Bez debuggeru GPIO17 lo = skutečný POR.
+- v0.3e s debuggerem doběhlo k DONE; bez debuggeru padá hned po `EPD_RESET=1`.
+- Clock/UART 26 MHz na true POR stihne vytisknout banner — XOSC+UART fungují.
 
 ## Open hypotheses
 
-- Původní opakovaný `POR/BROWNOUT` vyžaduje true power-on **bez** debuggeru.
-- P0_0 = EPD power (active-low) — konzistentní, nepotvrzené.
-- P1_3 = EPD BUSY — **oslabené**, protože sleduje P2_0 i ve stavu „power off“.
-- P2_0 = EPD RESET — ovlivňuje P1_3; identita pořád HYPOTÉZA.
-- Parazitní napájení teče přes DD/DC/RESET_N / voltage-sense, ne přes debugger pin 9.
+- P2_0 high bez debugger hold-up = brownout (proudový spike). RESET_CAUSE zatím neověřen (v0.3e ho netiskne).
+- P0_0 polarita může být opačná, takže „OFF“ panel neodpojí.
+- P1_3 není potvrzený BUSY.
 
-## Next recommended experiment
+## Next recommended experiment (odpoledne)
 
-1. Izolovat vazbu P2_0 ↔ P1_3: togglovat **jen** P2_0, P0_0 nechat input/Hi-Z, logovat P1_3.
-2. Až potom znovu zvážit polaritu P0_0 (možná „OFF“ panel neodpojí).
-3. Teprve poté harmless EPD command. **Žádný CoG refresh.**
-4. Volitelně: člověk odpojí CC Debugger a udělá TAG OFF/ON pro true POR test v0.3a.
+1. Připojit CC Debugger (pin 9 3V3 pořád nepřipojovat).
+2. TAG ON.
+3. Flash **UART-only** (v0.3a nebo ještě lepší: žádný drive P2_0/P0_0).
+4. Ověřit verify.
+5. Odpojit debugger.
+6. True POR v0.3a: čekat jeden banner + tečky, `RESET_CAUSE`.
+7. Teprve potom izolovat P2_0 samotné.
 
 ## Human action required?
 
 ```text
-NO (blocker)
-OPTIONAL: odpojit CC Debugger od tagu (ponechat CP2102 RXD+GND),
-potom napsat „debugger odpojen“. To umožní ověřit skutečný POR/BROWNOUT
-bez parazitního napájení. Já to fyzicky udělat neumím.
+PAUSE until afternoon.
+Before next flash: reconnect CC Debugger to the DEV tag.
+Do not power the tag in the meantime (leave relay OFF).
 ```

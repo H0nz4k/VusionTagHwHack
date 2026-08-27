@@ -4,6 +4,80 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-006 — true POR without CC Debugger (v0.3e)
+
+**Status:** PASS (relay really cuts power) / FAIL (v0.3e reset storm after P2_0 high)
+
+**Firmware / commit:**
+
+```text
+v0.3e_reset_probe still in flash (cannot reflash without debugger)
+human confirmed debugger disconnected
+cc-tool: CC Debugger device not found
+```
+
+**Hypotéza**
+
+Bez debuggeru GPIO17 relé provede skutečný power cut/POR. v0.3e po true POR buď jednou doběhne k DONE, nebo se projeví dříve maskovaný brownout.
+
+**Vstupní stav**
+
+Debugger odpojen (člověk). UART CP2102 RXD+GND ponechán. Poslední flash: v0.3e.
+
+**Jedna hlavní změna**
+
+Žádná změna firmware. Jen true power-cycle přes relé, bez `cc-tool`.
+
+**Postup**
+
+```text
+TAG OFF 8s listen
+bounded POR capture 30s (arm UART, TAG ON, then TAG OFF)
+```
+
+**Očekávaný výsledek**
+
+TAG OFF: žádný heartbeat. TAG ON: jeden v0.3e banner a buď DONE, nebo opakovaný POR.
+
+**Skutečný UART / pozorování**
+
+TAG OFF 8 s:
+
+```text
+1 byte 0x00, žádné tečky, žádný banner
+```
+
+True POR 30 s:
+
+```text
+BYTES=105243
+RESET PROBE START  1714x
+OFF/RST0 BUSY=1    seen
+OFF/RST1           0x
+POWER ON           0x
+DONE               0x
+~17.5 ms na jeden restart (~57 Hz)
+```
+
+Firmware vždy stihne clock+UART+banner+`OFF/RST0 BUSY=1` a spadne při `EPD_RESET=1` (P2_0 0→1), dřív než `delay_crude()` a `OFF/RST1`.
+
+Se stejnou binárkou a připojeným debuggerem (EXP-005) sekvence doběhla k DONE.
+
+**Klasifikace**
+
+PASS: relé bez debuggeru **opravdu vypíná/zapíná**.
+FAIL: v0.3e bez debuggeru není stabilní — reset smyčka vázaná na P2_0 high.
+
+**Závěr**
+
+Parazitní napájení z debuggeru maskovalo brownout. True POR je teď použitelný. Na tagu nesmí zůstat v0.3e pod napětím — 57 Hz reset storm. Další flash až po opětovném připojení debuggeru: nejdřív UART-only (žádný P2_0 drive), teprve pak izolovat P2_0.
+
+**Další krok**
+
+Odpoledne: připojit debugger, TAG ON, flash v0.3a (nebo nový UART-only bez P2_0), ověřit, odpojit debugger, true POR znovu.
+
+---
+
 ### EXP-20260827-005 — v0.3e EPD reset probe (P2_0 H/L/H)
 
 **Status:** PASS (MCU stable) / INCONCLUSIVE (BUSY polarity/identity)

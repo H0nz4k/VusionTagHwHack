@@ -60,7 +60,9 @@ pinctrl set 17 op dh
 
 **Při připojeném CC Debuggeru TAG OFF MCU nevypne.** UART heartbeat pokračuje. Parazitní napájení je OVĚŘENO. Dokud je debugger na tagu, nech TAG ON (běh jen z debug pinů je horší než 3V relé).
 
-Debugger pin 9 (3.3 V) zůstává nepřipojený. Parazitní cesta je tedy jiná (DD/DC/RESET_N / TVCC sense) — detaily jsou HYPOTÉZA.
+**Bez CC Debuggeru TAG OFF MCU vypne.** EXP-006: 8 s listen při GPIO17 hi dal 1× `0x00` a žádný heartbeat. TAG ON spustí skutečný POR. Relé teď správně vypíná/zapíná.
+
+Debugger pin 9 (3.3 V) zůstává nepřipojený. Parazitní cesta při připojeném debuggeru je tedy jiná (DD/DC/RESET_N / TVCC sense) — detaily jsou HYPOTÉZA.
 
 ## OVĚŘENO — reset cause v této lab konfiguraci
 
@@ -80,7 +82,7 @@ RESET_CAUSE=0 POR/BROWNOUT
 
 se 2026-08-27 při debuggeru + TAG ON **neobjevil**. 26 MHz i 13 MHz idle heartbeat běžely bez nového boot banneru.
 
-Dřívější POR/BROWNOUT výsledek zůstává historicky zaznamenaný, ale v aktuálním zapojení nereprodukovaný. True POR bez debuggeru není v této session ověřený.
+Bez debuggeru (EXP-006, v0.3e) true POR **ano** spustil rychlou reset smyčku: 1714× banner za 30 s, vždy končí na `OFF/RST0 BUSY=1` (hned po `P2_0=1`). Firmware nahlásí RESET_CAUSE až po reflashi v0.3a; klasifikace příčiny je proto zatím HYPOTÉZA brownout zátěží P2_0, ne watchdog.
 
 ## OVĚŘENO — DCOUPL
 
@@ -136,4 +138,4 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-Proč P1_3 sleduje P2_0 i když je P0_0 v OFF? A zda se historický POR/BROWNOUT vrátí po odpojení debuggeru.
+Proč `P2_0=1` bez debuggeru shodí MCU (brownout vs. reset coupling)? Nejdřív UART-only true POR, potom izolovaný P2_0 test.

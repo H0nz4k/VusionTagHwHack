@@ -15,7 +15,7 @@
 - [x] stable UART heartbeat (26 MHz i 13 MHz idle)
 - [x] compare 26 MHz XOSC vs ~13 MHz HS-RC
 - [x] document reset behavior (`cc-tool --reset` = EXTERNAL_RESET_N)
-- [ ] true POR bez debuggeru (vyžaduje fyzické odpojení)
+- [x] true POR bez debuggeru (relé řeže; v0.3e na POR padá)
 
 ## Phase 2 — GPIO validation
 - [x] passive reads first (P1_3)
