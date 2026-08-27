@@ -4,6 +4,53 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-010 — true POR v0.3a, debugger 5V off
+
+**Status:** FAIL (reset storm) — diagnosticky cenné
+
+**Firmware / commit:**
+
+```text
+v0.3a_uart_baseline, no reflash
+GPIO27 dh (debugger USB 5V off), GPIO17 power cycle
+```
+
+**Hypotéza**
+
+Bez debugger 5V a bez P2_0 drive dá true POR jeden banner `RESET_CAUSE=0 POR/BROWNOUT` a tečky.
+
+**Vstupní stav**
+
+Nový DEV, UART OVĚŘENO. Relé NO. Tag off = 1× `0x00` (napájení se řeže, baterie neběží).
+
+**Jedna hlavní změna**
+
+GPIO27 off po celou dobu. Žádný cc-tool. Jen GPIO17 OFF→ON.
+
+**Očekávaný výsledek**
+
+Jeden POR banner, heartbeat, žádný loop.
+
+**Skutečný UART / pozorování**
+
+Tag OFF 5 s: 1 B `0x00`. Debugger USB pryč.
+
+TAG ON 20 s: **53298 B, 708× banner, 707× `RESET_CAUSE=1 EXTERNAL_RESET_N`, 0× POR, 0× WDT, ~28 ms/boot.** Vzor: banner + jedna tečka + hned reset.
+
+**Klasifikace**
+
+FAIL
+
+**Závěr**
+
+Není to brownout z P2_0 (v0.3a P2_0 nebudí). Reset příčina je **RESET_N pin**. GPIO27 řeže jen USB 5V; debug vodiče (včetně RESET_N) na tagu nejspíš zůstaly. Nevypnutý/nenapájený debugger na RESET_N je silná HYPOTÉZA.
+
+**Další krok**
+
+Fyzicky odpojit CC Debugger od tagu (nechat CP2102). Pak znovu jen GPIO17 POR.
+
+---
+
 ### EXP-20260827-009 — UART after P1_6 rewired on new DEV
 
 **Status:** PASS

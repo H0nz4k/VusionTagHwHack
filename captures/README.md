@@ -14,4 +14,5 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp005.bin` | v0.3e reset probe (debugger attached) |
 | `ov26_exp006a_tagoff.bin` | TAG OFF listen, debugger disconnected |
 | `ov26_exp006b_por.head.bin` | first 256 B of true-POR storm (full dump 105243 B stayed on Pi) |
-| `ov26_exp009.bin` | v0.3a UART after P1_6 rewired on new DEV |
+| `ov26_exp010_tagoff.bin` | 5 s listen tag OFF (1× 0x00) |
+| `ov26_exp010_por.head.bin` | true POR storm head (full 53298 B on Pi) |
