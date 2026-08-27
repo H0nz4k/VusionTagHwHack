@@ -4,6 +4,20 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-018 — named RGB vs WHITE (isolate white washout)
+
+**Status:** PASS UART / optika čeká člověka
+
+**Hypotéza**
+
+P2_1=1 P2_2=0 = RGB bez bílé. P2_2=1 = bílá. Obě naráz bílá přezáří RGB.
+
+**Skutečný UART**
+
+1× `v0.3h`, `RGB  P2_1=1 P2_2=0`, `WHITE P2_1=0 P2_2=1`. Tag ON.
+
+---
+
 ### EXP-20260828-017 — slow P2 LED states (white vs RGB)
 
 **Status:** PASS UART (fixed overlay) / LED map čeká člověka

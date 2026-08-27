@@ -1,23 +1,14 @@
 # Session Handoff
 
-Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením session.
-
-## Current firmware variant
+## Current firmware
 
 ```text
-NEW DEV: v0.3g_led_slow — 5 s P2 states, 2 s OFF gaps
+v0.3h_led_named — 6s RGB (P2_1), 6s WHITE (P2_2), 6s BOTH
+GPIO17 ON, debug isolated
 ```
 
-## Current hardware state
+## Human action
 
 ```text
-GPIO17 dl TAG ON
-GPIO27/21 dh debug isolated
-```
-
-## Human action required?
-
-```text
-YES — u stavů 00 / 10 / 01 / 11: bílá LED a RGB (barva nebo zhasnuto).
-Mezi nimi 2 s tma (OFF).
+YES — po tmě: jen RGB (barvy)? pak jen bílá? pak obě (přezáření)?
 ```
