@@ -4,6 +4,22 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-020 — LED pair ON/OFF control
+
+**Status:** PASS UART / optika čeká potvrzení blikání
+
+**Firmware:** v0.3j — `P2_2=1; P2_1=1` ~4 s, pak obě 0 ~4 s.
+
+---
+
+### EXP-20260828-019 — LED BOOST vs SINK (human)
+
+**Status:** PASS (architektura)
+
+Člověk: RGB (pulz k modru) → přidá se bílá → obě zhasnou. Odpovídá 11 pak 00. Kanály R/G/B/W nemají vlastní GPIO.
+
+---
+
 ### EXP-20260828-019 — LED BOOST vs SINK (GL340 architecture)
 
 **Status:** PASS UART / optika čeká člověka

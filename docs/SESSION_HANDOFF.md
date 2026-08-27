@@ -3,13 +3,12 @@
 ## Current firmware
 
 ```text
-v0.3i_led_boost_sink
+v0.3j_led_onoff — ~4 s LED ON (P2_1+P2_2), ~4 s OFF
 GPIO17 ON, debug isolated
-Cycle ~6s: ON/BOOST 00, 10, 01, 11
 ```
 
 ## Human action
 
 ```text
-YES — které z 00/10/01 svítí? 11 = RGB+bílá?
+YES — potvrdit pravidelné zapnutí/vypnutí obou LED.
 ```

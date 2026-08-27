@@ -61,3 +61,21 @@ Ověřit architekturu boost + společný sink, jen P2_1 a P2_2:
 | 3 | 1 | 1 | RGB, pak bílá |
 
 Firmware: `v0.3i_led_boost_sink`. Runtime GPIO27+21 off.
+
+## EXP-019 na GU140 — lidské pozorování
+
+Cyklus vizuálně:
+
+```text
+RGB se rozsvítí (lehce pulzuje do modra)
+→ přidá se bílá LED
+→ obě zhasnou
+```
+
+To sedí se stavem **ON=1 BOOST=1** (Vf: RGB dřív, W později) a návratem na 00. Samostatné „jen sink“ / „jen boost“ jako extra svícení **nebylo hlášeno**.
+
+**OVĚŘENO na GU140:** obě LED jdou budit současně P2_1+P2_2; RGB předbíhá bílou; zhasnutí po konci 11.
+
+**HYPOTÉZA:** pulz do modra = ripple/Vf boostu, ne GPIO kanál. R/G/B/W dál nemají vlastní GPIO.
+
+Řízení bez dalších pinů: `LED_OFF` = 00, `LED_ON` = 11. PWM P2_1 při BOOST=1 může měnit jas/směs — další experiment, ne sweep.
