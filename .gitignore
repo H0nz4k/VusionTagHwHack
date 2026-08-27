@@ -22,6 +22,12 @@ firmware/**/.build/
 
 # Keep source and final .hex artifacts unless intentionally removed
 
+# Local copies of third-party PCB photos (copyright)
+docs/ref_balhar/*.avif
+docs/ref_balhar/*.png
+docs/ref_balhar/*.html
+docs/ref_balhar/*.py
+
 # Remote tree archives
 firmware/**/*.zip
 firmware/*.zip

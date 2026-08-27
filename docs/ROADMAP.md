@@ -23,16 +23,23 @@
 - [x] passive reads first (P1_3)
 - [ ] confirm safe EPD candidates (P0_0/P2_0 bezpečně buditelné, identita ne)
 - [ ] confirm BUSY behavior (P1_3 se mění, ready=HIGH po resetu NE)
-- [ ] confirm reset/power candidates (chování zaznamenáno, mapa HYPOTÉZA)
+- [ ] confirm reset/power candidates (REFERENCE; EXP-C isolated, ne historický storm)
 - [x] avoid P2_3/P2_4
 
 ## Phase 3 — EPD low-risk bring-up
-- [ ] EPD power only
-- [ ] EPD reset only
-- [ ] SPI idle validation
-- [ ] first command
-- [ ] busy transitions
-- [ ] first blank refresh
+
+Po LED continuity. Isolated debugger. P0_2 untouched. Detail `docs/EPD_REFERENCE.md`. Milník: `milestone/epd-first-refresh`.
+
+Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
+
+- [ ] EXP-A passive BUSY
+- [ ] EXP-B PWR only
+- [ ] EXP-C RESET H-L-H + BUSY (P2_0 = REFERENCE candidate; historický storm ≠ vlastnost pinu)
+- [ ] EXP-D SPI idle / clock (P0_3/P0_5, ne P0_2)
+- [ ] EXP-E command 0x00 + data 0x0E
+- [ ] EXP-F minimal reference init
+- [ ] EXP-G blank framebuffer load
+- [ ] EXP-H 0x12 refresh
 
 ## Phase 4 — EPD graphics
 - [ ] B/W pattern

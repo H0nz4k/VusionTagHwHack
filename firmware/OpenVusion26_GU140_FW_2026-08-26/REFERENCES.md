@@ -3,14 +3,13 @@
 ## Exact-model reverse engineering
 
 Jirka Balhar, *Hacking SES imagotag E-ink Price Tag*:
-- exact device: VUSION 2.6 BWR GU140
-- controller: TI CC2510, 32 kB
-- panel: Pervasive Displays E2266JS0C2 / SE2266JS0C2
-- panel is 2.66", 296×152, black/white/red
-- author traced the GU140 PCB and reported that its EPD drive circuit closely matches the Pervasive reference circuit
-- the panel updated successfully after connecting a replacement MCU and using Pervasive's driver
+- **EXACT-MODEL REFERENCE**, not OVĚŘENO on our PCB revision
+- VUSION 2.6 BWR GU140, CC2510, E2266JS0C2 / SE2266JS0C2
+- PCB drive circuit matches Pervasive Figure 5-1; overlay traces to original CC2510; RP2040 + `eScreen_EPD_EXT3_266_BWR` refreshed the panel
+- article does **not** publish CC2510 GPIO numbers — reconstruct from FPC 9–14 + GL340 `epd.h`
 
 https://blog.jirkabalhar.cz/2023/12/hacking-sesimagotag-e-ink-price-tag/
+See `docs/EPD_REFERENCE.md`.
 
 ## Related VUSION CC2510 firmware
 

@@ -37,7 +37,7 @@ void epd_bus_init(void)
 
     /*
      * USART0 Alternative 1 in SPI master mode.
-     * VUSION reference firmware uses P0_3=MOSI and P0_5=SCLK.
+     * MOSI=P0_3, SCLK=P0_5 only. Leave P0_2 input/untouched (no MISO).
      * 26 MHz with BAUD_E=17, BAUD_M=0 gives the known fast SPI setting.
      */
     PERCFG &= (unsigned char)~0x01u;
@@ -45,6 +45,8 @@ void epd_bus_init(void)
     U0GCR = (uint8_t)(BV(5) | 17u); /* MSB first, mode 0, BAUD_E=17 */
     U0BAUD = 0u;
     U0CSR |= 0x40u;                /* enable SPI */
+    P0SEL &= (unsigned char)~BV(2); /* P0_2 stays GPIO input, not MISO */
+    P0DIR &= (unsigned char)~BV(2);
     P0SEL |= (uint8_t)(BV(3) | BV(5));
 }
 

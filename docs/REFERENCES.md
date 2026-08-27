@@ -15,10 +15,14 @@ Relevantní témata:
 
 ## Exact GU140 reverse engineering
 
-Veřejná reference:
-- Jirka Balhar — hacking SES-imagotag/VUSION 2.6 BWR GU140
+Jirka Balhar — *Hacking SES imagotag E-ink Price Tag* (2023):
+- **EXACT-MODEL REFERENCE** (VUSION 2.6 BWR GU140 + E2266JS0C2)
+- ne OVĚŘENO na našem PCB revision
+- článek nemá CC2510 GPIO tabulku; mapa = Figure 5-1 + overlay + GL340
 
-Používej pro exact-model kontext, ale fyzický pinout stále ověřuj.
+https://blog.jirkabalhar.cz/2023/12/hacking-sesimagotag-e-ink-price-tag/
+
+Detail: `docs/EPD_REFERENCE.md`.
 
 ## Related firmware
 

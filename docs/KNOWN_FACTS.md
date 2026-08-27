@@ -89,7 +89,10 @@ Nový DEV, v0.3a, **bez debug kabelu** (EXP-011): jeden boot, `RESET_CAUSE=1 EXT
 
 S debug kabelem na tagu a GPIO27 off (EXP-010): 708× `EXTERNAL_RESET_N` / 20 s. To byl RESET_N z debuggeru, ne brownout.
 
-Bez debuggeru (EXP-006, v0.3e) true POR **ano** spustil rychlou reset smyčku: 1714× banner za 30 s, vždy končí na `OFF/RST0 BUSY=1` (hned po `P2_0=1`). Firmware nahlásí RESET_CAUSE až po reflashi v0.3a; klasifikace příčiny je proto zatím HYPOTÉZA brownout zátěží P2_0, ne watchdog.
+Bez debuggeru (EXP-006, v0.3e) true POR **ano** spustil rychlou reset smyčku: 1714× banner za 30 s, vždy končí na `OFF/RST0 BUSY=1`. Firmware nahlásí RESET_CAUSE až po reflashi v0.3a.
+
+**HISTORICAL OBSERVATION:** experiment zahrnoval P2_0 a koreloval se stormem.  
+**UNKNOWN:** kauzalita P2_0 → reset MCU není prokázána. Nepovyšuj na vlastnost EPD_RESET. Opakovat jako EXP-C s aktuálním isolation workflow.
 
 ## OVĚŘENO — DCOUPL
 
@@ -145,4 +148,5 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-Proč `P2_0=1` bez debuggeru shodí MCU (brownout vs. reset coupling)? Nejdřív UART-only true POR, potom izolovaný P2_0 test.
+1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+2. Pak EPD žebřík k `milestone/epd-first-refresh` — `docs/EPD_REFERENCE.md`. Identita P0_0/P2_0/P1_3 zůstává REFERENCE.

@@ -77,34 +77,34 @@ UART CP2102 má vlastní USB; GPIO21 ho nespíná.
 - EXP-013: USB ručně znovu zastrčené až po tag+debug ON → `cc-tool` viděl CC2510, zelená LED.
 - EXP-012 `No target` při enumeraci bez 3 V / bez USB cyklu.
 
-## Kandidátní GPIO mapa — REFERENCE/HYPOTÉZA
+## Kandidátní GPIO mapa — EPD je REFERENCE, ne OVĚŘENO
 
-Odvozeno z příbuzného VUSION 4.2, exact-model reverse engineeringu a Pervasive driveru:
+EPD signály: **EXACT-MODEL REFERENCE** (Balhar GU140 + Pervasive Figure 5-1) složená s **RELATED-MODEL** GL340 CC2510 piny. Shoda sady signálů zvyšuje jistotu. Na našem kusu identita **není** OVĚŘENO. Detail `docs/EPD_REFERENCE.md`.
 
 ```text
-P0_0 -> EPD power
-P0_1 -> EPD CS
-P0_2 -> EPD MISO / maybe unused
-P0_3 -> EPD MOSI
-P0_4 -> NFC SDA
-P0_5 -> EPD SCLK
-P0_6 -> NFC SCL
+P0_0 -> EPD_PWR (active LOW)     REFERENCE GL340 + power switch Fig 5-1
+P0_1 -> EPD_CS                   REFERENCE GL340 + FPC 12
+P0_2 -> leave input/untouched     mimo first-refresh (MISO)
+P0_3 -> EPD_MOSI USART0 Alt1     REFERENCE GL340 + FPC 14 SDA
+P0_4 -> NFC SDA                  RELATED-MODEL
+P0_5 -> EPD_SCLK USART0 Alt1     REFERENCE GL340 + FPC 13 SCL
+P0_6 -> NFC SCL                  RELATED-MODEL
 P0_7 -> unknown
 
-P1_0 -> NFC/flash power
-P1_1 -> NFC FD
-P1_2 -> EPD DC candidate
-P1_3 -> EPD BUSY candidate
+P1_0 -> NFC/flash power          RELATED-MODEL
+P1_1 -> NFC FD                   RELATED-MODEL
+P1_2 -> EPD_DC                   REFERENCE GL340 + FPC 11
+P1_3 -> EPD_BUSY (ready = HIGH)  REFERENCE GL340 + FPC 9; HIL identita INCONCLUSIVE
 P1_4 -> external flash CS
 P1_5 -> flash SCLK
-P1_6 -> flash MOSI / temporary diagnostic UART TX
+P1_6 -> flash MOSI / diagnostic UART TX   OVĚŘENO UART
 P1_7 -> flash MISO
 
-P2_0 -> EPD reset candidate
-P2_1 -> LED control / debug DD
-P2_2 -> LED boost / debug DC
-P2_3 -> 32 kHz crystal — OVĚŘENO
-P2_4 -> 32 kHz crystal — OVĚŘENO
+P2_0 -> EPD_RESET candidate      REFERENCE; storm z EXP-006 = HISTORICAL, kauzalita UNKNOWN
+P2_1 -> LED control / debug DD   OVĚŘENO debug + LED
+P2_2 -> LED boost / debug DC     OVĚŘENO debug + LED
+P2_3 -> 32 kHz crystal           OVĚŘENO continuity
+P2_4 -> 32 kHz crystal           OVĚŘENO continuity
 ```
 
 ## P2 LED — REFERENCE GL340 + GU140 stav
