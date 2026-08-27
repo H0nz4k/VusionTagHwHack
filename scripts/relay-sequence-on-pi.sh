@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run ON the Raspberry Pi. Relay 1 GPIO17, relay 2 GPIO27. Active-low.
+# Run ON the Raspberry Pi. GPIO17 = tag 3V, GPIO27 = RESET_N+DD+DC. Active-low.
 set -euo pipefail
 DELAY="${1:-2}"
 /home/hw/bin/ov26-relays.sh idle

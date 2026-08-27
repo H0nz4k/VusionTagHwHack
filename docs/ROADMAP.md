@@ -8,6 +8,7 @@
 - [x] build + flash workflow přečten a zdokumentován
 - [x] autonomous bounded HIL loop
 - [x] relé vs debugger parasitic power zdokumentováno
+- [ ] GPIO27 ganged RESET/DD/DC — zapojeno, `cc-tool` target zatím FAIL (EXP-012)
 
 ## Phase 1 — Stable MCU baseline
 - [x] one boot banner only (nový DEV, EXP-011, bez debug kabelu)

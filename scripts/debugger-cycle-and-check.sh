@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Power-cycle debugger relay (GPIO27) then wait for USB 0451:16a2.
+# OBSOLETE: GPIO27 no longer power-cycles debugger USB.
+# USB 0451:16a2 should stay present. GPIO27 = RESET_N+DD+DC isolate.
 set -euo pipefail
 WAIT_SEC="${1:-10}"
 

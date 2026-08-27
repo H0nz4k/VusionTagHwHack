@@ -11,39 +11,43 @@ Agent tento soubor aktualizuje po větším bloku práce nebo před ukončením 
 ## Current firmware variant
 
 ```text
-NEW DEV: v0.3a_uart_baseline — stable true POR without debug cable
+NEW DEV: v0.3a_uart_baseline — UART heartbeat běží
 ```
 
 ## Current hardware state
 
 ```text
-TAG: OFF (GPIO17 dh)
-DBG 5V: OFF (GPIO27 dh)
-Debug cable: disconnected from tag (human)
-UART: CP2102 on P1_6
+TAG 3V relay: OFF (GPIO17 dh) — MCU ALE běží (heartbeat)
+DBG lines GPIO27: dh (intended isolate)
+USB CC Debugger: present (no longer switched)
+UART: CP2102 on P1_6, dots at ~1 Hz even with GPIO17 off
+cc-tool: programmer OK, no target either GPIO27 polarity
 ```
 
 ## Last experiment
 
 ```text
-EXP-011: 1x banner EXTERNAL_RESET_N, 19 dots, no loop
+EXP-012: USB-always-on PASS; cc-tool target FAIL both polarities
 ```
 
 ## Verified findings
 
-- v0.3a one-boot + heartbeat without debugger: OVĚŘENO
-- EXP-010 storm was RESET_N via attached unpowered/powered debug cable
+- USB 5V vyhybka zrušena: GPIO27 dh neschová 0451:16a2
+- Debug bus k CC2510 přes GPIO27 relé zatím nevede
+- GPIO17 off MCU nevypne (parazit / baterie — HYPOTÉZA)
 
 ## Open hypotheses
 
-- Power-on reports EXTERNAL_RESET_N due to board RESET_N RC, not POR. Harmless.
+- RESET/DD/DC nejsou v sérii na tagu, nebo kabel není na tagu
+- MCU žije z DVDD sense do živého debuggeru, nebo z baterie
 
 ## Next recommended experiment
 
-EPD passive GPIO (v0.3c) with debugger disconnected for runtime; connect debugger only to flash.
+Až člověk potvrdí, že 3 relé cvakají a kabel je na tagu: znovu `cc-tool -t` s GPIO17 dl + GPIO27 dl. Neflashovat do té doby.
 
 ## Human action required?
 
 ```text
-NO
+YES — zkontrolovat zapojení RESET_N / DD / DC přes relé na tag.
+MCU teď nejde vypnout GPIO17; chceš-li ticho, odpoj USB debugger nebo DVDD sense.
 ```

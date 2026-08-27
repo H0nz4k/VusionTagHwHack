@@ -4,6 +4,59 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260827-012 — GPIO27 ganged RESET/DD/DC
+
+**Status:** FAIL (debug bus) / PASS (USB stays) / diagnosticky cenné
+
+**Firmware / commit:**
+
+```text
+v0.3a, no reflash
+human: GPIO27 → 3 relé RESET_N+DD+DC; USB 5V debuggeru nespínané
+```
+
+**Hypotéza**
+
+GPIO27 `dh` odřízne RESET/DD/DC → GPIO17 POR jako EXP-011 (1 banner + tečky). GPIO27 `dl` spojí linky → `cc-tool -t` uvidí CC2510. USB `0451:16a2` zůstane i při `dh`.
+
+**Vstupní stav**
+
+Obě GPIO `op dh`. USB debugger i CP2102 přítomné.
+
+**Jedna hlavní změna**
+
+Nové fyzické zapojení GPIO27. Žádný reflash.
+
+**Očekávaný výsledek**
+
+A: 1× banner, heartbeat, žádný loop. B: Name CC2510.
+
+**Skutečný UART / pozorování**
+
+Phase 0: USB debugger při GPIO27 `dh` **přítomný** — 5V vyhybka je pryč. OVĚŘENO.
+
+Phase A (GPIO27 `dh`, GPIO17 POR 15 s): 15 B, **15 teček, 0 bannerů**. Žádný reset storm.
+
+Idle / tag-off (GPIO17 `dh`): **8 teček / 8 s** (`........`). MCU běží bez tag 3V relé. OVĚŘENO.
+
+Phase B (GPIO27 `dl`, tag ON): `Programmer: CC Debugger` / `No target detected`.
+
+Phase B polarita (GPIO27 `dh`, tag ON): stejné, žádný CC2510. Nejsou to NC kontakty.
+
+**Klasifikace**
+
+FAIL na debug cestě k MCU. PASS na „USB zůstává“. INCONCLUSIVE na izolaci RESET (storm není, ale RESET k debuggeru zjevně nedorazí).
+
+**Závěr**
+
+Automatické odpojení debug linek **zatím nefunguje jako programovací cesta**. MCU má UART heartbeat i s GPIO17 off — vypínač tagu teď nestačí. Dokud `cc-tool -t` neuvidí CC2510, neflashovat.
+
+**Další krok**
+
+Lidská kontrola: je debug kabel na tagu přes ta 3 relé? Cvaknou při `dbg-on`? DVDD sense a GND trvale? Baterie v tagu?
+
+---
+
 ### EXP-20260827-011 — true POR v0.3a, debug cable off tag
 
 **Status:** PASS

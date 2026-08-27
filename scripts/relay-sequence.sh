@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Four-step relay sequence. No loops.
 # Relay 1 = BCM GPIO17 (tag)     pin 11
-# Relay 2 = BCM GPIO27 (debugger 5V) pin 13
+# Relay 2 = BCM GPIO27 (RESET_N+DD+DC ganged) pin 13
 # Active-low: dl = ON, dh = OFF
 #
 # Usage: bash scripts/relay-sequence.sh [delay_seconds]

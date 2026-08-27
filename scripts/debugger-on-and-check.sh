@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Run ON the Raspberry Pi.
-# Energize relay 2 (GPIO27, debugger USB +5V, active-low, NO) and wait
-# until CC Debugger enumerates, or timeout.
+# OBSOLETE assumption: GPIO27 no longer switches USB +5 V.
+# GPIO27 now gangs RESET_N+DD+DC. USB 0451:16a2 should already be present.
+# Prefer scripts/pi/ov26-exp012-debug-isolate.sh after wiring changes.
 set -euo pipefail
 
 WAIT_SEC="${1:-8}"

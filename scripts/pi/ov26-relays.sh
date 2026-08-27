@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Run on the Raspberry Pi. Never leave GPIO17/27 as inputs.
 # Active-low coil, NO contacts: dh = OFF (open), dl = ON (closed).
+#
+# BCM GPIO17  tag ~3 V supply
+# BCM GPIO27  ganged debug lines RESET_N + DD + DC (not USB +5 V)
+# USB CC Debugger stays powered. Idle = both dh = tag off AND debug isolated.
 set -euo pipefail
 
 ensure_output() {
