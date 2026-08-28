@@ -151,9 +151,9 @@ Každá vrstva = jeden HIL test. **Bez konzistentního výsledku nepokračuj.** 
 | C | RESET H-L-H + BUSY | po PWR ON: P2_0 1→0→1; P1_3 vzorkovat | EXP-024 PASS MCU; P1_3 0→1 po H2 (silná evidence BUSY, identita ne OVĚŘENO) |
 | D | SPI idle / clock | USART0 Alt1, CS=1, P0_3/P0_5 periferní, **žádný byte** | EXP-025 PASS config; P0SEL=28, P0_2 DIR/SEL=0, CS=1; mapa MOSI/SCLK ne OVĚŘENO |
 | E | command `0x00` + data `0x0E` | soft-reset, wait BUSY s timeoutem | EXP-026 PASS TX/UART; P1_3 zůstal 1 (CoG ACK INCONCLUSIVE) |
-| F | minimal reference init | GU-small non-4.2: E5=19, E0=02, PSR CF 8D | init doběhne; BUSY timeout ok |
-| G | blank framebuffer load | `0x10` / `0x13` prázdné roviny, **ne** `0x12` | load doběhne |
-| H | `0x12` refresh | první blank refresh | vizuální update **nebo** konzistentní BUSY průběh + UART DONE |
+| F | minimal reference init | GU-small non-4.2: E5=19, E0=02, PSR CF 8D | EXP-027 PASS TX; BUSY HIGH |
+| G | blank framebuffer load | `0x10` / `0x13` prázdné roviny, **ne** `0x12` | EXP-028 PASS 15F8+15F8 |
+| H | `0x12` refresh | první blank refresh | EXP-029 PASS UART; P1_3 po 0x12: 1→0 (~15 s)→1. Vizuál čeká člověka |
 
 Harmless command je EXP-E. `0x12` jen v EXP-H.
 
@@ -167,4 +167,4 @@ Starší EXP-003..006 **nenahrazují** A–C. Byly za jiného debugger/RESET_N r
 
 Než EXP-H `0x12`: EXP-A…G musí mít konzistentní PASS (ne 3× stejná failure signature).
 
-`P1_3 == 1` samo o sobě **není** potvrzení BUSY. EXP-024: přechod **0→1 vázaný na uvolnění P2_0** po PWR ON je první silná evidence kandidáta; polarita a CoG command response až EXP-E.
+`P1_3 == 1` samo o sobě **není** potvrzení BUSY. EXP-024: přechod **0→1 vázaný na uvolnění P2_0** po PWR ON je první silná evidence kandidáta. EXP-029: po `0x12` **1→0 (~15 s)→1** — smysluplný refresh cyklus **OVĚŘENO** na P1_3.

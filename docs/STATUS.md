@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-028 Phase G **PASS** (5624+5624). Další EXP-029 DCDC+0x12.
+EXP-029 Phase H **PASS UART** + **STRONG EVIDENCE** BUSY refresh cyklu po `0x12` (LOW ~17 HB, pak HIGH). Vizuál čeká člověka. Další: EXP-030 test pattern.
 
 ## Ladder
 
@@ -19,4 +19,4 @@ EXP-028 Phase G **PASS** (5624+5624). Další EXP-029 DCDC+0x12.
 | E 0x00/0x0E | 026 | PASS TX; BUSY stayed 1 |
 | F min init | 027 | PASS TX |
 | G blank FB | 028 | PASS 15F8+15F8 |
-| H 0x12 refresh | — | next |
+| H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |

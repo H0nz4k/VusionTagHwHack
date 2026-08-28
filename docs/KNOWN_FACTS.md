@@ -128,8 +128,11 @@ Identita „EPD BUSY / EPD POWER / EPD RESET“ z těchto debugger-attached test
 - EXP-024: P0_0=0 + P2_0 H-L-H, MCU žije. P1_3 = `0` před/během pulzu, `1` ihned po RST H2 a po celý heartbeat
 - EXP-025: USART0 Alt1 idle. POST `P0SEL=28` `P0DIR=2B` `U0CSR=00`. P0_2 SEL/DIR=0, CS=1, žádný byte, P1_3=1, MCU žije
 - EXP-026: `0x00`/`0x0E` TX_BYTE OK, CS HIGH, P0_2 čistý, MCU žije. P1_3 po commandu zůstal `1` (žádný vzorkovaný LOW)
+- EXP-027: `register_data_sm` TX OK, BUSY HIGH, MCU žije
+- EXP-028: 5624+5624 stream OK (`N10=N13=15F8`)
+- EXP-029: `0x04`/`0x00` + `0x12`/`0x00` TX OK. P1_3 po `0x12`: `1`→`0` na ~17 HB (~15 s)→`1`. **OVĚŘENO** jako smysluplný BUSY refresh cyklus (vizuál panelu čeká člověka)
 
-P1_3 **reaguje na EPD reset po PWR ON** (silná evidence kandidáta BUSY). Command-BUSY a MOSI/SCLK/DC fyzické mapování **nejsou OVĚŘENO**.
+P1_3 **reaguje na EPD reset po PWR ON** a **na command `0x12`**. MOSI/SCLK/DC fyzické mapování stále REFERENCE, ale CoG command path má silnou evidenci.
 
 ## NEJISTÉ MĚŘENÍ
 
@@ -160,5 +163,6 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
-2. Pak EPD žebřík k `milestone/epd-first-refresh` — `docs/EPD_REFERENCE.md`. Identita P0_0/P2_0/P1_3 zůstává REFERENCE.
+1. Člověk: je po EXP-029 na panelu vidět změna (e-paper drží bez napájení)?
+2. EXP-030: vlastní pruhy, aby to nebyla náhoda.
+3. LED: společný sink vs tři FET (fyzické měření, TAG OFF).

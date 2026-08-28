@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-029 — Phase H DCDC 0x04 + refresh 0x12
+
+**Status:** PASS UART / STRONG EVIDENCE refresh / vizuál čeká člověka
+
+Isolated. INIT/N10/N13/DCDC/REF=01. Po `0x12` P1_3: 1→0 (HB 00–16)→1 (HB 17+). Žádný storm. `docs/experiments/EXP-029.md`. Capture `captures/ov26_exp029_por.bin`. TAG OFF.
+
+---
+
 ### EXP-20260828-028 — Phase G framebuffer 5624+5624
 
 **Status:** PASS

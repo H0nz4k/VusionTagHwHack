@@ -37,9 +37,9 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [x] EXP-C RESET H-L-H + BUSY (EXP-024; P2_0 isolated no storm; P1_3 0→1)
 - [x] EXP-D SPI idle / clock (P0_3/P0_5, ne P0_2)
 - [x] EXP-E command 0x00 + data 0x0E (TX OK; BUSY ACK INCONCLUSIVE)
-- [ ] EXP-F minimal reference init
-- [ ] EXP-G blank framebuffer load
-- [ ] EXP-H 0x12 refresh
+- [x] EXP-F minimal reference init
+- [x] EXP-G blank framebuffer load
+- [x] EXP-H 0x12 refresh (EXP-029 UART+BUSY cycle; vizuál čeká člověka)
 
 ## Phase 4 — EPD graphics
 - [ ] B/W pattern
