@@ -1,0 +1,1 @@
+{"event": "nfc_probe", "port": "/dev/ttyACM0", "tag": {"uid": "04367F5A2D7280", "type": 128, "bits": 56}, "version": "00 04 04 05 02 02 13 03", "reader": "TWN4/B1.64/NCF5.20/PRS1.04", "device_type": 11, "ntag_i2c_plus_1k": true}

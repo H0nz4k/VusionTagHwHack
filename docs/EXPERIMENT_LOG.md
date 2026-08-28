@@ -4,6 +4,62 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-044 — NFC-B STOP+START before 0xAB
+
+**Status:** FAIL (ACKAB=00)
+
+Stejné ACKAA/ACKFE, 0xAB stále NACK. `docs/experiments/EXP-044.md`. TAG OFF.
+
+---
+
+### EXP-20260828-043 — NFC-B session 0xFE repeated start
+
+**Status:** FAIL session / PASS UART
+
+ACKAA=01 ACKFE=01 ACKAB=00 SESS FF×8. `docs/experiments/EXP-043.md`.
+
+---
+
+### EXP-20260828-042 — CP2102 framing after cc-tool
+
+**Status:** PASS as diagnosis
+
+Isolated flash garbage ≠ MCU. 115200 recapture of v0.5c PASS. `docs/experiments/EXP-042.md`.
+
+---
+
+### EXP-20260828-041 — UART-only NFC control image
+
+**Status:** PASS on recapture
+
+`v0.6c_nfc_uart`. Isolated FAIL, recapture EXP-041 DONE. `docs/experiments/EXP-041.md`.
+
+---
+
+### EXP-20260828-040 — NFC-A I2C ACK 0xAA
+
+**Status:** PASS UART
+
+`v0.6b_nfc_ack0` ACK0=01. P0_4/P0_6 **OVĚŘENO**. Bez P1_0. `docs/experiments/EXP-040.md`.
+
+---
+
+### EXP-20260828-039 — NFC-A dual-pass first image
+
+**Status:** INCONCLUSIVE (invalid UART capture)
+
+`v0.6a_nfc_ack`. Post-cc-tool high-bit garbage. `docs/experiments/EXP-039.md`.
+
+---
+
+### EXP-20260828-038 — NFC-0 TWN4 UID / GET_VERSION
+
+**Status:** PASS
+
+UID `04367F5A2D7280`, GET_VERSION Plus 1K. `/dev/ttyACM0`. `docs/experiments/EXP-038.md`. TAG OFF after probe.
+
+---
+
 ### EXP-20260828-037 — RF-D TX ping
 
 **Status:** FAIL UART / OTA NOT VERIFIED

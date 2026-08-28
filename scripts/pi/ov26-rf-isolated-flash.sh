@@ -30,7 +30,10 @@ sudo cc-tool -v read -e -w "$HEX" 2>&1 | tee "$FLASHLOG"
 "$RELAYS" usb-off
 "$RELAYS" tag-off
 sleep 2
+# CP2102 can frame-garbage after debugger USB cycle (EXP-039..041 false FAIL).
 stty -F "$UART" 115200 cs8 -cstopb -parenb -ixon -ixoff -crtscts raw -echo
+timeout 1 cat "$UART" >/dev/null 2>&1 || true
+sleep 0.5
 : > "$POR"
 timeout "$SECS" cat "$UART" >> "$POR" &
 CAP=$!

@@ -1,24 +1,26 @@
-# STATUS — GU140 RF foundation
+# STATUS — GU140 NFC foundation
 
-**Mission:** OpenVusionHack-native 2.4 GHz link (not Vusion clone)  
-**Branch:** `research/rf-gu140`  
+**Mission:** OpenVusionHack-native NFC (RPi TWN4 → NTAG I²C Plus → CC2510 → existing EPD)  
+**Branch:** `research/nfc-gu140`  
 **Target:** DEV tag only.
 
 ## Now
 
-RF-A/B/C **PASS UART** on DEV CC2510. RF-D UART FAIL (TX not proven). CC2500 **absent**. EPD baseline frozen (`milestone/display-first-content`). `v0.4k_bwr_19` / `v0.4l_ovhack` not modified.
+NFC-0 RF identity **PASS**. NFC-A I2C ACK 0xAA **PASS** (P0_4/P0_6). NFC-B session read **FAIL** (0xAB NACK). EPD baseline frozen. RF TX still unverified. TAG OFF.
 
-## RF ladder
+Last UART-PASS NFC image on DEV: `v0.6e_nfc_sess2` (ACKAA=01 ACKFE=01 ACKAB=00).
+
+## NFC ladder
 
 | Step | EXP | Result |
 |---|---|---|
-| A dump | 034 | **PASS** silicon defaults, IDLE, no TX |
-| B IDLE init | 035 | **PASS** profile readback MATCH, CAL, IDLE |
-| C RX/RSSI | 036 | **PASS** MARC=RX, RSSI moved, no overflow |
-| D TX ping | 037 | FAIL UART / OTA NOT VERIFIED |
-| E CC2500 probe | — | hardware missing |
-| G first packet | — | not started |
+| 0 TWN4 UID/GET_VERSION | 038 | **PASS** UID `04367F5A2D7280`, Plus 1K |
+| A I2C ACK 0xAA | 040 | **PASS** ACK0=01, no P1_0 |
+| B session 0xFE read | 043/044 | FAIL ACKAB=00, SESS FF×8 |
+| C FD | — | not started |
+| D SRAM mailbox | — | gated on ACKAB |
+| E/F PING / SHOW_DEMO | — | not started |
 
-## Display (unchanged)
+## Display / RF (unchanged)
 
-EXP-033 OpenVusionHack **OVĚŘENO vizuálně**.
+EXP-033 visual **OVĚŘENO**. RF-A/B/C PASS UART. RF-D UART FAIL / OTA not verified. CC2500 absent.

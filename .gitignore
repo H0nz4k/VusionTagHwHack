@@ -37,5 +37,9 @@ docs/ref_gl340_savefile.txt
 
 *.pyc
 __pycache__/
+_ov26-nfc.tar
+__pycache__/
 tools/rf_gateway/__pycache__/
 tools/rf_gateway/tests/__pycache__/
+tools/nfc_gateway/__pycache__/
+tools/ElaTool/captures/
