@@ -3,12 +3,11 @@
 
 #include "board.h"
 #include "clock.h"
-#include "radio_profile.h"
 #include "uart1.h"
 
 /*
  * EXP-034 / v0.5a — RF-A radio register dump. No TX, no profile write.
- * P2_3/P2_4 untouched. P0_3 unused. IOCFG not written.
+ * Flattened UART (no pointer helpers). P2_3/P2_4 untouched. IOCFG not written.
  */
 
 static volatile uint8_t dly_a;
@@ -25,16 +24,13 @@ static void delay_crude(void)
     }
 }
 
-static void dump8(const char *n, uint8_t v)
-{
-    uart_puts(n);
-    uart_hex8(v);
-}
-
 void main(void)
 {
     uint8_t reset_cause;
     uint8_t n;
+    uint8_t v_test2;
+    uint8_t v_test1;
+    uint8_t v_test0;
 
     reset_cause = (uint8_t)((SLEEP >> 3) & 0x03u);
     clock_init_26mhz();
@@ -47,46 +43,83 @@ void main(void)
     uart_hex8(reset_cause);
     uart_crlf();
 
-    dump8("MARC=", MARCSTATE & 0x1Fu);
-    dump8(" PART=", PARTNUM);
-    dump8(" VER=", VERSION);
+    uart_puts("MARC=");
+    uart_hex8((uint8_t)(MARCSTATE & 0x1Fu));
+    uart_puts(" PART=");
+    uart_hex8(PARTNUM);
+    uart_puts(" VER=");
+    uart_hex8(VERSION);
     uart_crlf();
-    dump8("SYNC1=", SYNC1);
-    dump8(" SYNC0=", SYNC0);
-    dump8(" PKTLEN=", PKTLEN);
-    dump8(" PKTCTRL1=", PKTCTRL1);
-    dump8(" PKTCTRL0=", PKTCTRL0);
+    uart_puts("SYNC1=");
+    uart_hex8(SYNC1);
+    uart_puts(" SYNC0=");
+    uart_hex8(SYNC0);
+    uart_puts(" PKTLEN=");
+    uart_hex8(PKTLEN);
+    uart_puts(" PKTCTRL1=");
+    uart_hex8(PKTCTRL1);
+    uart_puts(" PKTCTRL0=");
+    uart_hex8(PKTCTRL0);
     uart_crlf();
-    dump8("ADDR=", ADDR);
-    dump8(" CHANNR=", CHANNR);
-    dump8(" FSCTRL1=", FSCTRL1);
-    dump8(" FSCTRL0=", FSCTRL0);
+    uart_puts("ADDR=");
+    uart_hex8(ADDR);
+    uart_puts(" CHANNR=");
+    uart_hex8(CHANNR);
+    uart_puts(" FSCTRL1=");
+    uart_hex8(FSCTRL1);
+    uart_puts(" FSCTRL0=");
+    uart_hex8(FSCTRL0);
     uart_crlf();
-    dump8("FREQ2=", FREQ2);
-    dump8(" FREQ1=", FREQ1);
-    dump8(" FREQ0=", FREQ0);
+    uart_puts("FREQ2=");
+    uart_hex8(FREQ2);
+    uart_puts(" FREQ1=");
+    uart_hex8(FREQ1);
+    uart_puts(" FREQ0=");
+    uart_hex8(FREQ0);
     uart_crlf();
-    dump8("MDMCFG4=", MDMCFG4);
-    dump8(" MDMCFG3=", MDMCFG3);
-    dump8(" MDMCFG2=", MDMCFG2);
-    dump8(" MDMCFG1=", MDMCFG1);
-    dump8(" MDMCFG0=", MDMCFG0);
-    dump8(" DEVIATN=", DEVIATN);
+    uart_puts("MDMCFG4=");
+    uart_hex8(MDMCFG4);
+    uart_puts(" MDMCFG3=");
+    uart_hex8(MDMCFG3);
+    uart_puts(" MDMCFG2=");
+    uart_hex8(MDMCFG2);
+    uart_puts(" MDMCFG1=");
+    uart_hex8(MDMCFG1);
+    uart_puts(" MDMCFG0=");
+    uart_hex8(MDMCFG0);
+    uart_puts(" DEVIATN=");
+    uart_hex8(DEVIATN);
     uart_crlf();
-    dump8("MCSM2=", MCSM2);
-    dump8(" MCSM1=", MCSM1);
-    dump8(" MCSM0=", MCSM0);
-    dump8(" PA=", PA_TABLE0);
+    uart_puts("MCSM2=");
+    uart_hex8(MCSM2);
+    uart_puts(" MCSM1=");
+    uart_hex8(MCSM1);
+    uart_puts(" MCSM0=");
+    uart_hex8(MCSM0);
+    uart_puts(" PA=");
+    uart_hex8(PA_TABLE0);
     uart_crlf();
-    dump8("TEST2=", TEST2);
-    dump8(" TEST1=", TEST1);
-    dump8(" TEST0=", TEST0);
+
+    v_test2 = *(__xdata volatile unsigned char *)0xDF23;
+    v_test1 = *(__xdata volatile unsigned char *)0xDF24;
+    v_test0 = *(__xdata volatile unsigned char *)0xDF25;
+    uart_puts("TEST2=");
+    uart_hex8(v_test2);
+    uart_puts(" TEST1=");
+    uart_hex8(v_test1);
+    uart_puts(" TEST0=");
+    uart_hex8(v_test0);
     uart_crlf();
-    dump8("RSSI=", RSSI);
-    dump8(" LQI=", LQI);
-    dump8(" PKTST=", PKTSTATUS);
-    dump8(" RFIF=", RFIF);
-    dump8(" RFIM=", RFIM);
+    uart_puts("RSSI=");
+    uart_hex8(RSSI);
+    uart_puts(" LQI=");
+    uart_hex8(LQI);
+    uart_puts(" PKTST=");
+    uart_hex8(PKTSTATUS);
+    uart_puts(" RFIF=");
+    uart_hex8(RFIF);
+    uart_puts(" RFIM=");
+    uart_hex8(RFIM);
     uart_crlf();
     uart_puts("IOCFG2=");
     uart_hex8(IOCFG2);
@@ -102,7 +135,7 @@ void main(void)
         uart_puts("HB ");
         uart_hex8(n);
         uart_puts(" MARC=");
-        uart_hex8(MARCSTATE & 0x1Fu);
+        uart_hex8((uint8_t)(MARCSTATE & 0x1Fu));
         uart_crlf();
         n++;
     }

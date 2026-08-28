@@ -4,6 +4,38 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-037 — RF-D TX ping
+
+**Status:** FAIL UART / OTA NOT VERIFIED
+
+`v0.5d_rf_txping`. Capture garbage. CC2500 absent. `docs/experiments/EXP-037.md`. TAG OFF.
+
+---
+
+### EXP-20260828-036 — RF-C bounded RX/RSSI
+
+**Status:** PASS UART
+
+SRX MARC=0D, RSSI 0C–0E (not 80), SIDLE. `docs/experiments/EXP-036.md`. TAG OFF.
+
+---
+
+### EXP-20260828-035 — RF-B profile IDLE
+
+**Status:** PASS UART
+
+Profile readback MATCH, CAL, MARC IDLE. `docs/experiments/EXP-035.md`. TAG OFF.
+
+---
+
+### EXP-20260828-034 — RF-A radio dump
+
+**Status:** PASS UART
+
+Silicon defaults vs SWRS055. PART=81 VER=04. No TX. `docs/experiments/EXP-034.md`. TAG OFF.
+
+---
+
 ### EXP-20260828-033 — OpenVusionHack first content
 
 **Status:** PASS UART + **OVĚŘENO vizuálně** (OpenVusion černě, Hack červeně, pozadí bílé)

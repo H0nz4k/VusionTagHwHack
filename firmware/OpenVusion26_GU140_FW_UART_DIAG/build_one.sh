@@ -21,10 +21,7 @@ if [[ "$TARGET" == v0.4l_ovhack ]]; then
     sdcc "${CFLAGS[@]}" -c "$ROOT/$TARGET/img_ovhack.c" -o "$OBJ/img_ovhack.rel"
     RELS+=("$OBJ/img_ovhack.rel")
 fi
-if [[ "$TARGET" == v0.5b_rf_idle || "$TARGET" == v0.5c_rf_rxrssi || "$TARGET" == v0.5d_rf_txping ]]; then
-    sdcc "${CFLAGS[@]}" -c "$ROOT/common/radio.c" -o "$OBJ/radio.rel"
-    RELS+=("$OBJ/radio.rel")
-fi
+# RF-A..D stay clock+uart+main only. Extra radio.rel overlayed UART (EXP-035).
 sdcc "${CFLAGS[@]}" -o "$ROOT/build/$TARGET.ihx" "${RELS[@]}"
 cp "$ROOT/build/$TARGET.ihx" "$ROOT/build/$TARGET.hex"
 ls -lh "$ROOT/build/$TARGET.hex"

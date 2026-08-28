@@ -35,6 +35,8 @@ Všechny zapisované konstanty: vzorec nebo tabulka z **SWRS055G** (CC2510), `f_
 | TEST2/TEST1 | `0x81` / `0x35` | ≤100 kBaud sensitivity note, SWRS055 TEST regs |
 | IOCFG0/1/2 | **not written** | P1_6 = UART TX; P1_4–P1_7 flash candidates |
 
+PA silicon 0xC6 vs datasheet 0x00 — EXP-034 **OVĚŘENO** na tomto kusu.
+
 FOCCFG / BSCFG / AGCCTRL / FSCAL / FREND: **neplníme SmartRF hodnotami**. Zůstávají silicon reset + výsledek SCAL. OTA citlivost tím pádem HYPOTÉZA, dokud nebude SmartRF export nebo naměřený link.
 
 ## Write list (host + tag must match)

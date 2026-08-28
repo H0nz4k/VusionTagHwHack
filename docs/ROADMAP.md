@@ -68,10 +68,11 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [ ] safe driver API
 
 ## Phase 8 — RF
-- [ ] understand stock/reference RF architecture
-- [ ] receive-only diagnostics first
-- [ ] controlled TX only after baseline
-- [ ] packet framing
+- [x] document OpenVusionHack-native PHY/protocol (not Vusion clone)
+- [x] CC2510 radio dump / IDLE init / bounded RX (EXP-034..036)
+- [ ] CC2500 gateway probe (hardware absent 2026-08-28)
+- [ ] first OTA packet / PONG
+- [ ] RF command → SHOW_DEMO (existing EPD path)
 
 ## Phase 9 — Integrated firmware
 - [ ] scheduler/state machine

@@ -5,6 +5,8 @@
 #include "radio_profile.h"
 #include "uart1.h"
 
+/* Not linked into v0.5* HIL targets: extra .rel overlayed UART (EXP-035). */
+
 /* Do not touch IOCFG0/1/2 — P1_6 is UART TX. */
 
 void radio_idle(void)

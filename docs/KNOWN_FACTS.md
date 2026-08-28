@@ -172,4 +172,5 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+1. CC2500 3.3 V SPI na Pi (RF-E probe), pak OTA PING.
+2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).

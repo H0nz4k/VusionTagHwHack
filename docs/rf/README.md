@@ -15,10 +15,11 @@ Pi / CC2500 gateway  --OVH RF v0.1-->  GU140 CC2510  --> UART proof
 |---|---|
 | EPD B/W/R + OpenVusionHack | **OVĚŘENO** (`milestone/display-first-content`) — RF to nesmí rozbít |
 | CC2510 radio SFR mapa | **REFERENCE** TI SWRS055 + SDCC `cc2510fx.h` |
-| `OVH_RF_PROFILE_0` | **REFERENCE** (vzorce SWRS055, ne SmartRF Studio export) |
+| RF-A dump / RF-B IDLE / RF-C RX | **OVĚŘENO** UART EXP-034..036 |
+| `OVH_RF_PROFILE_0` write/readback | **OVĚŘENO** EXP-035 |
 | Host protokol v0.1 | unit testy, bez rádia |
 | CC2500 na lab Pi | **není přítomen** (žádný `/dev/spidev*`) |
-| OTA PING/PONG | neprovedeno |
+| GU140 TX / OTA PING | EXP-037 UART FAIL; OTA neprovedeno |
 
 ## Dokumenty
 
