@@ -3,10 +3,15 @@
 ## Current firmware
 
 ```text
-v0.10e_nfc_show3 — EXP-056 v0.10g. SHOW 1 OVH / 2 BWR test / 3 Shut up (zip 22-28-47) / 4 blank white.
+v0.11d — EXP-060 FAIL. RF WRITE 0xEC NAK. MCU SRAM I2C still OK (zeros). TWN4 can leave.
+Next: SRAM_MIRROR via config E8 (persistent, reversible) — not another EC/FE write.
 ```
 
-TAG ON, debug isolated. Idle UART: `ARMED` `WAIT LED=00`.
+GPIO20 TWN4 USB **OVĚŘENO** (`twn4-on` / `twn4-off`). Inventory: `/home/hw/bin/ov26-hw-inventory.sh`.
+
+## Mailbox (in progress)
+
+EXP-057 PASS. EXP-058: PTHRU + `python3 tools/nfc_gateway/cli.py mbox`
 
 ## Show
 

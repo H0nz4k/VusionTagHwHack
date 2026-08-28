@@ -85,7 +85,7 @@ Bez dalšího potvrzení člověka můžeš:
 - flashovat DEV tag,
 - provádět hard power-cycle,
 - číst UART,
-- kontrolovat GPIO17 relé,
+- kontrolovat GPIO17/20/21/27 relé,
 - provádět opakovatelné A/B testy,
 - vytvářet helper skripty,
 - přidávat testy,
@@ -134,6 +134,7 @@ Napájení je řízené relé na Raspberry Pi.
 BCM GPIO17  Pi pin 11  tag ~3 V
 BCM GPIO27  Pi pin 13  RESET_N + DD + DC
 BCM GPIO21  Pi pin 40  CC Debugger USB +5 V
+BCM GPIO20  Pi pin 38  TWN4 USB +5 V
 ```
 
 Relé jsou **NO, active-low**: `dl` = ON/spojeno, `dh` = OFF/odpojeno.

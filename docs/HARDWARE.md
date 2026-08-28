@@ -105,7 +105,7 @@ RESET_N        ----------> pin 7 RESET
 
 Debugger pin 9 nepřipojovat.
 
-## Raspberry Pi relé — mapa 2026-08-28
+## Raspberry Pi relé — mapa 2026-08-29
 
 Všechny spínané kontakty jsou **NO**, cívka **active-low**:
 
@@ -113,6 +113,7 @@ Všechny spínané kontakty jsou **NO**, cívka **active-low**:
 BCM GPIO17  Pi pin 11  tag ~3 V
 BCM GPIO27  Pi pin 13  3× relé: RESET_N + DD + DC
 BCM GPIO21  Pi pin 40  CC Debugger USB +5 V (ne GND)
+BCM GPIO20  Pi pin 38  TWN4 USB +5 V (ne tag, ne USB data)
 
 dl / GPIO LOW  = cívka ON  = NO sepne  = spojeno
 dh / GPIO HIGH = cívka OFF = NO otevře = odpojeno
@@ -123,9 +124,11 @@ Trvale spojené:
 - DVDD → debugger pin 2 (TVCC sense)
 - debugger pin 9 (3V3) **nepřipojený**
 
-Fail-safe idle = **17, 27 i 21 `dh`**: tag off, debug odříznutý, USB debugger bez 5 V.
+Fail-safe idle = **17, 27, 21 i 20 `dh`**: tag off, debug odříznutý, debugger USB i TWN4 USB bez 5 V.
 
-Programátor (`ov26-relays.sh attach`):
+**GPIO20 TWN4** (`ov26-relays.sh twn4-on` / `twn4-off`): stejné NO active-low. `dl` = čtečka ON (RF), `dh` = OFF. NFC test: tag 3 V první, potom TWN4 USB, čekat `09d8:0420` / `/dev/ttyACM0`. `attach` TWN4 nespíná. **OVĚŘENO** 2026-08-29 `ov26-hw-inventory.sh`: idle 20 hi → `twn4-on` `09d8:0420`+`ttyACM0` → `twn4-off` USB pryč.
+
+Programátor (`ov26-relays.sh attach` / `reconnect`):
 
 ```text
 GPIO17 ON → GPIO27 ON → GPIO21 OFF 1 s → GPIO21 ON
@@ -133,8 +136,11 @@ GPIO17 ON → GPIO27 ON → GPIO21 OFF 1 s → GPIO21 ON
 
 USB se musí enumerovat **až když** tag má 3 V a DD/DC/RESET jsou spojené. Jinak červená LED a `No target`. Zelená LED = debugger vidí TVCC.
 
+**Nikdy `usb-on` samo** po recap/idle, který nechal GPIO27 `dh`. `usb-on` teď odmítne, pokud 17 nebo 27 nejsou ON, a jinak provede USB cyklus (21 off 1 s, pak on). Znovuzapojení = `attach` / `reconnect`.
+
 Software na Pi:
-- boot: `ov26-relays-idle.service` → idle všech tří pinů
+- boot: `ov26-relays-idle.service` → idle všech čtyř pinů
+- `ov26-relays-guard.timer` každé 2 s: vstup → `op dh`
 - `ov26-relays-guard.timer` každé 2 s: vstup → `op dh`
 - skripty **nikdy** nedávají GPIO do `ip`
 

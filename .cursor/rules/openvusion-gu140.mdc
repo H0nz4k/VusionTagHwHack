@@ -13,7 +13,8 @@ Klíčové zásady:
 - GPIO17: `dl = TAG ON`, `dh = TAG OFF`.
 - GPIO27: `dl = RESET/DD/DC spojené`, `dh = odříznuté`.
 - GPIO21: `dl = debugger USB +5 V ON`, `dh = OFF`.
-- Programátor: `ov26-relays.sh attach` (3 V + linky, pak USB cyklus).
+- GPIO20: `dl = TWN4 USB +5 V ON`, `dh = OFF`.
+- Programátor: `ov26-relays.sh attach` (3 V + linky, pak USB cyklus). TWN4: `twn4-on` až po tag 3 V.
 - Každý hardware test musí být bounded, s timeoutem.
 - Žádné nekonečné experimentální smyčky.
 - Všechny dokončené experimenty dokumentuj a commituj.
