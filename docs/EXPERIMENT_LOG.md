@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-026 — Phase E command 0x00 + data 0x0E
+
+**Status:** PASS UART/TX / INCONCLUSIVE CoG BUSY ACK
+
+Isolated. `TX0=01` `TX1=01`, MCU žije, P0_2 čistý, CS HIGH. P1_3 zůstal 1 (SAW0=00). Detail `docs/experiments/EXP-026.md`. Další: ne `0x12`; vyhodnotit před min init.
+
+---
+
 ### EXP-20260828-025 — Phase D SPI idle (USART0 Alt1)
 
 **Status:** PASS (konfigurace bezpečná; MOSI/SCLK mapa ne OVĚŘENO)

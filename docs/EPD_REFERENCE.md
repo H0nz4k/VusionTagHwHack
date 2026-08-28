@@ -150,7 +150,7 @@ Každá vrstva = jeden HIL test. **Bez konzistentního výsledku nepokračuj.** 
 | B | PWR only | P0_0 OFF→ON; bez RESET/SPI | MCU žije; log PWR+BUSY; žádný reset storm |
 | C | RESET H-L-H + BUSY | po PWR ON: P2_0 1→0→1; P1_3 vzorkovat | EXP-024 PASS MCU; P1_3 0→1 po H2 (silná evidence BUSY, identita ne OVĚŘENO) |
 | D | SPI idle / clock | USART0 Alt1, CS=1, P0_3/P0_5 periferní, **žádný byte** | EXP-025 PASS config; P0SEL=28, P0_2 DIR/SEL=0, CS=1; mapa MOSI/SCLK ne OVĚŘENO |
-| E | command `0x00` + data `0x0E` | soft-reset, wait BUSY s timeoutem | UART dokončí command; žádný 3× stejný timeout/storm |
+| E | command `0x00` + data `0x0E` | soft-reset, wait BUSY s timeoutem | EXP-026 PASS TX/UART; P1_3 zůstal 1 (CoG ACK INCONCLUSIVE) |
 | F | minimal reference init | GU-small non-4.2: E5=19, E0=02, PSR CF 8D | init doběhne; BUSY timeout ok |
 | G | blank framebuffer load | `0x10` / `0x13` prázdné roviny, **ne** `0x12` | load doběhne |
 | H | `0x12` refresh | první blank refresh | vizuální update **nebo** konzistentní BUSY průběh + UART DONE |

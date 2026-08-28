@@ -6,9 +6,9 @@
 
 ## Now
 
-EXP-025 Phase D **PASS** (SPI idle config safe). MOSI/SCLK pin map stále REFERENCE.
+EXP-026 Phase E **PASS** (UART/TX) / **INCONCLUSIVE** (BUSY po `0x00`/`0x0E` se nezměnil).
 
-Další: EXP-026 `0x00` + `0x0E`. Žádný refresh / framebuffer.
+Další: ne `0x12`. Vyhodnotit před EXP-F min init.
 
 ## Pin map (REFERENCE, not OVĚŘENO identity)
 
@@ -18,8 +18,6 @@ P1_2 DC   P1_3 BUSY  P2_0 RESET
 P0_2 input/untouched
 ```
 
-EXP-025: P0SEL bits 3+5, CS HIGH, P0_2 DIR/SEL=0. P1_3 po wait HIGH.
-
 ## Ladder
 
 | Step | EXP | Result |
@@ -28,7 +26,7 @@ EXP-025: P0SEL bits 3+5, CS HIGH, P0_2 DIR/SEL=0. P1_3 po wait HIGH.
 | B PWR only | 023 | PASS MCU / INCONCLUSIVE CoG power |
 | C RESET H-L-H | 024 | PASS MCU; P1_3 0→1 po H2; no storm |
 | D SPI idle | 025 | PASS config; map ne OVĚŘENO |
-| E 0x00/0x0E | — | next |
+| E 0x00/0x0E | 026 | PASS TX; BUSY stayed 1 |
 | F min init | — | |
 | G blank FB | — | |
 | H 0x12 refresh | — | |

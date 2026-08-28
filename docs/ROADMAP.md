@@ -36,7 +36,7 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [x] EXP-B PWR only
 - [x] EXP-C RESET H-L-H + BUSY (EXP-024; P2_0 isolated no storm; P1_3 0→1)
 - [x] EXP-D SPI idle / clock (P0_3/P0_5, ne P0_2)
-- [ ] EXP-E command 0x00 + data 0x0E
+- [x] EXP-E command 0x00 + data 0x0E (TX OK; BUSY ACK INCONCLUSIVE)
 - [ ] EXP-F minimal reference init
 - [ ] EXP-G blank framebuffer load
 - [ ] EXP-H 0x12 refresh
