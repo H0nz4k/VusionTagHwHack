@@ -1,0 +1,9 @@
+{
+  "spi_bus": 0,
+  "spi_dev": 0,
+  "gdo0_bcm": null,
+  "gdo2_bcm": null,
+  "reset_bcm": null,
+  "spi_hz": 1000000,
+  "_comment": "Fill BCM numbers only after measuring the Click/Pi wiring. null = unused."
+}
