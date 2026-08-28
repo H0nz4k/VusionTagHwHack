@@ -6,9 +6,9 @@
 
 ## Now
 
-EXP-024 Phase 3 **PASS** (MCU/UART) / **STRONG EVIDENCE** (P1_3 0→1 po H-L-H).
+EXP-025 Phase D **PASS** (SPI idle config safe). MOSI/SCLK pin map stále REFERENCE.
 
-**Ne SPI.** Vyhodnotit EXP-024 před EXP-D (USART0 Alt1 idle).
+Další: EXP-026 `0x00` + `0x0E`. Žádný refresh / framebuffer.
 
 ## Pin map (REFERENCE, not OVĚŘENO identity)
 
@@ -18,7 +18,7 @@ P1_2 DC   P1_3 BUSY  P2_0 RESET
 P0_2 input/untouched
 ```
 
-P1_3 po isolated H-L-H: 0→1. Silná evidence kandidáta BUSY, polarita/command ještě ne.
+EXP-025: P0SEL bits 3+5, CS HIGH, P0_2 DIR/SEL=0. P1_3 po wait HIGH.
 
 ## Ladder
 
@@ -27,8 +27,8 @@ P1_3 po isolated H-L-H: 0→1. Silná evidence kandidáta BUSY, polarita/command
 | A passive BUSY | 022 | PASS MCU / INCONCLUSIVE identity |
 | B PWR only | 023 | PASS MCU / INCONCLUSIVE CoG power |
 | C RESET H-L-H | 024 | PASS MCU; P1_3 0→1 po H2; no storm |
-| D SPI idle | — | blocked until EXP-024 eval |
-| E 0x00/0x0E | — | |
+| D SPI idle | 025 | PASS config; map ne OVĚŘENO |
+| E 0x00/0x0E | — | next |
 | F min init | — | |
 | G blank FB | — | |
 | H 0x12 refresh | — | |

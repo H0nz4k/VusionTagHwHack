@@ -121,13 +121,14 @@ MCU žádný z těchto kroků neshodil.
 
 Identita „EPD BUSY / EPD POWER / EPD RESET“ z těchto debugger-attached testů zůstává **HYPOTÉZA**.
 
-### Isolated (EXP-022..024, GPIO27+21 dh)
+### Isolated (EXP-022..025, GPIO27+21 dh)
 
 - EXP-022: P1_3 staticky `0`, žádný EPD drive, MCU žije
 - EXP-023: P0_0 OFF→ON→OFF, P1_3 stále `0`, MCU žije
 - EXP-024: P0_0=0 + P2_0 H-L-H, MCU žije. P1_3 = `0` před/během pulzu, `1` ihned po RST H2 a po celý heartbeat
+- EXP-025: USART0 Alt1 idle. POST `P0SEL=28` `P0DIR=2B` `U0CSR=00`. P0_2 SEL/DIR=0, CS=1, žádný byte, P1_3=1, MCU žije
 
-P1_3 **reaguje na EPD reset po PWR ON** (silná evidence kandidáta BUSY). Polarita a command-BUSY nejsou OVĚŘENO.
+P1_3 **reaguje na EPD reset po PWR ON** (silná evidence kandidáta BUSY). Polarita a command-BUSY nejsou OVĚŘENO. MOSI/SCLK fyzické mapování není OVĚŘENO.
 
 ## NEJISTÉ MĚŘENÍ
 

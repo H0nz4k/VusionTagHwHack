@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-025 — Phase D SPI idle (USART0 Alt1)
+
+**Status:** PASS (konfigurace bezpečná; MOSI/SCLK mapa ne OVĚŘENO)
+
+Isolated. PWR ON, H-L-H, WAIT OK n=01 BUSY=1. POST `P0SEL=28` `P0DIR=2B` `U0CSR=00` `U0GCR=31`. P0_2 SEL/DIR=0, CS=1, žádný byte, HB 00–17. Detail `docs/experiments/EXP-025.md`. Další: EXP-026 `0x00`/`0x0E`.
+
+---
+
 ### EXP-20260828-024 — Phase 3 PWR ON + P2_0 H-L-H
 
 **Status:** PASS MCU/UART / STRONG EVIDENCE P1_3 kandidát BUSY
