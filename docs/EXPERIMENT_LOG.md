@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-045 — NFC-C FD + LED vs TWN4
+
+**Status:** PASS firmware / FAIL proximity (hits=0)
+
+`v0.7a_nfc_fd_led`. FD idle=1, LED off. `field-watch` běží. Čtečka teď tag nevidí. `docs/experiments/EXP-045.md`. TAG OFF.
+
+---
+
 ### EXP-20260828-044 — NFC-B STOP+START before 0xAB
 
 **Status:** FAIL (ACKAB=00)

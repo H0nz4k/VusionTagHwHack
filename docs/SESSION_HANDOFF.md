@@ -3,9 +3,7 @@
 ## Current firmware
 
 ```text
-v0.6e_nfc_sess2 — last flash (EXP-044). ACKAA=01 ACKFE=01 ACKAB=00
-v0.6b_nfc_ack0 — last NFC-A PASS (EXP-040 ACK0=01)
-v0.5c_rf_rxrssi — last UART-PASS RF image
+v0.7a_nfc_fd_led — FD+LED demo on DEV (EXP-045). Debugger isolated at runtime.
 ```
 
 TAG OFF, debug isolated.
@@ -18,10 +16,12 @@ TWN4: `/dev/ttyACM0` (never `/dev/ttyUSB0`). `hw` is in `dialout`.
 
 ```text
 PYTHONPATH=tools/ElaTool/src python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 reader-info
-PYTHONPATH=tools/ElaTool/src python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 --wait 8 probe
+PYTHONPATH=tools/ElaTool/src python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 field-watch --wait 60
 ```
 
 MCU I2C **OVĚŘENO**: P0_4 SDA, P0_6 SCL, 8-bit addr 0xAA ACK. P1_0 not needed for ACK.
+
+P1_1 FD idle HIGH without RF **OVĚŘENO** (EXP-045). LED pair P2_1+P2_2 off without field. Proximity blink needs TWN4 antenna on the tag (`in_field` was 0 at bench rest pose).
 
 Session read **not** working: 0xAB NACK after both repeated-start and STOP+START. Do not PTHRU/SRAM until ACKAB=1.
 

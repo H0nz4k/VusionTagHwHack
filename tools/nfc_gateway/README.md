@@ -1,7 +1,13 @@
 # ovh-nfc
 
+TWN4 = `/dev/ttyACM0`. Never `--port /dev/ttyUSB0` (tag UART).
+
 ```text
-PYTHONPATH=tools/ElaTool/src python tools/nfc_gateway/cli.py probe --port /dev/ttyACM0 --wait 8
+python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 reader-info
+python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 --wait 8 probe
+python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 field-watch --wait 45
 ```
 
-Never `--port /dev/ttyUSB0` (tag UART). TWN4 = `/dev/ttyACM0`.
+`field-watch` keeps HF field on and prints `in_field` / UID until `--wait` seconds. Tag firmware `v0.7a_nfc_fd_led` blinks the LED pair (RGB+white, P2_1+P2_2) while P1_1 FD is low.
+
+Debugger must be isolated (GPIO27/21 OFF) so P2_1/P2_2 are free for LED.

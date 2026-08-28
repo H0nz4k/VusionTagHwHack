@@ -94,6 +94,51 @@ def cmd_probe(args) -> int:
     return 0 if rec.get("ntag_i2c_plus_1k") else 4
 
 
+def cmd_field_watch(args) -> int:
+    """Hold TWN4 RF and report ISO14443 presence. Bounded by --wait. Never ttyUSB0."""
+    from elatec_uid_tool.protocol import ElatecError, SimpleProtocolClient
+
+    port = _port(args)
+    hits = 0
+    last = None
+    try:
+        with SimpleProtocolClient(port, timeout=args.timeout) as client:
+            info = client.read_info()
+            print(
+                json.dumps(
+                    {
+                        "event": "field_watch_start",
+                        "port": port,
+                        "reader": info.version,
+                        "wait_s": args.wait,
+                    }
+                ),
+                flush=True,
+            )
+            client.set_tag_types(info.lf_supported_mask, info.hf_supported_mask)
+            deadline = time.monotonic() + args.wait
+            while time.monotonic() < deadline:
+                tag = client.search_tag()
+                in_field = tag is not None
+                uid = tag.id_hex if tag is not None else None
+                rec = {"event": "field", "in_field": in_field, "uid": uid}
+                if rec != last:
+                    print(json.dumps(rec), flush=True)
+                    last = rec
+                if in_field:
+                    hits += 1
+                time.sleep(0.15)
+            try:
+                client.set_rf_off()
+            except ElatecError:
+                pass
+    except Exception as e:
+        print(json.dumps({"event": "field_watch_error", "error": str(e)}))
+        return 1
+    print(json.dumps({"event": "field_watch_end", "hits": hits}))
+    return 0 if hits else 2
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="ovh-nfc")
     p.add_argument("--port", default=TWN4_DEFAULT)
@@ -104,6 +149,9 @@ def main(argv=None) -> int:
     p_probe = sub.add_parser("probe")
     p_probe.add_argument("--wait", type=float, default=8.0)
     p_probe.set_defaults(func=cmd_probe)
+    p_watch = sub.add_parser("field-watch")
+    p_watch.add_argument("--wait", type=float, default=45.0)
+    p_watch.set_defaults(func=cmd_field_watch)
     args = p.parse_args(argv)
     return int(args.func(args) or 0)
 
