@@ -22,7 +22,7 @@ Host: [`tools/nfc_gateway/`](../../tools/nfc_gateway/README.md) + ElaTool `elate
 | NFC-0 RF UID | 038 | **PASS** UID `04367F5A2D7280` Plus 1K |
 | NFC-A I2C ACK | 040 | **PASS** ACK0=01, bez P1_0 |
 | NFC-B session I2C | 043/044 | FAIL ACKAB=00 |
-| NFC-C FD | | pending |
+| NFC-C FD | 045 | idle FD=1; LED off; field A/B čeká přiložení TWN4 |
 | NFC-D SRAM mailbox | | gated |
 | NFC-E PING | | pending |
 | NFC-F SHOW_DEMO | | pending |

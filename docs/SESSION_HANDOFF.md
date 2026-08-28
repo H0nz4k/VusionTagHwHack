@@ -31,8 +31,8 @@ Isolated flash (`cc-tool` then immediate `cat`) often high-bit garbage. Recaptur
 
 ## Next exact step
 
-New analysis for I2C **read** (not a third identical 0xAB attempt): slower SCL, Sr with SCL held low then SDA rise/fall, or TWN4 physically away so RF cannot lock I2C. Then NFC-C FD only after session bytes look like NT3H2111 (not FF×8).
+Human: TAG ON, debug OFF, `field-watch --wait 60`, přiložit TWN4 na anténu ESL. Čekat `in_field true` a blikání (RGB+bílá). Když UID je a LED tma → invertovat FD polaritu.
 
-Do not tag `milestone/nfc-mailbox` yet. I2C ACK proof is EXP-040.
+I2C read 0xAB NACK je oddělený problém (ne poloha čtečky).
 
-Milestones unchanged: display-* + uart-stable + epd-first-refresh.
+Do not tag `milestone/nfc-mailbox` yet.
