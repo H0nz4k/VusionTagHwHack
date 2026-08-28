@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-031 B/W/R kalibrace **PASS UART**, obraz na panelu, TAG OFF. Čeká lidské: která třetina je červená. `v0.4i_stripes` zachován.
+EXP-032 native 19 B/row B/W/R **PASS UART**, TAG OFF. Čeká vizuál: tři souvislé pásy a sytost červené.
 
 ## Ladder
 
@@ -21,4 +21,5 @@ EXP-031 B/W/R kalibrace **PASS UART**, obraz na panelu, TAG OFF. Čeká lidské:
 | G blank FB | 028 | PASS 15F8+15F8 |
 | H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |
 | I B/W stripes | 030 | **OVĚŘENO vizuálně** — vlastní B/W pruhy na panelu |
-| J B/W/R cal | 031 | PASS UART; vizuál červená čeká člověka |
+| J B/W/R cal | 031 | diagonály + kalná červená (stride 37) |
+| K B/W/R 19 B/row | 032 | PASS UART; vizuál čeká |

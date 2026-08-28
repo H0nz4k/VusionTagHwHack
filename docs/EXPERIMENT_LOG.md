@@ -4,9 +4,17 @@ Přidávej nové experimenty nahoru.
 
 ---
 
-### EXP-20260828-031 — B/W/R calibration (official red = 10:0 13:1)
+### EXP-20260828-032 — B/W/R 19 bytes/row
 
 **Status:** PASS UART / vizuál čeká člověka
+
+Jediná změna: native stride 19 B (152/8). Stejné kódování. `docs/experiments/EXP-032.md`. TAG OFF.
+
+---
+
+### EXP-20260828-031 — B/W/R calibration (official red = 10:0 13:1)
+
+**Status:** PASS UART / vizuál: náznak červené, diagonály (špatný stride)
 
 Isolated. Stejný BUSY 1→0→1. Tři pásy + černý marker. Encoding hypotéza: W=00/00 B=FF/00 R=00/FF. `docs/experiments/EXP-031.md`. TAG OFF.
 
