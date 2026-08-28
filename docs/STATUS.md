@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-029 Phase H **PASS UART** + **STRONG EVIDENCE** BUSY refresh cyklu po `0x12` (LOW ~17 HB, pak HIGH). Vizuál čeká člověka. Další: EXP-030 test pattern.
+EXP-030 stripes **PASS UART** + reprodukovaný BUSY 1→0→1. Vizuál čeká člověka. TAG OFF. Milníky: `milestone/epd-first-refresh`, `milestone/display-test-pattern`.
 
 ## Ladder
 
@@ -20,3 +20,4 @@ EXP-029 Phase H **PASS UART** + **STRONG EVIDENCE** BUSY refresh cyklu po `0x12`
 | F min init | 027 | PASS TX |
 | G blank FB | 028 | PASS 15F8+15F8 |
 | H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |
+| I B/W stripes | 030 | PASS UART; stejný BUSY cyklus s vlastními daty |

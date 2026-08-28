@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-030 — vertical B/W stripes + second 0x12
+
+**Status:** PASS UART / STRONG EVIDENCE reprodukovatelný refresh / vizuál čeká člověka
+
+Isolated. Stejný BUSY 1→0 (HB 00–16)→1 jako EXP-029, jiný framebuffer (37 B/řádek, 0x00/0xFF). `docs/experiments/EXP-030.md`. Capture `captures/ov26_exp030_por.bin`. TAG OFF.
+
+---
+
 ### EXP-20260828-029 — Phase H DCDC 0x04 + refresh 0x12
 
 **Status:** PASS UART / STRONG EVIDENCE refresh / vizuál čeká člověka

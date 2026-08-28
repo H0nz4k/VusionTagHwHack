@@ -131,6 +131,7 @@ Identita „EPD BUSY / EPD POWER / EPD RESET“ z těchto debugger-attached test
 - EXP-027: `register_data_sm` TX OK, BUSY HIGH, MCU žije
 - EXP-028: 5624+5624 stream OK (`N10=N13=15F8`)
 - EXP-029: `0x04`/`0x00` + `0x12`/`0x00` TX OK. P1_3 po `0x12`: `1`→`0` na ~17 HB (~15 s)→`1`. **OVĚŘENO** jako smysluplný BUSY refresh cyklus (vizuál panelu čeká člověka)
+- EXP-030: stejný BUSY cyklus s streamovanými 8px pruhy (`0x10` 0x00/0xFF po 37 B, `0x13` 0x00). Reprodukovatelné.
 
 P1_3 **reaguje na EPD reset po PWR ON** a **na command `0x12`**. MOSI/SCLK/DC fyzické mapování stále REFERENCE, ale CoG command path má silnou evidenci.
 
@@ -163,6 +164,5 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. Člověk: je po EXP-029 na panelu vidět změna (e-paper drží bez napájení)?
-2. EXP-030: vlastní pruhy, aby to nebyla náhoda.
-3. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+1. Člověk: jsou na DEV panelu po EXP-030 vidět svislé černé/bílé pruhy?
+2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).

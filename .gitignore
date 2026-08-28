@@ -31,3 +31,6 @@ docs/ref_balhar/*.py
 # Remote tree archives
 firmware/**/*.zip
 firmware/*.zip
+
+# EasyEDA GL340 net dump (third-party paste, not our analysis)
+docs/ref_gl340_savefile.txt

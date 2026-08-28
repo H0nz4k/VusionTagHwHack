@@ -34,3 +34,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp027_por.bin` | EXP-027 v0.4f minimal init register_data_sm |
 | `ov26_exp028_por.bin` | EXP-028 v0.4g 5624+5624 white planes |
 | `ov26_exp029_por.bin` | EXP-029 v0.4h DCDC+0x12; BUSY LOW then HIGH |
+| `ov26_exp030_por.bin` | EXP-030 v0.4i 8px B/W stripes + 0x12; same BUSY cycle |
