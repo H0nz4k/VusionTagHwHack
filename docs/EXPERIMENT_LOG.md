@@ -6,15 +6,15 @@ Přidávej nové experimenty nahoru.
 
 ### EXP-20260828-030 — vertical B/W stripes + second 0x12
 
-**Status:** PASS UART / STRONG EVIDENCE reprodukovatelný refresh / vizuál čeká člověka
+**Status:** PASS UART + **OVĚŘENO vizuálně**
 
-Isolated. Stejný BUSY 1→0 (HB 00–16)→1 jako EXP-029, jiný framebuffer (37 B/řádek, 0x00/0xFF). `docs/experiments/EXP-030.md`. Capture `captures/ov26_exp030_por.bin`. TAG OFF.
+Isolated. Stejný BUSY 1→0 (HB 00–16)→1 jako EXP-029, jiný framebuffer (37 B/řádek, 0x00/0xFF). Lidská fotka: celý panel vlastní B/W pruhy. `docs/experiments/EXP-030.md`. `captures/ov26_exp030_por.bin`, `captures/ov26_exp030_visual.png`. TAG OFF.
 
 ---
 
 ### EXP-20260828-029 — Phase H DCDC 0x04 + refresh 0x12
 
-**Status:** PASS UART / STRONG EVIDENCE refresh / vizuál čeká člověka
+**Status:** PASS UART / STRONG EVIDENCE refresh; vizuál potvrzen navazujícím EXP-030
 
 Isolated. INIT/N10/N13/DCDC/REF=01. Po `0x12` P1_3: 1→0 (HB 00–16)→1 (HB 17+). Žádný storm. `docs/experiments/EXP-029.md`. Capture `captures/ov26_exp029_por.bin`. TAG OFF.
 

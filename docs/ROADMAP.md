@@ -39,11 +39,11 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [x] EXP-E command 0x00 + data 0x0E (TX OK; BUSY ACK INCONCLUSIVE)
 - [x] EXP-F minimal reference init
 - [x] EXP-G blank framebuffer load
-- [x] EXP-H 0x12 refresh (EXP-029 UART+BUSY cycle; vizuál čeká člověka)
+- [x] EXP-H 0x12 refresh (EXP-029 UART+BUSY; vizuál EXP-030)
 - [x] B/W stripes second refresh (EXP-030; stejný BUSY cyklus)
 
 ## Phase 4 — EPD graphics
-- [x] B/W pattern (EXP-030 streamované pruhy + 0x12; vizuál čeká člověka)
+- [x] B/W pattern (EXP-030 **OVĚŘENO vizuálně**)
 - [ ] red plane
 - [ ] full B/W/R test pattern
 - [ ] reusable driver abstraction

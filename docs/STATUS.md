@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-030 stripes **PASS UART** + reprodukovaný BUSY 1→0→1. Vizuál čeká člověka. TAG OFF. Milníky: `milestone/epd-first-refresh`, `milestone/display-test-pattern`.
+**OVĚŘENO vizuálně:** DEV panel ukazuje vlastní B/W pruhy (EXP-030). `milestone/epd-first-refresh` + `milestone/display-test-pattern`. TAG OFF.
 
 ## Ladder
 
@@ -20,4 +20,4 @@ EXP-030 stripes **PASS UART** + reprodukovaný BUSY 1→0→1. Vizuál čeká č
 | F min init | 027 | PASS TX |
 | G blank FB | 028 | PASS 15F8+15F8 |
 | H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |
-| I B/W stripes | 030 | PASS UART; stejný BUSY cyklus s vlastními daty |
+| I B/W stripes | 030 | **OVĚŘENO vizuálně** — vlastní B/W pruhy na panelu |
