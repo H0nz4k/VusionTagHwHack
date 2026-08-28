@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-027 Phase F **PASS**. Další EXP-028 framebuffer.
+EXP-028 Phase G **PASS** (5624+5624). Další EXP-029 DCDC+0x12.
 
 ## Ladder
 
@@ -18,5 +18,5 @@ EXP-027 Phase F **PASS**. Další EXP-028 framebuffer.
 | D SPI idle | 025 | PASS config; map ne OVĚŘENO |
 | E 0x00/0x0E | 026 | PASS TX; BUSY stayed 1 |
 | F min init | 027 | PASS TX |
-| G blank FB | — | next |
-| H 0x12 refresh | — | |
+| G blank FB | 028 | PASS 15F8+15F8 |
+| H 0x12 refresh | — | next |

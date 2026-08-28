@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-028 — Phase G framebuffer 5624+5624
+
+**Status:** PASS
+
+Isolated. INIT=01, N10=N13=15F8, BUSY=1. White FF/00 dle Pervasive BWR demo. `docs/experiments/EXP-028.md`.
+
+---
+
 ### EXP-20260828-027 — Phase F minimal init register_data_sm
 
 **Status:** PASS UART/TX
