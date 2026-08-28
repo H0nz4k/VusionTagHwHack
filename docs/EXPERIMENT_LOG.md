@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-027 — Phase F minimal init register_data_sm
+
+**Status:** PASS UART/TX
+
+Isolated. SR/E5/E0/PSR =01, BUSY=1, MCU žije. První obraz UART garbage (helpers); flatten jako v0.4e. `docs/experiments/EXP-027.md`.
+
+---
+
 ### EXP-20260828-026 — Phase E command 0x00 + data 0x0E
 
 **Status:** PASS UART/TX / INCONCLUSIVE CoG BUSY ACK
