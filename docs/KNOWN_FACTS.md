@@ -134,7 +134,12 @@ Identita „EPD BUSY / EPD POWER / EPD RESET“ z těchto debugger-attached test
 - EXP-030: stejný BUSY cyklus s streamovanými 8px pruhy (`0x10` 0x00/0xFF po 37 B, `0x13` 0x00)
 - **Lidská fotka EXP-030:** celý aktivní panel vlastní B/W pruhy. First-refresh GPIO sada (P0_0 PWR, P2_0 RESET, P0_1 CS, P1_2 DC, P0_3 MOSI, P0_5 SCLK, P1_3 BUSY) jako celek **OVĚŘENO** řídí E2266JS0C2. Jednotlivé piny bez A/B continuity pořád z GL340 mapy.
 
-P1_3 **reaguje na EPD reset po PWR ON** a **na command `0x12`**. Vlastní framebuffer je na skle vidět.
+- EXP-032: native 19 B/row. Lidská fotka: **BLACK \| WHITE \| RED** + černý marker v bílé. Encoding **OVĚŘENO**:
+  - WHITE = plane10 0, plane13 0
+  - BLACK = plane10 1, plane13 0
+  - RED   = plane10 0, plane13 1
+
+P1_3 **reaguje na EPD reset po PWR ON** a **na command `0x12`**. Vlastní framebuffer včetně červené roviny je na skle vidět.
 
 ## NEJISTÉ MĚŘENÍ
 
@@ -165,5 +170,5 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. Člověk EXP-032: tři souvislé pásy? sytá červená? marker?
+1. Člověk EXP-033: černé OpenVusion, červené Hack, bílé pozadí?
 2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).

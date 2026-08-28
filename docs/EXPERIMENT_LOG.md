@@ -4,9 +4,17 @@ Přidávej nové experimenty nahoru.
 
 ---
 
-### EXP-20260828-032 — B/W/R 19 bytes/row
+### EXP-20260828-033 — OpenVusionHack first content
 
 **Status:** PASS UART / vizuál čeká člověka
+
+Offline 152×296 BWR bitmap, stejný CoG flow. `docs/experiments/EXP-033.md`. TAG OFF.
+
+---
+
+### EXP-20260828-032 — B/W/R 19 bytes/row
+
+**Status:** PASS UART + **OVĚŘENO vizuálně** (BLACK \| WHITE \| RED + marker)
 
 Jediná změna: native stride 19 B (152/8). Stejné kódování. `docs/experiments/EXP-032.md`. TAG OFF.
 

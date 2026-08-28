@@ -34,3 +34,6 @@ firmware/*.zip
 
 # EasyEDA GL340 net dump (third-party paste, not our analysis)
 docs/ref_gl340_savefile.txt
+
+# Generated local previews (canonical copy lives in captures/)
+firmware/**/preview.png

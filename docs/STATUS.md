@@ -6,7 +6,7 @@
 
 ## Now
 
-EXP-032 native 19 B/row B/W/R **PASS UART**, TAG OFF. Čeká vizuál: tři souvislé pásy a sytost červené.
+EXP-033 OpenVusionHack **PASS UART**, TAG OFF. Čeká vizuál textu. BWR encoding **OVĚŘENO**. `milestone/display-bwr`. `v0.4k_bwr_19` baseline.
 
 ## Ladder
 
@@ -22,4 +22,5 @@ EXP-032 native 19 B/row B/W/R **PASS UART**, TAG OFF. Čeká vizuál: tři souvi
 | H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |
 | I B/W stripes | 030 | **OVĚŘENO vizuálně** — vlastní B/W pruhy na panelu |
 | J B/W/R cal | 031 | diagonály + kalná červená (stride 37) |
-| K B/W/R 19 B/row | 032 | PASS UART; vizuál čeká |
+| K B/W/R 19 B/row | 032 | **OVĚŘENO** BLACK\|WHITE\|RED + marker |
+| L OpenVusionHack | 033 | PASS UART; vizuál čeká |

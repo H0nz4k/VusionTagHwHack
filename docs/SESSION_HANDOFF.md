@@ -3,21 +3,22 @@
 ## Current firmware
 
 ```text
-v0.4k_bwr_19 — EXP-032 na DEV tagu, TAG OFF (idle)
+v0.4l_ovhack — EXP-033 OpenVusionHack na DEV tagu, TAG OFF (idle)
 ```
 
-`v0.4i_stripes` a `v0.4j_bwr_cal` zachovány.
+Known-good BWR baseline (neměnit): `v0.4k_bwr_19`.
 
-## EPD
-
-EXP-031 vizuál: náznak červené, **ne** sytá; diagonální stupňovité pruhy. Příčina: 37 B/řádek místo native **19 B** (Pervasive 2.66" H=152).
-
-EXP-032: stejné kódování, 19 B/row, tři pásy + marker. UART PASS, stejn ý BUSY cyklus.
+## Encoding (OVĚŘENO EXP-032)
 
 ```text
 WHITE = plane10 0, plane13 0
 BLACK = plane10 1, plane13 0
 RED   = plane10 0, plane13 1
+native row = 19 bytes (152 px), 296 rows, 5624 B/plane
 ```
 
-**Lidská otázka:** Jsou na panelu tři souvislé oblasti (ne diagonály)? Je červená sytá jako stock? Je vidět černý marker?
+Milníky: `milestone/epd-first-refresh`, `milestone/display-test-pattern`, `milestone/display-bwr`.
+
+EXP-033: offline bitmap OpenVusion (černá) + Hack (červená). UART PASS. Náhled `captures/ov26_exp033_preview.png`.
+
+**Lidská otázka:** Je na panelu černé OpenVusion, červené Hack, bílé pozadí?

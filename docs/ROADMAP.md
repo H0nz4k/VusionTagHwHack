@@ -44,9 +44,10 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 
 ## Phase 4 — EPD graphics
 - [x] B/W pattern (EXP-030 **OVĚŘENO vizuálně**)
-- [ ] red plane (EXP-031 kalibrace na panelu, vizuál čeká)
+- [x] red plane (EXP-032 **OVĚŘENO vizuálně** BLACK/WHITE/RED)
 - [ ] full B/W/R test pattern
 - [ ] reusable driver abstraction
+- [ ] first content OpenVusionHack (EXP-033 na panelu, vizuál čeká)
 
 ## Phase 5 — External flash
 - [ ] identify

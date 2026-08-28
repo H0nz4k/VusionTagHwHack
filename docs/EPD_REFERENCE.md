@@ -169,3 +169,15 @@ Starší EXP-003..006 **nenahrazují** A–C. Byly za jiného debugger/RESET_N r
 Než EXP-H `0x12`: EXP-A…G musí mít konzistentní PASS (ne 3× stejná failure signature).
 
 `P1_3 == 1` samo o sobě **není** potvrzení BUSY. EXP-024: přechod **0→1 vázaný na uvolnění P2_0** po PWR ON. EXP-029: po `0x12` **1→0 (~15 s)→1**. EXP-030: lidská fotka vlastních B/W pruhů — first-refresh GPIO sada jako celek **OVĚŘENO**.
+
+## B/W/R encoding (OVĚŘENO EXP-032)
+
+Native framebuffer: **152 px × 296 řádků**, 19 B/řádek, 5624 B/rovinu. (Pervasive `_screenSizeH=152`, `_screenSizeV=296`. 37 B/řádek = diagonály, EXP-031.)
+
+```text
+WHITE = plane10 0, plane13 0
+BLACK = plane10 1, plane13 0
+RED   = plane10 0, plane13 1
+```
+
+MSB first v bytu = levý pixel. `milestone/display-bwr`. `v0.4k_bwr_19` = baseline.
