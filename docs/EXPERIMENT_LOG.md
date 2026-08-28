@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-046 — 1 Hz LED while TWN4 in range
+
+**Status:** PASS UART idle; blink rate čeká člověka
+
+`v0.7b_nfc_fd_1hz`. Sticky FD poll, 0.5 s on/off. Isolated UART PASS. TAG ON for `field-watch`. `docs/experiments/EXP-046.md`.
+
+---
+
 ### EXP-20260828-045 — NFC-C FD + LED vs TWN4
 
 **Status:** PASS firmware / FAIL proximity (hits=0)
