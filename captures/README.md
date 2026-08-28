@@ -36,3 +36,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp029_por.bin` | EXP-029 v0.4h DCDC+0x12; BUSY LOW then HIGH |
 | `ov26_exp030_por.bin` | EXP-030 v0.4i 8px B/W stripes + 0x12; same BUSY cycle |
 | `ov26_exp030_visual.png` | EXP-030 lidská fotka: vlastní B/W pruhy na DEV panelu |
+| `ov26_exp031_por.bin` | EXP-031 v0.4j B/W/R calibration + 0x12 |

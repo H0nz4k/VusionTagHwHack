@@ -6,7 +6,7 @@
 
 ## Now
 
-**OVĚŘENO vizuálně:** DEV panel ukazuje vlastní B/W pruhy (EXP-030). `milestone/epd-first-refresh` + `milestone/display-test-pattern`. TAG OFF.
+EXP-031 B/W/R kalibrace **PASS UART**, obraz na panelu, TAG OFF. Čeká lidské: která třetina je červená. `v0.4i_stripes` zachován.
 
 ## Ladder
 
@@ -21,3 +21,4 @@
 | G blank FB | 028 | PASS 15F8+15F8 |
 | H 0x12 refresh | 029 | PASS UART; BUSY 1→0→1 po 0x12 (~15 s LOW) |
 | I B/W stripes | 030 | **OVĚŘENO vizuálně** — vlastní B/W pruhy na panelu |
+| J B/W/R cal | 031 | PASS UART; vizuál červená čeká člověka |

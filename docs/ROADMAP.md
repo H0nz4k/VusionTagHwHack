@@ -44,7 +44,7 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 
 ## Phase 4 — EPD graphics
 - [x] B/W pattern (EXP-030 **OVĚŘENO vizuálně**)
-- [ ] red plane
+- [ ] red plane (EXP-031 kalibrace na panelu, vizuál čeká)
 - [ ] full B/W/R test pattern
 - [ ] reusable driver abstraction
 

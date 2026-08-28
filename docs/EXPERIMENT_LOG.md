@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-031 — B/W/R calibration (official red = 10:0 13:1)
+
+**Status:** PASS UART / vizuál čeká člověka
+
+Isolated. Stejný BUSY 1→0→1. Tři pásy + černý marker. Encoding hypotéza: W=00/00 B=FF/00 R=00/FF. `docs/experiments/EXP-031.md`. TAG OFF.
+
+---
+
 ### EXP-20260828-030 — vertical B/W stripes + second 0x12
 
 **Status:** PASS UART + **OVĚŘENO vizuálně**

@@ -165,5 +165,5 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
-2. Volitelně červená rovina / BWR test pattern.
+1. Člověk EXP-031: která třetina je červená / černá / bílá; marker?
+2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
