@@ -1,4 +1,75 @@
-# Hardware Map
+# Lab bench (OVĚŘENO 2026-08-28)
+
+Fotka sestavy: [`captures/ov26_lab_bench.png`](../captures/ov26_lab_bench.png). Sklo volba 3: [`captures/ov26_exp056_slot3_glass.png`](../captures/ov26_exp056_slot3_glass.png). Paleta volba 2: [`captures/ov26_exp054_slot2_palette_glass.png`](../captures/ov26_exp054_slot2_palette_glass.png).
+
+## Kusovník
+
+| Kus | Role | Poznámka |
+|---|---|---|
+| VUSION 2.6 BWR GU140 | DEV tag | originální FW smazaný; panel Pervasive **E2266JS0C2** 152×296 B/W/R |
+| TI CC2510 (QFN-36) | MCU na tagu | ID `0x2510`; ~3 V (DVDD/AVDD 2.0–3.6 V); DCOUPL ≈ 1.79 V |
+| Raspberry Pi | lab host `vusion-rpi` | user `hw`; firmware `/home/hw/OpenVusion26_FW` |
+| Relé deska (modrá, NO) | napájení a debug linky | active-low: `dl`=ON, `dh`=OFF |
+| TI CC Debugger clone | programátor | USB `0451:16a2`; `cc-tool`; **pin 9 (3.3 V) nepřipojen** |
+| Plochý ribbon + červená breakout deska | debug kabel | GND, TVCC sense, DD, DC, RESET |
+| CP2102 USB-TTL | diagnostický UART | jen GND + RXD; **ne** VCC/3V3/5V/TXD |
+| ELATEC TWN4 | NFC čtečka | USB `09d8:0420`; CDC **`/dev/ttyACM0`** (nikdy `ttyUSB0`) |
+| Manuální páčkový spínač | pomocný cut-off | vedle relé na stole |
+
+## Relé (BCM)
+
+```text
+GPIO17  Pi pin 11  tag ~3 V
+GPIO27  Pi pin 13  RESET_N + DD + DC
+GPIO21  Pi pin 40  debugger USB +5 V
+```
+
+Stock napájení tagu: 2× CR2450 paralelně (~3 V, větší kapacita). Na stole běží tag z relé 3 V větve.
+
+## Debug wiring
+
+```text
+Tag / CC2510              CC Debugger
+AGND                      pin 1 GND
+DVDD                      pin 2 Target Voltage Sense
+DD / P2_1 (pin 15)        pin 4 DD
+DC / P2_2 (pin 16)        pin 3 DC
+RESET_N (pin 31)          pin 7 RESET
+```
+
+Programátor: nejdřív tag 3 V + debug linky, teprve pak USB +5 V (GPIO21), ať enumeruje se zelenou LED / TVCC.
+
+## UART
+
+```text
+CC2510 pin 33 / P1_6  →  CP2102 RXD
+GND                   →  CP2102 GND
+115200 8N1, USART1 Alternative 2
+/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0
+```
+
+P0_3 není UART (EPD MOSI). Runtime testy s odpojeným debuggerem (GPIO27+21 `dh`).
+
+## NFC cesta (SHOW)
+
+```text
+TWN4 /dev/ttyACM0
+  → ISO14443-A WRITE page 0x30  ("OVH" + 1..4)
+  → NTAG I²C Plus 1K  UID 04367F5A2D7280
+  → I2C 0xAA  SDA P0_4 / SCL P0_6  block 0x0C
+  → CC2510  →  EPD CoG (v0.4k/v0.4l)
+```
+
+## Toolchain na Pi
+
+SDCC 4.2.0 `#13081`, `-mmcs51 -pcc2510fx --model-small --iram-size 256 --xram-loc 0xF000 --xram-size 0xF00 --code-size 32768`. `cc-tool` chce `.hex` (ne `.ihx`).
+
+## Zakázáno bez lidského souhlasu
+
+Stock/golden tag: erase/write/lock. P2_3/P2_4 jako GPIO. Napájení tagu 5 V / 6 V.
+
+---
+
 
 ## CC2510 důležité piny — OVĚŘENO / vysoká jistota
 

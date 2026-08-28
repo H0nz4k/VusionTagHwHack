@@ -7,21 +7,27 @@ Vlastní firmware na elektronickém cenovkovém štítku **VUSION 2.6 BWR GU140*
 **EXP-033 / `milestone/display-first-content` (OVĚŘENO vizuálně):**  
 **OpenVusion** = černá · **Hack** = červená · pozadí = bílá.
 
-**Aktuální NFC SHOW firmware: `v0.10e`** — tři grafiky přes TWN4, postup nahrání na nový DEV tag:
+**Aktuální NFC SHOW firmware: `v0.10g`** (strom `v0.10e_nfc_show3`) — čtyři volby přes TWN4.
 
-→ [`firmware/releases/README.md`](firmware/releases/README.md)
+Lab sestava a kusovník: [`docs/HARDWARE.md`](docs/HARDWARE.md) · fotka [`captures/ov26_lab_bench.png`](captures/ov26_lab_bench.png)  
+Sloty a paleta 01–16: [`docs/nfc/SHOW_SLOTS.md`](docs/nfc/SHOW_SLOTS.md)
 
-```bash
-ssh vusion-rpi
-/home/hw/bin/ov26-flash-show.sh    # erase+write CC2510 (jen DEV)
-/home/hw/bin/ov26-nfc-show.sh      # menu 1/2/3
-```
+![Volba 3 na DEV tagu — Shut up and take my money](captures/ov26_exp056_slot3_glass.png)
 
 | Volba | Grafika |
 |---|---|
 | 1 | OpenVusionHack |
 | 2 | BWR test 01–16 |
 | 3 | Shut up and take my money |
+| 4 | Smazat / bílá |
+
+Postup nahrání na nový DEV tag: [`firmware/releases/README.md`](firmware/releases/README.md)
+
+```bash
+ssh vusion-rpi
+/home/hw/bin/ov26-flash-show.sh    # erase+write CC2510 (jen DEV)
+/home/hw/bin/ov26-nfc-show.sh      # menu 1/2/3/4
+```
 
 
 Offline bitmapa (152×296, dvě 1bpp roviny) streamovaná stejnou CoG sekvencí, která předtím zvládla B/W pruhy a kalibrační BLACK | WHITE | RED.
@@ -105,7 +111,7 @@ captures/          UART dumpy + lidské fotky panelu
 ```
 
 Vzdálený lab: `ssh vusion-rpi` → `/home/hw/OpenVusion26_FW`.  
-Branch: `research/gu140`.
+Branch: `research/nfc-gu140`.
 
 ## Cursor agent (tento adresář)
 

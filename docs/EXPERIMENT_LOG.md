@@ -4,6 +4,22 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-056 — SHOW slot 3 new TagStudio zip
+
+**Status:** flashed DEV; UART **PASS**; glass slot 3 **PASS**
+
+Zip `TAG_Project_2026-08-28_22-28-47`. `su` RLE 10508+3762. `docs/experiments/EXP-056.md`.
+
+---
+
+### EXP-20260828-055 — SHOW slot 4 blank white refresh
+
+**Status:** flashed DEV; UART wait **PASS**; pending human blank glass
+
+Volba 4 = CoG init + obě roviny `0x00` (bílá), bez čtvrté RLE bitmapy. Latch `OVH`+4. `docs/experiments/EXP-055.md`.
+
+---
+
 ### EXP-20260828-054 — Three SHOW slots + Python menu
 
 **Status:** flashed DEV; UART wait PASS; pending human menu glass

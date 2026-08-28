@@ -33,5 +33,5 @@ sudo cc-tool -v read -e -w "$HEX"
 "$RELAYS" tag-off
 sleep 2
 "$RELAYS" tag-on
-echo "v0.10e on tag. Debugger isolated, TAG ON."
+echo "v0.10f SHOW4 on tag. Debugger isolated, TAG ON."
 echo "Show: /home/hw/bin/ov26-nfc-show.sh"

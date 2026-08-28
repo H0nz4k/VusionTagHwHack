@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""TagStudio BIN/C (296x152 A-then-B) -> native 152x296 p10/p13 for SHOW slot 4."""
+"""TagStudio BIN/C (296x152 A-then-B) -> native 152x296 p10/p13 for SHOW slot 3."""
 from __future__ import annotations
 
 import re
 import sys
+import zipfile
 from pathlib import Path
 
 from PIL import Image
@@ -24,6 +25,15 @@ from gen_nfc_show_bwr import (  # noqa: E402
 
 PLANE = 5624
 ROW_A = LAND_W // 8  # 37
+SRC_ZIP = (
+    ROOT
+    / "tools"
+    / "TagStudio"
+    / "testPIC"
+    / "orignal_pic"
+    / "new"
+    / "TAG_Project_2026-08-28_22-28-47.zip"
+)
 SRC_BIN = (
     ROOT
     / "tools"
@@ -37,7 +47,14 @@ SRC_C = SRC_BIN.with_suffix(".c")
 
 
 def load_ab() -> tuple[bytes, bytes]:
-    if SRC_BIN.exists():
+    blob = b""
+    if SRC_ZIP.exists():
+        with zipfile.ZipFile(SRC_ZIP) as zf:
+            names = [n for n in zf.namelist() if n.lower().endswith(".bin")]
+            if not names:
+                raise SystemExit(f"no .bin in {SRC_ZIP}")
+            blob = zf.read(names[0])
+    elif SRC_BIN.exists():
         blob = SRC_BIN.read_bytes()
     else:
         nums = [
@@ -76,16 +93,17 @@ def main() -> None:
     plane_a, plane_b = load_ab()
     land = ab_to_landscape(plane_a, plane_b)
     CAP.mkdir(parents=True, exist_ok=True)
-    land.save(CAP / "ov26_show4_money_landscape.png")
+    land.save(CAP / "ov26_show3_money_landscape.png")
     nat = landscape_to_native(land)
     if nat.size != (NATIVE_W, NATIVE_H):
         raise SystemExit(f"native {nat.size}")
-    nat.save(CAP / "ov26_show4_money_native.png")
+    nat.save(CAP / "ov26_show3_money_native.png")
     p10, p13 = pack_native(nat)
     out = UART / "v0.9d_nfc_show4"
-    write_img_c(out, "TagStudio Shut Up And Take My Money 296x152", p10, p13)
+    write_img_c(out, "TagStudio 2026-08-28_22-28-47 Shut Up 296x152", p10, p13)
     land.save(out / "preview_landscape.png")
     nat.save(out / "preview.png")
+    print("src", SRC_ZIP if SRC_ZIP.exists() else SRC_BIN)
     print("p10 ones", sum(bin(b).count("1") for b in p10), "p13 ones", sum(bin(b).count("1") for b in p13))
     print("ok", out)
 

@@ -1,10 +1,10 @@
-# v0.10e — NFC SHOW (tři grafiky)
+# v0.10f — NFC SHOW (tři grafiky + smazání)
 
 Uložený firmware pro **VUSION 2.6 BWR GU140** / **CC2510**.
 
-Hex: [`v0.10e_nfc_show3.hex`](v0.10e_nfc_show3.hex)  
+Hex: [`v0.10e_nfc_show3.hex`](v0.10e_nfc_show3.hex) (build target stejný, banner **EXP-056 v0.10g SHOW4**)  
 Zdroj: `firmware/OpenVusion26_GU140_FW_UART_DIAG/v0.10e_nfc_show3/`  
-ROM: **29364 / 32768 B**
+ROM: **29896 / 32768 B**  
 
 ## Co umí
 
@@ -14,7 +14,8 @@ TWN4 zapíše na NTAG stránku `0x30` čtyři bajty `OVH` + číslo. MCU to pře
 |---|---|
 | 1 | OpenVusionHack |
 | 2 | BWR test (16 políček palety / ditheru) |
-| 3 | Shut up and take my money |
+| 3 | Shut up and take my money (TagStudio `TAG_Project_2026-08-28_22-28-47`) |
+| 4 | Smazat / bílá (prázdný refresh, bez čtvrté bitmapy) |
 
 LED bliká jen při příjmu příkazu. Zhasne = čtečku můžeš sundat. Sklo se kreslí ještě ~15 s.
 
@@ -58,7 +59,7 @@ TWN4 = `/dev/ttyACM0` (ne `ttyUSB0`).
 /home/hw/bin/ov26-nfc-show.sh
 ```
 
-Menu 1 / 2 / 3 / q. Drž čtečku na tagu, dokud LED nezhasne.
+Menu 1 / 2 / 3 / **4 smazat (bílá)** / q. **Až po volbě** přilož čtečku — appka čeká až 45 s.
 
 Nebo rovnou:
 
@@ -66,6 +67,7 @@ Nebo rovnou:
 /home/hw/bin/ov26-nfc-show.sh 1
 /home/hw/bin/ov26-nfc-show.sh 2
 /home/hw/bin/ov26-nfc-show.sh 3
+/home/hw/bin/ov26-nfc-show.sh 4   # smazat / bílá
 ```
 
 ## Build ze zdroje (když hex nemáš)

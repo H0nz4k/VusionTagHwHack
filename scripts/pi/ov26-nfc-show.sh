@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# DEV tag. Interactive SHOW app (1/2/3) or: ov26-nfc-show.sh 2
+# DEV tag. Interactive SHOW app (1/2/3/4) or: ov26-nfc-show.sh 4
 set -euo pipefail
 ROOT=/home/hw/OpenVusion26_FW
 APP="$ROOT/tools/nfc_gateway/show_app.py"
@@ -27,7 +27,7 @@ if [[ "$CHOICE" == "flash" ]]; then
     "$RELAYS" tag-off
     sleep 2
     "$RELAYS" tag-on
-    echo "Flashed v0.10e. TAG ON."
+    echo "Flashed v0.10f SHOW4. TAG ON."
     shift || true
     CHOICE="${1:-}"
 fi
@@ -36,13 +36,14 @@ if [[ -z "${CHOICE:-}" ]]; then
     exec python3 -u "$APP"
 fi
 case "$CHOICE" in
-    1|2|3)
-        echo "Hold TWN4 on the tag. LED blinks = keep it there. LED off = you can leave."
-        python3 "$CLI" --port /dev/ttyACM0 show "$CHOICE" --wait 30
-        echo "If LED is off, walk away. Glass may still update for ~15 s."
+    1|2|3|4)
+        echo "Volba $CHOICE. Přilož TWN4 na tag — čekám až 45 s."
+        echo "LED bliká = držet. LED zhasne = můžeš odejít."
+        python3 -u "$CLI" --port /dev/ttyACM0 show "$CHOICE" --wait 45
+        echo "Pokud LED zhasla, odejdi. Sklo může ještě ~15 s refreshovat."
         ;;
     *)
-        echo "Need 1, 2, 3 or no args for the menu app"
+        echo "Need 1, 2, 3, 4 or no args for the menu app"
         exit 2
         ;;
 esac

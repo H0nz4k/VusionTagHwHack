@@ -10,8 +10,8 @@ extern const unsigned char ovh_rle13[];
 #define TST_RLE13_N 4332u
 extern const unsigned char tst_rle10[];
 extern const unsigned char tst_rle13[];
-#define SU_RLE10_N 10526u
-#define SU_RLE13_N 3342u
+#define SU_RLE10_N 10508u
+#define SU_RLE13_N 3762u
 extern const unsigned char su_rle10[];
 extern const unsigned char su_rle13[];
 #endif

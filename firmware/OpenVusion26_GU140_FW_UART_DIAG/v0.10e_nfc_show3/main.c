@@ -7,7 +7,7 @@
 #include "img_rle.h"
 
 /*
- * EXP-054 / v0.10e — SHOW 1 OpenVusionHack, 2 BWR test 01–16, 3 Shut up.
+ * EXP-056 / v0.10g — SHOW 1–3 plus 4 blank; slot 3 = TagStudio 2026-08-28_22-28-47.
  * CoG/SPI = v0.4k/v0.4l. Debugger isolated. P2_3/P2_4, P0_2 off.
  */
 
@@ -271,7 +271,7 @@ static uint8_t nfc_read_variant(uint8_t *out)
     uart_hex8(b2);
     uart_hex8(b3);
     uart_crlf();
-    if (ack_aa && ack_blk && ack_ab && (b0 == 0x4Fu) && (b1 == 0x56u) && (b2 == 0x48u) && (b3 >= 1u) && (b3 <= 3u)) {
+    if (ack_aa && ack_blk && ack_ab && (b0 == 0x4Fu) && (b1 == 0x56u) && (b2 == 0x48u) && (b3 >= 1u) && (b3 <= 4u)) {
         *out = b3;
         return 1u;
     }
@@ -318,6 +318,29 @@ static uint8_t stream_plane(uint8_t cmd, const unsigned char *rle)
     left = PLANE;
     while (ok && left) {
         if (!spi_tx(rle_byte())) {
+            ok = 0u;
+        } else {
+            left--;
+        }
+    }
+    EPD_CS = 1;
+    return ok;
+}
+
+static uint8_t stream_zero_plane(uint8_t cmd)
+{
+    uint16_t left;
+    uint8_t ok;
+
+    EPD_DC = 0;
+    EPD_CS = 0;
+    ok = spi_tx(cmd);
+    EPD_CS = 1;
+    EPD_DC = 1;
+    EPD_CS = 0;
+    left = PLANE;
+    while (ok && left) {
+        if (!spi_tx(0u)) {
             ok = 0u;
         } else {
             left--;
@@ -416,11 +439,19 @@ static void epd_refresh(uint8_t variant)
     uart_hex8(ok);
     uart_crlf();
 
-    ok = stream_plane(0x10u, p10);
+    if (variant == 4u) {
+        ok = stream_zero_plane(0x10u);
+    } else {
+        ok = stream_plane(0x10u, p10);
+    }
     uart_puts("P10=");
     uart_hex8(ok);
     uart_crlf();
-    ok = stream_plane(0x13u, p13);
+    if (variant == 4u) {
+        ok = stream_zero_plane(0x13u);
+    } else {
+        ok = stream_plane(0x13u, p13);
+    }
     uart_puts("P13=");
     uart_hex8(ok);
     uart_crlf();
@@ -534,7 +565,7 @@ void main(void)
     i2c_prep();
 
     uart_crlf();
-    uart_puts("OpenVusion GU140 EXP-054 v0.10e NFC SHOW3");
+    uart_puts("OpenVusion GU140 EXP-056 v0.10g NFC SHOW4");
     uart_crlf();
     uart_puts("RESET_CAUSE=");
     uart_hex8(reset_cause);
