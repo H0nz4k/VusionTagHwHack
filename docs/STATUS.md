@@ -6,7 +6,7 @@
 
 ## Now
 
-NFC-0 PASS. NFC-A I2C ACK PASS. NFC-B session read FAIL. NFC-C FD idle HIGH **OVĚŘENO**; RF-field LED demo waits for TWN4 in range. TAG OFF. `v0.7a_nfc_fd_led` is on the DEV tag.
+`v0.10e_nfc_show3` (EXP-054): SHOW **1** OpenVusionHack, **2** BWR test 01–16, **3** Shut up and take my money. Menu: `python3 tools/nfc_gateway/show_app.py` or `/home/hw/bin/ov26-nfc-show.sh`.
 
 ## NFC ladder
 
@@ -15,5 +15,8 @@ NFC-0 PASS. NFC-A I2C ACK PASS. NFC-B session read FAIL. NFC-C FD idle HIGH **OV
 | 0 TWN4 UID/GET_VERSION | 038 | **PASS** UID `04367F5A2D7280` |
 | A I2C ACK 0xAA | 040 | **PASS** ACK0=01 |
 | B session 0xFE read | 043/044 | FAIL ACKAB=00 |
-| C FD + LED | 045 | idle FD=1; field INCONCLUSIVE (no UID this geometry) |
+| B′ EEPROM I2C read | 049 | **PASS** ACKAB=01 block 0x01 |
+| C FD + LED | 045/046 | idle FD=1; human: UID + two blinks (pulse); 1 Hz sticky on v0.7b |
+| C′ FD → EPD | 047 | **PASS** human refresh + UART `HB BUSY=1` |
+| C″ NFC show 1/2/3 | 054 | **PASS** v0.10e menu |
 | D SRAM mailbox | — | gated on ACKAB |

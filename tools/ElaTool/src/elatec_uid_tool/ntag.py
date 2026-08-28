@@ -167,6 +167,56 @@ class NtagI2CPlus:
 
         return verify_and_strip_crc_a(rx_frame)
 
+    def _short_frame(self, command: bytes) -> bytes:
+        tx_frame = command + crc_a(command)
+        rx_frame = self.client.iso14443_3_tdx(
+            tx_frame,
+            max_rx_bytes=self.max_rx_bytes,
+            timeout_ms=self.timeout_ms,
+        )
+        if rx_frame is None:
+            raise SerialCommunicationError(
+                f"Tag neodpověděl na {command[:1].hex().upper()}."
+            )
+        return rx_frame
+
+    def pwd_auth(self, password: bytes) -> bytes:
+        """PWD_AUTH (0x1B). Factory default is FF FF FF FF. Returns PACK (2 B)."""
+        if len(password) != 4:
+            raise ValueError("password must be 4 bytes.")
+        rx_frame = self._short_frame(b"\x1B" + password)
+        if len(rx_frame) == 1:
+            nak = rx_frame[0] & 0x0F
+            raise SerialCommunicationError(f"PWD_AUTH NAK 0x{nak:X}.")
+        pack = verify_and_strip_crc_a(rx_frame)
+        if len(pack) < 2:
+            raise SerialCommunicationError(
+                f"PWD_AUTH krátké PACK: {pack.hex(' ').upper()}"
+            )
+        return pack[:2]
+
+    def write_page(self, page: int, data: bytes) -> None:
+        """Type-2 WRITE (0xA2). DEV-tag user EEPROM only. Not for capture tools.
+
+        RF page must be writable user memory (SHOW uses 0x30). ACK is 0x0A.
+        AUTH0=0 on this GU140 requires PWD_AUTH first.
+        """
+        if not 0 <= page <= 0xFF:
+            raise ValueError("page must be 0 to 255.")
+        if len(data) != 4:
+            raise ValueError("WRITE payload must be 4 bytes.")
+        rx_frame = self._short_frame(bytes((0xA2, page)) + data)
+        if len(rx_frame) >= 1 and (rx_frame[0] & 0x0F) == 0x0A:
+            return
+        if len(rx_frame) == 1:
+            nak = rx_frame[0] & 0x0F
+            raise SerialCommunicationError(
+                f"WRITE 0x{page:02X} NAK 0x{nak:X}."
+            )
+        raise SerialCommunicationError(
+            f"WRITE 0x{page:02X} neočekávaná odpověď {rx_frame.hex(' ').upper()}."
+        )
+
     def get_version(self) -> NtagVersion:
         """NTAG GET_VERSION (0x60)."""
         return NtagVersion.parse(self.transceive(b"\x60"))

@@ -21,8 +21,11 @@ Host: [`tools/nfc_gateway/`](../../tools/nfc_gateway/README.md) + ElaTool `elate
 |---|---|---|
 | NFC-0 RF UID | 038 | **PASS** UID `04367F5A2D7280` Plus 1K |
 | NFC-A I2C ACK | 040 | **PASS** ACK0=01, bez P1_0 |
-| NFC-B session I2C | 043/044 | FAIL ACKAB=00 |
-| NFC-C FD | 045 | idle FD=1; LED off; field A/B čeká přiložení TWN4 |
+| NFC-B session I2C | 043/044 | FAIL ACKAB=00 (0xFE) |
+| NFC-B′ EEPROM I2C | 049 | **PASS** ACKAB=01, EEP non-FF |
+| NFC-C FD | 045/046 | idle FD=1; UID + LED pulse; 1 Hz sticky v0.7b |
+| NFC-C′ FD → EPD | 047 | **PASS** TWN4 → stripes via FD; UART `HB BUSY=1` |
+| NFC-C″ show 1/2/3 | 054 | **PASS** v0.10e: OVH / BWR test / Shut up; menu `ov26-nfc-show.sh` |
 | NFC-D SRAM mailbox | | gated |
 | NFC-E PING | | pending |
 | NFC-F SHOW_DEMO | | pending |

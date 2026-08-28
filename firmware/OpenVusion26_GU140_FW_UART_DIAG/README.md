@@ -42,6 +42,14 @@ Run one stage at a time:
 Build/flash example:
 
 ```bash
+./build_one.sh v0.10e_nfc_show3
+```
+
+NFC SHOW release (three graphics + flash-on-new-tag): see `../../firmware/releases/README.md`.
+
+Older ladder (do not skip when debugging UART):
+
+```bash
 ./build_one.sh v0.3a_uart_baseline
 ./flash.sh v0.3a_uart_baseline
 ```

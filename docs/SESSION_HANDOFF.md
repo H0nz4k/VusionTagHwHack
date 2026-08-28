@@ -3,36 +3,23 @@
 ## Current firmware
 
 ```text
-v0.7a_nfc_fd_led — FD+LED demo on DEV (EXP-045). Debugger isolated at runtime.
+v0.10e_nfc_show3 — EXP-054. SHOW 1 OVH / 2 BWR test / 3 Shut up.
 ```
 
-TAG OFF, debug isolated.
+TAG ON, debug isolated. Idle UART: `ARMED` `WAIT LED=00`.
 
-Known-good EPD (do not modify): `v0.4k_bwr_19`, `v0.4l_ovhack`.
-
-## NFC
-
-TWN4: `/dev/ttyACM0` (never `/dev/ttyUSB0`). `hw` is in `dialout`.
+## Show
 
 ```text
-PYTHONPATH=tools/ElaTool/src python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 reader-info
-PYTHONPATH=tools/ElaTool/src python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 field-watch --wait 60
+/home/hw/bin/ov26-nfc-show.sh      # menu 1/2/3
+/home/hw/bin/ov26-nfc-show.sh 2    # BWR test directly
+/home/hw/bin/ov26-nfc-show.sh 3   # Take my money
 ```
 
-MCU I2C **OVĚŘENO**: P0_4 SDA, P0_6 SCL, 8-bit addr 0xAA ACK. P1_0 not needed for ACK.
+Hold TWN4 until LED stops, then leave. Glass may still update ~15 s.
 
-P1_1 FD idle HIGH without RF **OVĚŘENO** (EXP-045). LED pair P2_1+P2_2 off without field. Proximity blink needs TWN4 antenna on the tag (`in_field` was 0 at bench rest pose).
+TWN4 WRITE user page `0x30` (`OVH` + n). I2C block `0x0C`. Not UID/config/lock.
 
-Session read **not** working: 0xAB NACK after both repeated-start and STOP+START. Do not PTHRU/SRAM until ACKAB=1.
+## LED
 
-## UART capture
-
-Isolated flash (`cc-tool` then immediate `cat`) often high-bit garbage. Recapture after settle (`scripts/pi/ov26-uart-recap.sh`) is reliable at 115200. Baud sweep EXP-042.
-
-## Next exact step
-
-Human: TAG ON, debug OFF, `field-watch --wait 60`, přiložit TWN4 na anténu ESL. Čekat `in_field true` a blikání (RGB+bílá). Když UID je a LED tma → invertovat FD polaritu.
-
-I2C read 0xAB NACK je oddělený problém (ne poloha čtečky).
-
-Do not tag `milestone/nfc-mailbox` yet.
+Blink ~250 ms only while latching the NFC command. Off = you can walk away.

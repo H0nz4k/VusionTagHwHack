@@ -4,6 +4,62 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260828-054 — Three SHOW slots + Python menu
+
+**Status:** flashed DEV; UART wait PASS; pending human menu glass
+
+1 OVH, 2 BWR test, 3 Shut up. `show_app.py`. `docs/experiments/EXP-054.md`.
+
+---
+
+### EXP-20260828-053 — SHOW slot 4 Shut Up And Take My Money
+
+**Status:** flashed DEV; UART wait PASS; pending `show 4` glass
+
+TagStudio `296×152` BIN/C → native RLE. Four images, 32 kB flash. `docs/experiments/EXP-053.md`.
+
+---
+
+### EXP-20260828-051 — I2C-clear NTAG dynlock for RF WRITE 0x30
+
+**Status:** UART **PASS** (I²C E2 already 00); RF WRITE pending `show 2`
+
+PWD_AUTH PACK `00 00`, WRITE still NAK. AUTH0=`FF` (not password). `E2` dynlock. `v0.10b_nfc_unlock`. `docs/experiments/EXP-051.md`.
+
+---
+
+### EXP-20260828-050 — NFC SHOW EEPROM command 1/2/3
+
+**Status:** UART wait **PASS**; WRITE NAK = dynlock (EXP-051)
+
+`v0.10a_nfc_showcmd` on DEV. `WAIT LED=00`. Host: `ov26-nfc-show.sh 1|2|3`. `docs/experiments/EXP-050.md`.
+
+---
+
+### EXP-20260828-049 — I2C EEPROM read (not session 0xFE)
+
+**Status:** **PASS** ACKAB=01
+
+`v0.6f_nfc_eep`. Word 0x01 then 0xAB ACK, 8 B non-FF. Session 0xFE was the FAIL, EEPROM read works. `docs/experiments/EXP-049.md`.
+
+---
+
+### EXP-20260828-048 — NFC show baked graphics 1/2/3
+
+**Status:** firmware+script ready; pending human menu run
+
+`v0.9a/b/c_nfc_show*`. LED off until FD, 250 ms blink during refresh. Pi: `ov26-nfc-show.sh`. `docs/experiments/EXP-048.md`.
+
+---
+
+### EXP-20260828-047 — NFC field triggers EPD refresh
+
+**Status:** **PASS**
+
+`v0.8a_nfc_refresh`. TWN4 `in_field true` UID `04367F5A2D7280`, 36 hits/60 s. Human: refresh. UART `HB BUSY=1`. Wait-loop LED blinks while ARMED (confusing, not field). `docs/experiments/EXP-047.md`.
+
+---
+
 ### EXP-20260828-046 — 1 Hz LED while TWN4 in range
 
 **Status:** PASS UART idle; blink rate čeká člověka

@@ -7,6 +7,23 @@ Vlastní firmware na elektronickém cenovkovém štítku **VUSION 2.6 BWR GU140*
 **EXP-033 / `milestone/display-first-content` (OVĚŘENO vizuálně):**  
 **OpenVusion** = černá · **Hack** = červená · pozadí = bílá.
 
+**Aktuální NFC SHOW firmware: `v0.10e`** — tři grafiky přes TWN4, postup nahrání na nový DEV tag:
+
+→ [`firmware/releases/README.md`](firmware/releases/README.md)
+
+```bash
+ssh vusion-rpi
+/home/hw/bin/ov26-flash-show.sh    # erase+write CC2510 (jen DEV)
+/home/hw/bin/ov26-nfc-show.sh      # menu 1/2/3
+```
+
+| Volba | Grafika |
+|---|---|
+| 1 | OpenVusionHack |
+| 2 | BWR test 01–16 |
+| 3 | Shut up and take my money |
+
+
 Offline bitmapa (152×296, dvě 1bpp roviny) streamovaná stejnou CoG sekvencí, která předtím zvládla B/W pruhy a kalibrační BLACK | WHITE | RED.
 
 ## Co to je
@@ -44,6 +61,7 @@ Relé jsou NO, active-low: `dl` = ON, `dh` = OFF. Tag je ~3 V systém (stock: 2�
 | `milestone/display-test-pattern` | vlastní B/W pruhy na skle |
 | `milestone/display-bwr` | souvislé BLACK \| WHITE \| RED |
 | `milestone/display-first-content` | čitelný nápis OpenVusionHack |
+| `v0.10e-nfc-show` | TWN4 WRITE → tři BWR grafiky na skle |
 
 Známý-good BWR baseline firmware: `v0.4k_bwr_19` (neměnit). First content: `v0.4l_ovhack` (jen jiný framebuffer).
 
