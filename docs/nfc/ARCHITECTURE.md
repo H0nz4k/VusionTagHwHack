@@ -20,7 +20,7 @@ P1_0 NFC power?         REFERENCE (nepotřeba pro ACK)
 P1_1 FD                 OVĚŘENO EXP-045/047 (pulse, not held)
 ```
 
-I2C session `0xFE` + read `0xAB` NACK (EXP-043/044). EEPROM block `0x01` + `0xAB` **ACK** (EXP-049). SHOW 1/2/3 uses user EEPROM WRITE from TWN4, not SRAM/PTHRU.
+I2C session `0xFE` + read `0xAB` NACK (EXP-043/044). Session `0xFE` + **write** NC_REG NACK (EXP-058/059 ACKNC=00). EEPROM `0x01` a SRAM `0xF8` + `0xAB` **ACK**. SHOW 1/2/3 uses user EEPROM WRITE from TWN4, not SRAM/PTHRU.
 
 LED (P2_1+P2_2, debugger isolated): blink ~250 ms **only while the NFC command is being received**. LED off = MCU má volbu, čtečku lze oddálit. EPD refresh může pokračovat bez LED.
 

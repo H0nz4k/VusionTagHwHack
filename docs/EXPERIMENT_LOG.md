@@ -4,6 +4,38 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-060 — RF WRITE session 0xEC + SRAM poll
+
+**Status:** flashed DEV; TWN4 UID OK; **FAIL** WRITE EC NAK 0x0; UART SRAM zeros
+
+`docs/experiments/EXP-060.md`.
+
+---
+
+### EXP-20260829-059 — session I2C write 0x19
+
+**Status:** flashed DEV; UART **FAIL** ACKNC=00 (same as 0x59)
+
+Not the PTHRU bit. `docs/experiments/EXP-059.md`.
+
+---
+
+### EXP-20260829-058 — I2C PTHRU 0x59 + TWN4 F0
+
+**Status:** flashed DEV; UART **FAIL** ACKNC=00; TWN4 **INCONCLUSIVE** no_tag
+
+`docs/experiments/EXP-058.md`.
+
+---
+
+### EXP-20260829-057 — I2C SRAM 0xF8 read
+
+**Status:** flashed DEV; UART **PASS** ACKAB=01 SRAM zeros
+
+`v0.11a_nfc_sram`. Same Sr as EXP-049, word `0xF8`. `docs/experiments/EXP-057.md`.
+
+---
+
 ### EXP-20260828-056 — SHOW slot 3 new TagStudio zip
 
 **Status:** flashed DEV; UART **PASS**; glass slot 3 **PASS**

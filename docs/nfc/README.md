@@ -28,6 +28,7 @@ Host: [`tools/nfc_gateway/`](../../tools/nfc_gateway/README.md) + ElaTool `elate
 | NFC-C″ show 1/2/3 | 054 | **PASS** v0.10e: OVH / BWR test / Shut up; menu `ov26-nfc-show.sh` |
 | NFC-C‴ show 4 blank | 055 | UART **PASS** v0.10f; volba 4 = bílá |
 | NFC-C″″ slot 3 zip | 056 | UART + sklo **PASS** v0.10g; paleta 01–16 viz [`SHOW_SLOTS.md`](SHOW_SLOTS.md) |
-| NFC-D SRAM mailbox | | gated |
+| NFC-D SRAM I2C | 057 | **PASS** ACKAB=01 `0xF8` zeros |
+| NFC-D RF PTHRU 0xEC | 060 | **FAIL** WRITE EC NAK; F0 timeout |
 | NFC-E PING | | pending |
 | NFC-F SHOW_DEMO | | pending |

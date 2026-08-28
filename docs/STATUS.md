@@ -6,7 +6,9 @@
 
 ## Now
 
-`v0.10e_nfc_show3` (EXP-056 / v0.10g): SHOW **1** OpenVusionHack, **2** BWR test, **3** Shut up (TagStudio 2026-08-28_22-28-47), **4** smazat/bílá.
+`v0.11d` EXP-060: TWN4 na tagu **OVĚŘENO**. RF WRITE session `0xEC` **NAK**. SRAM I2C poll nuly. PTHRU z RF touhle Type-2 WRITE nejde.
+
+Předchozí SHOW: `v0.10e_nfc_show3` (v0.10g) 1 OVH / 2 BWR / 3 Shut up / 4 bílá.
 
 ## NFC ladder
 
@@ -21,4 +23,5 @@
 | C″ NFC show 1/2/3 | 054 | **PASS** v0.10e menu; paleta na skle OVĚŘENO |
 | C‴ NFC show 4 blank | 055 | UART **PASS** v0.10f; glass pending |
 | C″″ slot 3 nový TagStudio | 056 | UART + sklo **PASS** v0.10g |
-| D SRAM mailbox | — | gated on ACKAB |
+| D SRAM I2C read | 057 | **PASS** `0xF8` ACKAB=01, data 00 |
+| D RF PTHRU 0xEC | 060 | **FAIL** WRITE EC NAK 0x0; F0 timeout |

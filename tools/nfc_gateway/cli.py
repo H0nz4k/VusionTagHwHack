@@ -144,6 +144,9 @@ def cmd_field_watch(args) -> int:
 
 SHOW_RF_PAGE = 0x30
 SHOW_MAGIC = b"OVH"
+MBOX_RF_PAGE = 0xF0
+MBOX_MAGIC = b"OVMB"
+MBOX_TAIL = bytes((0x01, 0x02, 0x03, 0x04))
 
 
 def _select_ntag(client, wait_s: float):
@@ -283,6 +286,82 @@ def cmd_show(args) -> int:
     return 0
 
 
+def cmd_mbox(args) -> int:
+    """PWD_AUTH + WRITE SRAM RF pages 0xF0/0xF1 (needs MCU PTHRU). TWN4 only."""
+    from elatec_uid_tool.protocol import ElatecError, SimpleProtocolClient
+    from elatec_uid_tool.ntag import NtagI2CPlus
+
+    port = _port(args)
+    rec = {"event": "nfc_mbox", "port": port, "page": MBOX_RF_PAGE}
+    try:
+        with SimpleProtocolClient(port, timeout=args.timeout) as client:
+            info = client.read_info()
+            rec["reader"] = info.version
+            client.set_tag_types(info.lf_supported_mask, info.hf_supported_mask)
+            print("Hold TWN4 on the tag (mailbox WRITE F0).", flush=True)
+            deadline = time.monotonic() + args.wait
+            tag = None
+            while time.monotonic() < deadline:
+                tag = client.search_tag()
+                if tag is not None:
+                    break
+                time.sleep(0.12)
+            if tag is None:
+                rec["error"] = "no_tag"
+                try:
+                    client.set_rf_off()
+                except ElatecError:
+                    pass
+                print(json.dumps(rec, default=str))
+                return 2
+            rec["uid"] = tag.id_hex
+            ntag = NtagI2CPlus(client)
+            ntag.get_version()
+            pack = ntag.pwd_auth(bytes.fromhex("FFFFFFFF"))
+            rec["pack"] = pack.hex(" ").upper()
+            try:
+                sess = ntag.read_session_registers()
+                rec["session"] = sess.hex(" ").upper()
+                rec["NC_REG"] = sess[0]
+                ec = bytes((sess[0] | 0x40, sess[1], sess[2], sess[3]))
+                try:
+                    ntag.write_page(0xEC, ec)
+                    rec["ec_write"] = ec.hex(" ").upper()
+                    rec["ec_written"] = True
+                    sess2 = ntag.read_session_registers()
+                    rec["session_after_ec"] = sess2.hex(" ").upper()
+                    rec["NC_REG_after"] = sess2[0]
+                except Exception as e:
+                    rec["ec_written"] = False
+                    rec["ec_error"] = str(e)
+            except Exception as e:
+                rec["session"] = f"ERR {e}"
+            try:
+                ntag.write_page(MBOX_RF_PAGE, MBOX_MAGIC)
+                ntag.write_page(MBOX_RF_PAGE + 1, MBOX_TAIL)
+                rec["written"] = True
+            except Exception as e:
+                rec["written"] = False
+                rec["f0_error"] = str(e)
+            try:
+                rec["f0"] = ntag.read_page(MBOX_RF_PAGE).hex(" ").upper()
+            except Exception as e:
+                rec["f0"] = f"ERR {e}"
+            print(json.dumps(rec, default=str), flush=True)
+            time.sleep(0.2)
+            try:
+                client.set_rf_off()
+            except ElatecError:
+                pass
+    except Exception as e:
+        rec["error"] = str(e)
+        rec["written"] = False
+        print(json.dumps(rec, default=str))
+        return 1
+    print(json.dumps({"event": "nfc_mbox_done"}))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="ovh-nfc")
     p.add_argument("--port", default=TWN4_DEFAULT)
@@ -308,6 +387,9 @@ def main(argv=None) -> int:
     p_peek = sub.add_parser("peek")
     p_peek.add_argument("--wait", type=float, default=20.0)
     p_peek.set_defaults(func=cmd_peek)
+    p_mbox = sub.add_parser("mbox")
+    p_mbox.add_argument("--wait", type=float, default=25.0)
+    p_mbox.set_defaults(func=cmd_mbox)
     args = p.parse_args(argv)
     return int(args.func(args) or 0)
 
