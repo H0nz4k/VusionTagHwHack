@@ -141,6 +141,8 @@ Identita „EPD BUSY / EPD POWER / EPD RESET“ z těchto debugger-attached test
 
 P1_3 **reaguje na EPD reset po PWR ON** a **na command `0x12`**. Vlastní framebuffer včetně červené roviny je na skle vidět.
 
+- EXP-033: offline OpenVusionHack. Lidská fotka: **OpenVusion černě, Hack červeně, pozadí bílé.** `milestone/display-first-content`.
+
 ## NEJISTÉ MĚŘENÍ
 
 Byl hlášen rozsah:
@@ -170,5 +172,4 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. Člověk EXP-033: černé OpenVusion, červené Hack, bílé pozadí?
-2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).

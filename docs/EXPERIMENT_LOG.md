@@ -6,9 +6,9 @@ Přidávej nové experimenty nahoru.
 
 ### EXP-20260828-033 — OpenVusionHack first content
 
-**Status:** PASS UART / vizuál čeká člověka
+**Status:** PASS UART + **OVĚŘENO vizuálně** (OpenVusion černě, Hack červeně, pozadí bílé)
 
-Offline 152×296 BWR bitmap, stejný CoG flow. `docs/experiments/EXP-033.md`. TAG OFF.
+Offline 152×296 BWR bitmap, stejný CoG flow. `docs/experiments/EXP-033.md`. Fotka `captures/ov26_exp033_visual.png`. TAG OFF. `milestone/display-first-content`.
 
 ---
 

@@ -42,3 +42,4 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp032_visual.png` | EXP-032 lidská fotka: BLACK \| WHITE \| RED + marker |
 | `ov26_exp033_preview.png` | EXP-033 offline náhled OpenVusionHack |
 | `ov26_exp033_por.bin` | EXP-033 v0.4l OpenVusionHack stream + 0x12 |
+| `ov26_exp033_visual.png` | EXP-033 lidská fotka: OpenVusion černě, Hack červeně |

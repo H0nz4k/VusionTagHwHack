@@ -17,8 +17,6 @@ RED   = plane10 0, plane13 1
 native row = 19 bytes (152 px), 296 rows, 5624 B/plane
 ```
 
-Milníky: `milestone/epd-first-refresh`, `milestone/display-test-pattern`, `milestone/display-bwr`.
+Milníky: `milestone/epd-first-refresh`, `milestone/display-test-pattern`, `milestone/display-bwr`, `milestone/display-first-content`.
 
-EXP-033: offline bitmap OpenVusion (černá) + Hack (červená). UART PASS. Náhled `captures/ov26_exp033_preview.png`.
-
-**Lidská otázka:** Je na panelu černé OpenVusion, červené Hack, bílé pozadí?
+EXP-033: **OVĚŘENO vizuálně** — OpenVusion černě, Hack červeně, pozadí bílé. Fotka `captures/ov26_exp033_visual.png`.

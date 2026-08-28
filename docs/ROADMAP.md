@@ -47,7 +47,7 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [x] red plane (EXP-032 **OVĚŘENO vizuálně** BLACK/WHITE/RED)
 - [ ] full B/W/R test pattern
 - [ ] reusable driver abstraction
-- [ ] first content OpenVusionHack (EXP-033 na panelu, vizuál čeká)
+- [x] first content OpenVusionHack (EXP-033 **OVĚŘENO vizuálně**)
 
 ## Phase 5 — External flash
 - [ ] identify

@@ -181,3 +181,5 @@ RED   = plane10 0, plane13 1
 ```
 
 MSB first v bytu = levý pixel. `milestone/display-bwr`. `v0.4k_bwr_19` = baseline.
+
+EXP-033 first content (stejný encoding, jiný framebuffer): čitelné OpenVusionHack. `milestone/display-first-content`. Fotka `captures/ov26_exp033_visual.png`.

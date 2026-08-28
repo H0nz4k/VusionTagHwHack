@@ -1,12 +1,12 @@
 # STATUS — GU140 EPD first refresh
 
-**Mission:** `milestone/epd-first-refresh`  
+**Mission:** `milestone/display-first-content`  
 **Branch:** `research/gu140`  
 **Target:** DEV tag only. Debugger isolated at runtime (GPIO27 dh).
 
 ## Now
 
-EXP-033 OpenVusionHack **PASS UART**, TAG OFF. Čeká vizuál textu. BWR encoding **OVĚŘENO**. `milestone/display-bwr`. `v0.4k_bwr_19` baseline.
+EXP-033 OpenVusionHack **OVĚŘENO vizuálně**: OpenVusion černě, Hack červeně, pozadí bílé. `milestone/display-first-content`. Fotka `captures/ov26_exp033_visual.png`. BWR baseline `v0.4k_bwr_19` (neměnit).
 
 ## Ladder
 
@@ -23,4 +23,4 @@ EXP-033 OpenVusionHack **PASS UART**, TAG OFF. Čeká vizuál textu. BWR encodin
 | I B/W stripes | 030 | **OVĚŘENO vizuálně** — vlastní B/W pruhy na panelu |
 | J B/W/R cal | 031 | diagonály + kalná červená (stride 37) |
 | K B/W/R 19 B/row | 032 | **OVĚŘENO** BLACK\|WHITE\|RED + marker |
-| L OpenVusionHack | 033 | PASS UART; vizuál čeká |
+| L OpenVusionHack | 033 | **OVĚŘENO vizuálně** — OpenVusion černě, Hack červeně |
