@@ -15,7 +15,7 @@ LED bliká jen při latchi příkazu. Zhasne = sundej TWN4. EPD ještě ~15 s.
 
 ## Paleta volby 2 — hodnoty 01–16
 
-Zdroj: `tools/TagStudio/testPIC/orignal_pic/new/BWR_barevny_test_EDG2-0260-A_296x152.png` (296×152, 4×4 pole). Jen RGB bílá `(255,255,255)` / černá `(0,0,0)` / červená `(255,0,0)`. CoG: WHITE p10=0 p13=0, BLACK p10=1 p13=0, RED p10=0 p13=1.
+Zdroj: `tools/TagStudio/testPIC/small_296x152/BWR_barevny_test_EDG2-0260-A_296x152.png` (296×152, 4×4 pole). Editor: [`tools/TagStudio/README.md`](../../tools/TagStudio/README.md). Jen RGB bílá `(255,255,255)` / černá `(0,0,0)` / červená `(255,0,0)`. CoG: WHITE p10=0 p13=0, BLACK p10=1 p13=0, RED p10=0 p13=1.
 
 ```text
 01  02  03  04

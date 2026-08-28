@@ -1,0 +1,21 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+playwright/.cache/
+blob-report/
+*.local
+.vite/
+tsconfig.tsbuildinfo
+tsconfig.app.tsbuildinfo
+tsconfig.node.tsbuildinfo
+
+# Lokální exporty a uživatelské fotky
+*.zip
+shutupbin.bin
+/tagstudio_*.bin
+/tagstudio_*.c
+/tagstudio_*.png
+testPIC/orignal_pic/
+testPIC/big_400x300/
+testPIC/*.zip
