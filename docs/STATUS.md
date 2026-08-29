@@ -21,6 +21,6 @@ Exit 0 jen po DONE. GPIO20 jednou na `send` (nebo `--no-twn4-gpio`, pokud relé 
 | SRAM_MIRROR 16 B / 64 B | 063/065 | **PASS** |
 | OVMB protocol 11248 B | 066 | **PASS** (no EPD) |
 | CoG stays init during chunks | 067 | **PASS** |
-| CoG stream + 0x12 | 068 | **PASS** UART BUSY 0→1 |
+| CoG stream + 0x12 | 068 | **PASS** UART BUSY 0→1, sklo rastr A |
 
 Milestone: `milestone/nfc-image-transfer`.

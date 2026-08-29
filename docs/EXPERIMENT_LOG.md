@@ -6,7 +6,7 @@ Přidávej nové experimenty nahoru.
 
 ### EXP-20260829-068 — 11248 B → CoG → 0x12
 
-**Status:** **PASS** A/B/A DONE; faults rc≠0; UART `REF=01` BUSY `00→01` GOT=`2BF0`
+**Status:** **PASS** A/B/A DONE; faults rc≠0; UART `REF=01` BUSY `00→01` GOT=`2BF0`; sklo `ov26_exp068_visual.png` černý+červený rastr A
 
 `docs/experiments/EXP-068.md`. `v0.12b_nfc_epd`.
 

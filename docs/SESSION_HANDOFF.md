@@ -14,4 +14,4 @@ python3 /home/hw/OpenVusion26_FW/tools/nfc_gateway/cli.py send /tmp/ovmb_a.bin
 
 TWN4 `/dev/ttyACM0`. GPIO20 on once per `send`. MCU I2C only after `set_rf_off`.
 
-Lidská fotka skla po posledním image A (`6645BA54`) ještě chybí.
+Fotka skla: `captures/ov26_exp068_visual.png` — rastr A (`6645BA54`), černá+červená přes celý panel.
