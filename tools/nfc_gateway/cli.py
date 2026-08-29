@@ -147,6 +147,19 @@ SHOW_MAGIC = b"OVH"
 MBOX_RF_PAGE = 0xF0
 MBOX_MAGIC = b"OVMB"
 MBOX_TAIL = bytes((0x01, 0x02, 0x03, 0x04))
+# NXP SRAM_MIRROR_BLOCK is an I2C block, not an NFC page.
+# NFC page 0x40 = I2C block 0x10 on Plus 1K (page = block * 4).
+MIRROR_NFC_PAGE = 0x40
+MIRROR_I2C_BLOCK = 0x10
+MIRROR_PAGE = MIRROR_NFC_PAGE  # RF WRITE target when mirror is on
+# Unique EXP-063 payload so leftover OVMB in user EEPROM 0x40 cannot fake SRAM.
+MIRROR_SEQ = (
+    bytes((0x63, 0xA5, 0x00, 0x01)),
+    bytes((0x02, 0x03, 0x04, 0x05)),
+    bytes((0x06, 0x07, 0x08, 0x09)),
+    bytes((0x0A, 0x0B, 0x0C, 0x0D)),
+)
+E8_RESTORE = bytes((0x19, 0x00, 0xF8, 0x48))
 
 
 def _select_ntag(client, wait_s: float):
@@ -205,7 +218,10 @@ def cmd_peek(args) -> int:
             except Exception as e:
                 rec["config_E8"] = f"ERR {e}"
             pages = {}
-            for pg in (0x00, 0x02, 0x03, 0x04, 0x05, 0x06, 0x10, 0x30, 0xE2, 0xE3, 0xE8, 0xE9):
+            for pg in (
+                0x00, 0x02, 0x03, 0x04, 0x05, 0x06, 0x10, 0x30,
+                0x40, 0x41, 0x42, 0x43, 0xE2, 0xE3, 0xE8, 0xE9,
+            ):
                 try:
                     pages[f"{pg:02X}"] = ntag.read_page(pg).hex(" ").upper()
                 except Exception as e:
@@ -362,6 +378,97 @@ def cmd_mbox(args) -> int:
     return 0
 
 
+def _wait_ntag(client, wait_s: float):
+    from elatec_uid_tool.ntag import NtagI2CPlus
+
+    info = client.read_info()
+    client.set_tag_types(info.lf_supported_mask, info.hf_supported_mask)
+    deadline = time.monotonic() + wait_s
+    tag = None
+    while time.monotonic() < deadline:
+        tag = client.search_tag()
+        if tag is not None:
+            break
+        time.sleep(0.12)
+    if tag is None:
+        return info, None, None
+    return info, tag, NtagI2CPlus(client)
+
+
+def cmd_mbox_mirror(args) -> int:
+    """PWD_AUTH + SRAM_MIRROR via config E8, then WRITE user page 0x40 into SRAM."""
+    from elatec_uid_tool.protocol import ElatecError, SimpleProtocolClient
+
+    port = _port(args)
+    phase = args.phase
+    rec = {"event": "nfc_mbox_mirror", "port": port, "phase": phase, "page": MIRROR_PAGE}
+    try:
+        with SimpleProtocolClient(port, timeout=args.timeout) as client:
+            info, tag, ntag = _wait_ntag(client, args.wait)
+            rec["reader"] = info.version
+            if tag is None:
+                rec["error"] = "no_tag"
+                try:
+                    client.set_rf_off()
+                except ElatecError:
+                    pass
+                print(json.dumps(rec, default=str))
+                return 2
+            rec["uid"] = tag.id_hex
+            ntag.get_version()
+            pack = ntag.pwd_auth(bytes.fromhex("FFFFFFFF"))
+            rec["pack"] = pack.hex(" ").upper()
+            cfg = ntag.read_configuration_registers()
+            rec["e8_before"] = cfg[0xE8].hex(" ").upper()
+            rec["e9_before"] = cfg[0xE9].hex(" ").upper()
+            if phase in ("e8", "both"):
+                e8 = cfg[0xE8]
+                new_e8 = bytes((e8[0] | 0x02, e8[1], MIRROR_I2C_BLOCK, e8[3]))
+                rec["e8_want"] = new_e8.hex(" ").upper()
+                if e8 != new_e8:
+                    ntag.write_page(0xE8, new_e8)
+                    rec["e8_written"] = True
+                else:
+                    rec["e8_written"] = False
+                    rec["e8_already"] = True
+                cfg2 = ntag.read_configuration_registers()
+                rec["e8_after"] = cfg2[0xE8].hex(" ").upper()
+                try:
+                    sess = ntag.read_session_registers()
+                    rec["session_after_e8"] = sess.hex(" ").upper()
+                    rec["NC_REG"] = sess[0]
+                except Exception as e:
+                    rec["session_after_e8"] = f"ERR {e}"
+            if phase in ("payload", "payload64", "both"):
+                n_pages = 16 if phase == "payload64" else len(MIRROR_SEQ)
+                pages = {}
+                for i in range(n_pages):
+                    if phase == "payload64":
+                        data = bytes((i * 4, i * 4 + 1, i * 4 + 2, i * 4 + 3))
+                    else:
+                        data = MIRROR_SEQ[i]
+                    ntag.write_page(MIRROR_PAGE + i, data)
+                    pages[f"p{MIRROR_PAGE + i:02X}"] = ntag.read_page(
+                        MIRROR_PAGE + i
+                    ).hex(" ").upper()
+                rec["written"] = True
+                rec["pages"] = pages
+                rec["nbytes"] = n_pages * 4
+            print(json.dumps(rec, default=str), flush=True)
+            time.sleep(0.2)
+            try:
+                client.set_rf_off()
+            except ElatecError:
+                pass
+    except Exception as e:
+        rec["error"] = str(e)
+        rec["written"] = False
+        print(json.dumps(rec, default=str))
+        return 1
+    print(json.dumps({"event": "nfc_mbox_mirror_done", "phase": phase}))
+    return 0
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="ovh-nfc")
     p.add_argument("--port", default=TWN4_DEFAULT)
@@ -390,6 +497,10 @@ def main(argv=None) -> int:
     p_mbox = sub.add_parser("mbox")
     p_mbox.add_argument("--wait", type=float, default=25.0)
     p_mbox.set_defaults(func=cmd_mbox)
+    p_mm = sub.add_parser("mbox-mirror")
+    p_mm.add_argument("--wait", type=float, default=12.0)
+    p_mm.add_argument("--phase", choices=("e8", "payload", "payload64", "both"), default="both")
+    p_mm.set_defaults(func=cmd_mbox_mirror)
     args = p.parse_args(argv)
     return int(args.func(args) or 0)
 

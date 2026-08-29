@@ -4,6 +4,42 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-065 — I2C-idle then MCU 64 B SRAM dump
+
+**Status:** **PASS** F8–FB = `00…3F` after RF payload64. `docs/experiments/EXP-065.md`
+
+---
+
+### EXP-20260829-064 — RF 64 B SRAM window
+
+**Status:** RF 64 B **PASS** (3×); MCU UART after RF **INCONCLUSIVE** garbage; one NAK 0x48 during I2C poll. `docs/experiments/EXP-064.md`
+
+---
+
+### EXP-20260829-063 — 16B I2C config RMW → SRAM mailbox
+
+**Status:** I2C `0x3A` 16 B PRE=`1B 00 10 48…`; RF `E8` **PASS** `1B 00 10 48`; RF `0x40` seq **PASS**; I2C `0xF8` = `63 A5…0D`, I2C `0x10` stále `OVMB` → SRAM **PASS**
+
+`docs/experiments/EXP-063.md`. Firmware `v0.11g_nfc_cfg3a_16b`.
+
+---
+
+### EXP-20260829-062 — I2C config 0x3A SRAM_MIRROR
+
+**Status:** I2C 0x3A ACK; peek E8 **nezměněno**; WRITE 0x40 OVMB (user page) **PASS**; SRAM_MIRROR **FAIL**
+
+`docs/experiments/EXP-062.md`.
+
+---
+
+### EXP-20260829-061 — RF WRITE config E8 SRAM_MIRROR
+
+**Status:** TWN4 UID OK; **FAIL** WRITE E8 NAK 0x0; REG_LOCK=0x01; E8 unchanged
+
+`docs/experiments/EXP-061.md`.
+
+---
+
 ### EXP-20260829-060 — RF WRITE session 0xEC + SRAM poll
 
 **Status:** flashed DEV; TWN4 UID OK; **FAIL** WRITE EC NAK 0x0; UART SRAM zeros
