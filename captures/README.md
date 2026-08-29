@@ -44,6 +44,7 @@ Raw bounded UART dumps from Raspberry Pi (`/tmp/ov26_exp*.bin`).
 | `ov26_exp033_por.bin` | EXP-033 v0.4l OpenVusionHack stream + 0x12 |
 | `ov26_exp033_visual.png` | EXP-033 lidská fotka: OpenVusion černě, Hack červeně |
 | `ov26_exp068_visual.png` | EXP-068 lidská fotka: NFC image A, černý+červený rastr |
+| `ov26_exp069_visual.png` | EXP-069 lidská fotka: NFC OpenVusionHack |
 | `ov26_lab_bench.png` | Lab stůl 2026-08-28: Pi, relé, CC Debugger, CP2102, TWN4, DEV GU140 |
 | `ov26_exp054_slot2_palette_glass.png` | Volba 2: BWR paleta 01–16 na skle |
 | `ov26_exp056_slot3_glass.png` | Volba 3: Shut up and take my money na skle |

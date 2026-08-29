@@ -13,4 +13,4 @@ python3 /home/hw/OpenVusion26_FW/tools/nfc_gateway/cli.py send /tmp/ovhack.bin
 
 TWN4 `/dev/ttyACM0`. GPIO20 on once per `send`. MCU I2C only after `set_rf_off`.
 
-Čeká se fotka skla: černě OpenVusion, červeně Hack.
+Fotka: `captures/ov26_exp069_visual.png` — OpenVusion černě, Hack červeně. Shoda s EXP-033.

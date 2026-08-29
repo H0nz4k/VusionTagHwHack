@@ -6,7 +6,7 @@ Přidávej nové experimenty nahoru.
 
 ### EXP-20260829-069 — NFC known artwork BINs
 
-**Status:** **PASS** host ovhack `D9331F86` + money `ADCEA5C4` + ovhack znovu (poslední na skle). Bez reflashe.
+**Status:** **PASS** host ovhack/money/ovhack; sklo `ov26_exp069_visual.png` OpenVusion černě + Hack červeně
 
 `docs/experiments/EXP-069.md`. `captures/nfc/art/`.
 
