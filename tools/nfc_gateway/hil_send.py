@@ -60,8 +60,24 @@ class NtagMailbox:
         self.write_frame(fr.pack())
         self.rf_off()
         time.sleep(self.process_s if wait is None else wait)
-        self.rf_on()
-        return Frame.unpack(self.read_frame())
+        deadline = time.monotonic() + 6.0
+        last_err = "no_ack"
+        while time.monotonic() < deadline:
+            self.rf_on()
+            raw = self.read_frame()
+            try:
+                ack = Frame.unpack(raw)
+            except Exception as e:
+                last_err = str(e)
+                self.rf_off()
+                time.sleep(0.25)
+                continue
+            if ack.type == FType.ACK and len(ack.payload) >= 4:
+                return ack
+            last_err = f"not_ack type={ack.type} plen={len(ack.payload)}"
+            self.rf_off()
+            time.sleep(0.35)
+        raise RuntimeError(last_err)
 
 
 def send_image(
@@ -77,7 +93,9 @@ def send_image(
         log({"event": "ERROR", "error": "bad_bin_len", "n": len(image)})
         return 2
     t0 = time.monotonic()
-    ack = box.exchange(Frame(FType.BEGIN, xfer_id, 0, 0, IMAGE_LEN, FORMAT_BWR, b""), wait=10.0)
+    ack = box.exchange(
+        Frame(FType.BEGIN, xfer_id, 0, 0, IMAGE_LEN, FORMAT_BWR, b""), wait=14.0
+    )
     log({"event": "BEGIN", "state": ack.payload[0], "err": ack.payload[1]})
     if ack.payload[0] != State.TRANSFER or ack.payload[1] != Err.OK:
         log({"event": "ERROR", "phase": "begin", "ack": ack.payload.hex()})
@@ -96,8 +114,13 @@ def send_image(
             box.rf_off()
             time.sleep(box.process_s)
             box.rf_on()
-            ack = Frame.unpack(box.read_frame())
-            log({"event": "ERROR", "phase": "crc-frame", "err": ack.payload[1]})
+            try:
+                ack = Frame.unpack(box.read_frame())
+            except Exception as e:
+                log({"event": "ERROR", "phase": "crc-frame", "error": str(e)})
+                return 4
+            err = ack.payload[1] if len(ack.payload) > 1 else -1
+            log({"event": "ERROR", "phase": "crc-frame", "err": err})
             return 4
         deadline = time.monotonic() + round_timeout_s
         while True:
@@ -111,8 +134,9 @@ def send_image(
                 box.retries += 1
                 log({"event": "retry", "seq": seq, "error": str(e)})
                 time.sleep(0.15)
-        if ack.payload[1] != Err.OK:
-            log({"event": "ERROR", "phase": "data", "seq": seq, "err": ack.payload[1]})
+        if len(ack.payload) < 4 or ack.payload[1] != Err.OK:
+            err = ack.payload[1] if len(ack.payload) > 1 else -1
+            log({"event": "ERROR", "phase": "data", "seq": seq, "err": err})
             return 6
         last_seq = seq
         n_ok += 1
@@ -131,7 +155,7 @@ def send_image(
             FORMAT_BWR,
             struct.pack("<I", e2e),
         ),
-        wait=22.0,
+        wait=40.0,
     )
     log(
         {

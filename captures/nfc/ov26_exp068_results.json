@@ -1,0 +1,26 @@
+{
+  "crc": {
+    "rc": 4,
+    "ok": true
+  },
+  "skip": {
+    "rc": 6,
+    "ok": true
+  },
+  "e2e": {
+    "rc": 7,
+    "ok": true
+  },
+  "img_a": {
+    "rc": 0,
+    "ok": true
+  },
+  "img_b": {
+    "rc": 0,
+    "ok": true
+  },
+  "img_a2": {
+    "rc": 0,
+    "ok": true
+  }
+}

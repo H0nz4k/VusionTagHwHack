@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -18,8 +19,44 @@ if str(ELATEC_SRC) not in sys.path:
 
 TWN4_DEFAULT = "/dev/ttyACM0"
 FORBIDDEN = ("/dev/ttyUSB0",)
+DEFAULT_RELAYS = Path("/home/hw/bin/ov26-relays.sh")
+TWN4_USB = "09d8:0420"
 
 NTAG_PLUS_1K = bytes.fromhex("00 04 04 05 02 02 13 03")
+
+
+def _relays_path(args) -> Path | None:
+    p = Path(getattr(args, "relays", None) or DEFAULT_RELAYS)
+    return p if p.is_file() else None
+
+
+def _relay(relays: Path, *a: str) -> None:
+    subprocess.check_call([str(relays), *a])
+
+
+def _twn4_usb_present() -> bool:
+    r = subprocess.run(["lsusb"], capture_output=True, text=True)
+    return TWN4_USB in (r.stdout or "")
+
+
+def twn4_gpio_on(relays: Path, wait_s: float = 12.0) -> bool:
+    """GPIO20 once per transfer. RF on/off stays in TWN4 API, not USB re-enum."""
+    _relay(relays, "twn4-on")
+    deadline = time.monotonic() + wait_s
+    while time.monotonic() < deadline:
+        if _twn4_usb_present():
+            return True
+        time.sleep(0.4)
+    return False
+
+
+def twn4_gpio_off(relays: Path | None) -> None:
+    if relays is None:
+        return
+    try:
+        _relay(relays, "twn4-off")
+    except Exception:
+        pass
 
 
 def _port(args) -> str:
@@ -492,8 +529,14 @@ def cmd_send(args) -> int:
         print(json.dumps(rec, default=str), flush=True)
 
     port = _port(args)
+    relays = _relays_path(args) if args.twn4_gpio else None
     rc = 1
     try:
+        if relays is not None:
+            if not twn4_gpio_on(relays):
+                log({"event": "ERROR", "error": "twn4_usb"})
+                twn4_gpio_off(relays)
+                return 2
         with SimpleProtocolClient(port, timeout=args.timeout) as client:
             info, tag, ntag = _wait_ntag(client, args.wait)
             if tag is None or ntag is None:
@@ -502,15 +545,18 @@ def cmd_send(args) -> int:
                     client.set_rf_off()
                 except ElatecError:
                     pass
+                twn4_gpio_off(relays)
                 return 2
             if tag.id_hex.upper() != DEV_UID:
                 log({"event": "ERROR", "error": "uid", "uid": tag.id_hex})
                 client.set_rf_off()
+                twn4_gpio_off(relays)
                 return 3
             ver = ntag.get_version().raw
             if ver != DEV_VER:
                 log({"event": "ERROR", "error": "get_version", "ver": ver.hex(" ")})
                 client.set_rf_off()
+                twn4_gpio_off(relays)
                 return 3
             ntag.pwd_auth(bytes.fromhex("FFFFFFFF"))
             box = NtagMailbox(client, ntag, process_s=args.process_s)
@@ -533,7 +579,9 @@ def cmd_send(args) -> int:
                 pass
     except Exception as e:
         log({"event": "ERROR", "error": str(e)})
-        return 1
+        rc = 1
+    finally:
+        twn4_gpio_off(relays)
     return rc
 
 
@@ -576,6 +624,13 @@ def main(argv=None) -> int:
     p_send.add_argument("--fault", choices=("crc-frame", "e2e"), default=None)
     p_send.add_argument("--skip-seq", type=int, default=None)
     p_send.add_argument("--process-s", type=float, default=0.18)
+    p_send.add_argument(
+        "--twn4-gpio",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="GPIO20 on once at start, off at end (Pi relays). RF still via TWN4 API.",
+    )
+    p_send.add_argument("--relays", default=str(DEFAULT_RELAYS))
     p_send.set_defaults(func=cmd_send)
     args = p.parse_args(argv)
     return int(args.func(args) or 0)

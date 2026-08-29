@@ -4,6 +4,22 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-068 — 11248 B → CoG → 0x12
+
+**Status:** **PASS** A/B/A DONE; faults rc≠0; UART `REF=01` BUSY `00→01` GOT=`2BF0`
+
+`docs/experiments/EXP-068.md`. `v0.12b_nfc_epd`.
+
+---
+
+### EXP-20260829-067 — CoG stays init during NFC chunks
+
+**Status:** **PASS** INIT=01, P10=01, P13=01 across 235 RF/I²C turnovers
+
+`docs/experiments/EXP-067.md`.
+
+---
+
 ### EXP-20260829-066 — OVMB protocol HIL no EPD
 
 **Status:** **PASS** crc/skip/e2e rejected; three full 11248 B DONE (`6645BA54`, `429BC5BF`, `6645BA54`)

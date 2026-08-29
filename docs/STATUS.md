@@ -6,11 +6,13 @@
 
 ## Now
 
-OVMB v1 protokol **OVĚŘENO** EXP-066: tři celé 11 248 B přenosy + fault testy. MCU `v0.12a`. Config mirror beze změny. Další: stream do CoG a `0x12`.
+OVMB v1 + EPD **OVĚŘENO** EXP-066/067/068. MCU `v0.12b_nfc_epd`. Config mirror beze změny.
 
 ```text
 python3 tools/nfc_gateway/cli.py send /path/to/11248.bin
 ```
+
+Exit 0 jen po DONE. GPIO20 jednou na `send` (nebo `--no-twn4-gpio`, pokud relé drží vnější skript). RF ON/OFF přes TWN4 API.
 
 ## NFC ladder
 
@@ -18,4 +20,7 @@ python3 tools/nfc_gateway/cli.py send /path/to/11248.bin
 |---|---|---|
 | SRAM_MIRROR 16 B / 64 B | 063/065 | **PASS** |
 | OVMB protocol 11248 B | 066 | **PASS** (no EPD) |
-| CoG stream + 0x12 | — | next |
+| CoG stays init during chunks | 067 | **PASS** |
+| CoG stream + 0x12 | 068 | **PASS** UART BUSY 0→1 |
+
+Milestone: `milestone/nfc-image-transfer`.

@@ -1,6 +1,6 @@
 # NFC mailbox protocol OVMB v1
 
-Status: layout **OVĚŘENO** mock testy `tools/nfc_gateway/tests/test_ovmb.py`. HIL viz EXP-066+.
+Status: layout **OVĚŘENO** mock (`test_ovmb.py` 12/12) i HIL EXP-066 (bez EPD) a EXP-067/068 (CoG + `0x12`).
 
 ## Physical contract (OVĚŘENO EXP-063/065)
 
@@ -50,5 +50,9 @@ READY=0 TRANSFER=1 VERIFIED=2 REFRESH=3 DONE=4 ABORT=5 ERROR=6
 - Wrong seq/offset/CRC/e2e → ERROR, no `0x12`.
 - ABORT → ABORT, drop transfer, no `0x12`.
 - COMMIT only if got==11248 and e2e matches.
-- `0x12` only after VERIFIED.
-- MCU timeout in TRANSFER if no new host frame for ~25 s.
+- `0x12` only after VERIFIED. MCU jde VERIFIED → refresh → DONE (stav REFRESH se v ACK obvykle neukáže).
+- Po `0x12` čeká P1_3: BUSY LOW, pak ready HIGH (EXP-068).
+- ABORT / BAD_CRC / BAD_SEQ / BAD_E2E / PREMATURE: `epd_off()`, žádný `0x12`.
+- Host: BEGIN wait 14 s (CoG init), COMMIT wait 40 s (refresh). ACK musí být type=5 a payload ≥ 4.
+- Host round timeout / CLI timeout ukončí TRANSFER. MCU v TRANSFER čeká na další falling-edge FD nebo nový BEGIN (neuvázne v `0x12`).
+- CLI `send` zapne GPIO20 jednou a vypne ho v `finally`. Chunky nepřepínají USB.
