@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-066 — OVMB protocol HIL no EPD
+
+**Status:** **PASS** crc/skip/e2e rejected; three full 11248 B DONE (`6645BA54`, `429BC5BF`, `6645BA54`)
+
+`docs/experiments/EXP-066.md`. `v0.12a_nfc_proto`.
+
+---
+
 ### EXP-20260829-065 — I2C-idle then MCU 64 B SRAM dump
 
 **Status:** **PASS** F8–FB = `00…3F` after RF payload64. `docs/experiments/EXP-065.md`

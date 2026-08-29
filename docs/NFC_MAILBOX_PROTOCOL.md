@@ -1,42 +1,54 @@
-# NFC mailbox protocol (64 B SRAM)
+# NFC mailbox protocol OVMB v1
 
-Status: physical path **OVĚŘENO** EXP-063/065. Frame layout below is **HYPOTÉZA** until host+MCU tests.
+Status: layout **OVĚŘENO** mock testy `tools/nfc_gateway/tests/test_ovmb.py`. HIL viz EXP-066+.
 
-## Physical contract (OVĚŘENO)
+## Physical contract (OVĚŘENO EXP-063/065)
 
 ```text
-I2C 0xAA/0xAB
-SRAM blocks F8 F9 FA FB = 64 B
-SRAM_MIRROR: NC_REG bit1, SRAM_MIRROR_BLOCK=0x10 (NFC pages 0x40–0x4F)
-REG_LOCK=0x01: do not write config via RF; I2C config already programmed
-VCC required; SRAM lost on tag power-off
-MCU must not I2C-poll while TWN4 writes
-Host uses /dev/ttyACM0 only (never ttyUSB0)
+SRAM F8–FB = NFC 0x40–0x4F (SRAM_MIRROR_BLOCK I2C 0x10)
+E8 = 1B 00 10 48   E9 = 08 01 01 00
+MCU I2C only while RF field is OFF (FD high / TWN4 set_rf_off)
+Host: /dev/ttyACM0, GPIO20 on once, RF on/off via SearchTag / SetRFOff
 ```
 
-Polarity (existing EPD, do not change): WHITE 0/0, BLACK 1/0, RED 0/1. BIN = 2 × 5624 B = 11248 B, 152×296, 19 B/row.
+BIN: 11 248 B = 5 624 + 5 624, 152×296, 19 B/row. WHITE 0/0, BLACK 1/0, RED 0/1.
 
-## Proposed 64 B frame (HYPOTÉZA)
-
-Byte layout, little-endian:
+## Frame (64 B, little-endian)
 
 | Off | Len | Field |
 |---|---|---|
 | 0 | 4 | magic `OVMB` |
-| 4 | 1 | proto ver `0x01` |
-| 5 | 1 | type: 1 BEGIN, 2 DATA, 3 COMMIT, 4 ABORT, 5 ACK |
+| 4 | 1 | version `0x01` |
+| 5 | 1 | type: BEGIN=1 DATA=2 COMMIT=3 ABORT=4 ACK=5 |
 | 6 | 1 | transfer id |
-| 7 | 1 | seq (monotonic per transfer) |
-| 8 | 2 | byte_offset |
-| 10 | 1 | payload_len (0–47) |
-| 11 | 2 | total_len (11248) |
-| 13 | 1 | plane/format `0xB1` = TagStudio 1bpp BWR native |
-| 14 | 2 | frame CRC-16/IBM of bytes 0–13 + payload |
-| 16 | 47 | payload |
-| 63 | 1 | reserved 0 |
+| 7 | 1 | seq (BEGIN=0, DATA=1…N, COMMIT=N+1) |
+| 8 | 2 | byte offset |
+| 10 | 1 | payload_len 0–48 |
+| 11 | 2 | total_len (must be 11248) |
+| 13 | 1 | format `0xB1` |
+| 14 | 2 | CRC-16/CCITT-FALSE of bytes 0–13 + payload |
+| 16 | 48 | payload (unused bytes 0) |
 
-COMMIT payload: 4 B end-to-end CRC-32 of the 11248 B image.
+DATA payload max 48 B. 11248 = 234×48 + 16.
 
-MCU: reject out-of-order seq, offset past plane, bad frame CRC. No EPD `0x12` until COMMIT + e2e CRC. On ABORT/timeout: drop transfer, keep last glass image.
+COMMIT payload: 4 B CRC-32/ISO-HDLC of the whole image (`binascii.crc32`).
 
-Host: `mbox-mirror --phase payload64` is only a raw SRAM test. Image CLI comes after this layout is locked by a HIL test.
+ACK payload: `state, err, got_lo, got_hi`.
+
+## States
+
+READY=0 TRANSFER=1 VERIFIED=2 REFRESH=3 DONE=4 ABORT=5 ERROR=6
+
+## Errors
+
+0 OK, 1 BAD_MAGIC, 2 BAD_VER, 3 BAD_CRC, 4 BAD_SEQ, 5 BAD_OFFSET, 6 BAD_LEN, 7 BAD_FORMAT, 8 PREMATURE, 9 BAD_E2E, 10 TIMEOUT, 11 ABORTED, 12 BAD_TYPE
+
+## Rules
+
+- New BEGIN resets CRC/offset and is allowed from any state.
+- Duplicate DATA (same type/id/seq/offset) → same ACK, no double count.
+- Wrong seq/offset/CRC/e2e → ERROR, no `0x12`.
+- ABORT → ABORT, drop transfer, no `0x12`.
+- COMMIT only if got==11248 and e2e matches.
+- `0x12` only after VERIFIED.
+- MCU timeout in TRANSFER if no new host frame for ~25 s.

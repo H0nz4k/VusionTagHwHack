@@ -9,7 +9,10 @@ import sys
 import time
 from pathlib import Path
 
-ELATEC_SRC = Path(__file__).resolve().parents[1] / "ElaTool" / "src"
+HERE = Path(__file__).resolve().parent
+ELATEC_SRC = HERE.parent / "ElaTool" / "src"
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
 if str(ELATEC_SRC) not in sys.path:
     sys.path.insert(0, str(ELATEC_SRC))
 
@@ -469,6 +472,71 @@ def cmd_mbox_mirror(args) -> int:
     return 0
 
 
+def cmd_send(args) -> int:
+    """11248 B BIN → TWN4 SRAM mailbox. Exit 0 only after DONE/VERIFIED."""
+    from elatec_uid_tool.protocol import ElatecError, SimpleProtocolClient
+
+    from hil_send import DEV_UID, DEV_VER, NtagMailbox, send_abort, send_image
+    from ovmb import IMAGE_LEN
+
+    path = Path(args.bin_path)
+    if not path.is_file():
+        print(json.dumps({"event": "ERROR", "error": "missing_bin"}))
+        return 2
+    image = path.read_bytes()
+    if len(image) != IMAGE_LEN:
+        print(json.dumps({"event": "ERROR", "error": "bad_len", "n": len(image)}))
+        return 2
+
+    def log(rec):
+        print(json.dumps(rec, default=str), flush=True)
+
+    port = _port(args)
+    rc = 1
+    try:
+        with SimpleProtocolClient(port, timeout=args.timeout) as client:
+            info, tag, ntag = _wait_ntag(client, args.wait)
+            if tag is None or ntag is None:
+                log({"event": "ERROR", "error": "no_tag"})
+                try:
+                    client.set_rf_off()
+                except ElatecError:
+                    pass
+                return 2
+            if tag.id_hex.upper() != DEV_UID:
+                log({"event": "ERROR", "error": "uid", "uid": tag.id_hex})
+                client.set_rf_off()
+                return 3
+            ver = ntag.get_version().raw
+            if ver != DEV_VER:
+                log({"event": "ERROR", "error": "get_version", "ver": ver.hex(" ")})
+                client.set_rf_off()
+                return 3
+            ntag.pwd_auth(bytes.fromhex("FFFFFFFF"))
+            box = NtagMailbox(client, ntag, process_s=args.process_s)
+            rc = send_image(
+                box,
+                image,
+                args.xfer,
+                log,
+                fault=args.fault,
+                skip_seq=args.skip_seq,
+            )
+            if rc != 0 and args.fault is None and args.skip_seq is None:
+                try:
+                    send_abort(box, args.xfer)
+                except Exception:
+                    pass
+            try:
+                client.set_rf_off()
+            except ElatecError:
+                pass
+    except Exception as e:
+        log({"event": "ERROR", "error": str(e)})
+        return 1
+    return rc
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="ovh-nfc")
     p.add_argument("--port", default=TWN4_DEFAULT)
@@ -501,6 +569,14 @@ def main(argv=None) -> int:
     p_mm.add_argument("--wait", type=float, default=12.0)
     p_mm.add_argument("--phase", choices=("e8", "payload", "payload64", "both"), default="both")
     p_mm.set_defaults(func=cmd_mbox_mirror)
+    p_send = sub.add_parser("send", help="Send a 11248 B TagStudio BIN via OVMB mailbox")
+    p_send.add_argument("bin_path")
+    p_send.add_argument("--wait", type=float, default=12.0)
+    p_send.add_argument("--xfer", type=int, default=1)
+    p_send.add_argument("--fault", choices=("crc-frame", "e2e"), default=None)
+    p_send.add_argument("--skip-seq", type=int, default=None)
+    p_send.add_argument("--process-s", type=float, default=0.18)
+    p_send.set_defaults(func=cmd_send)
     args = p.parse_args(argv)
     return int(args.func(args) or 0)
 
