@@ -6,13 +6,14 @@
 
 ## Now
 
-OVMB v1 + EPD **OVĚŘENO** EXP-066/067/068. MCU `v0.12b_nfc_epd`. Config mirror beze změny.
+Mailbox + EPD **OVĚŘENO**. Uživatelské příkazy: `tag-flash-latest`, `tag-send-image`. Release `v0.12b_nfc_epd` v `firmware/releases/latest.json`.
 
 ```text
-python3 tools/nfc_gateway/cli.py send /path/to/11248.bin
+tag-flash-latest --confirm-dev-tag --yes
+tag-send-image captures/nfc/art/ovhack.bin
 ```
 
-Exit 0 jen po DONE. GPIO20 jednou na `send` (nebo `--no-twn4-gpio`, pokud relé drží vnější skript). RF ON/OFF přes TWN4 API.
+Návod: [`FLASH_AND_IMAGE.md`](FLASH_AND_IMAGE.md).
 
 ## NFC ladder
 
@@ -23,5 +24,6 @@ Exit 0 jen po DONE. GPIO20 jednou na `send` (nebo `--no-twn4-gpio`, pokud relé 
 | CoG stays init during chunks | 067 | **PASS** |
 | CoG stream + 0x12 | 068 | **PASS** UART BUSY 0→1, sklo rastr A |
 | Known artwork via NFC | 069 | **PASS** ovhack na skle (fotka) |
+| User flash/send utils | 070 | **PASS** |
 
 Milestone: `milestone/nfc-image-transfer`.

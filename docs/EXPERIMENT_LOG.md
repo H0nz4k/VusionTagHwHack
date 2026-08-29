@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-070 — tag-flash-latest / tag-send-image
+
+**Status:** **PASS** dry-run, flash verify, UART v0.12b, BIN 11247 reject, ovhack DONE `D9331F86`
+
+`docs/experiments/EXP-070.md`.
+
+---
+
 ### EXP-20260829-069 — NFC known artwork BINs
 
 **Status:** **PASS** host ovhack/money/ovhack; sklo `ov26_exp069_visual.png` OpenVusion černě + Hack červeně

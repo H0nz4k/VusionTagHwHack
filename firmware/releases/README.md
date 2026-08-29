@@ -1,3 +1,24 @@
+# Firmware releases
+
+**Aktuální ověřený mailbox firmware:** `v0.12b_nfc_epd`  
+Zdroj pravdy: [`latest.json`](latest.json) (explicitní klíč `latest`, ne mtime).  
+HEX: [`v0.12b_nfc_epd.hex`](v0.12b_nfc_epd.hex)  
+SHA-256: `2ce75d6241c91d5bef98194515ba5024312fec006b156d485d35426015a927f6`  
+ROM: 3617 / 32768 B. HIL: EXP-068, EXP-069.
+
+```bash
+tag-flash-latest --dry-run
+tag-flash-latest --confirm-dev-tag --yes
+tag-send-image captures/nfc/art/ovhack.bin
+```
+
+Návod: [`docs/FLASH_AND_IMAGE.md`](../../docs/FLASH_AND_IMAGE.md).  
+HEX ≠ TagStudio BIN (11 248 B).
+
+Starší SHOW firmware (volby 1–4 na stránku `0x30`) je níže. Pro novou grafiku přes mailbox ho nepoužívej.
+
+---
+
 # v0.10f — NFC SHOW (tři grafiky + smazání)
 
 Uložený firmware pro **VUSION 2.6 BWR GU140** / **CC2510**.
@@ -50,6 +71,16 @@ sudo cc-tool -v read -e -w "$HEX"
 ```
 
 Když `cc-tool -t` neřekne CC2510, **zastav** — není to ověřený DEV target.
+
+## TAG2 bez relé (obětovaný kus, pin 9 = 3.3 V)
+
+Baterie ven. Debugger USB přímo do Pi. Pin 9 propojený s pin 2 → DVDD.
+
+```bash
+/home/hw/bin/ov26-flash-direct.sh
+```
+
+Detail: [`docs/FLASH_DIRECT.md`](../../docs/FLASH_DIRECT.md). Golden/stock, který má zůstat originál, tímto **ne**.
 
 ## Po flashe: poslat grafiku
 

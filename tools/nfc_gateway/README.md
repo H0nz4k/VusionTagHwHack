@@ -2,6 +2,14 @@
 
 TWN4 = `/dev/ttyACM0`. Never `--port /dev/ttyUSB0` (tag UART).
 
+Běžná grafika (11248 B TagStudio BIN):
+
+```text
+tag-send-image /cesta/obraz.bin
+```
+
+Interní CLI (stejný protokol):
+
 ```text
 python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 reader-info
 python3 tools/nfc_gateway/cli.py --port /dev/ttyACM0 --wait 8 probe

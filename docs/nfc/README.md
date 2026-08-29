@@ -17,6 +17,14 @@ TWN4 na lab Pi **OVĚŘENO** 2026-08-28: USB `09d8:0420`, `TWN4/B1.64/NCF5.20/PR
 
 Host: [`tools/nfc_gateway/`](../../tools/nfc_gateway/README.md) + ElaTool `elatec_uid_tool`.
 
+Uživatelský příkaz (mailbox 11 248 B BIN, ne HEX):
+
+```text
+tag-send-image captures/nfc/art/ovhack.bin
+```
+
+Flash ověřeného firmware: `tag-flash-latest --confirm-dev-tag --yes`. Viz [`FLASH_AND_IMAGE.md`](../FLASH_AND_IMAGE.md).
+
 | Fáze | EXP | Status |
 |---|---|---|
 | NFC-0 RF UID | 038 | **PASS** UID `04367F5A2D7280` Plus 1K |

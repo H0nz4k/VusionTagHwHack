@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Flash the pinned verified OpenVusionHack firmware (DEV tag only).
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+exec python3 "$HERE/tag_flash_latest.py" "$@"

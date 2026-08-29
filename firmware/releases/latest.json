@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "latest": "v0.12b_nfc_epd",
+  "releases": {
+    "v0.12b_nfc_epd": {
+      "id": "v0.12b_nfc_epd",
+      "hex": "v0.12b_nfc_epd.hex",
+      "sha256": "2ce75d6241c91d5bef98194515ba5024312fec006b156d485d35426015a927f6",
+      "rom_bytes": 3617,
+      "hex_bytes": 8722,
+      "verified": true,
+      "hil": ["EXP-068", "EXP-069"],
+      "banner": "OpenVusion GU140 EXP-068 v0.12b OVMB-EPD",
+      "commit": "bdf0f86",
+      "note": "OVMB mailbox + CoG 0x10/0x13 + 0x12. OpenVusionHack on glass via NFC."
+    }
+  }
+}

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Send a 11248 B TagStudio BIN via TWN4/NFC mailbox.
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+exec python3 "$HERE/tag_send_image.py" "$@"

@@ -1,5 +1,13 @@
 # Direct flash TAG2 (bez relé)
 
+Pro běžný lab DEV tag s relé použij [`FLASH_AND_IMAGE.md`](FLASH_AND_IMAGE.md):
+
+```bash
+tag-flash-latest --confirm-dev-tag --yes
+```
+
+To **není** tento dokument. Níže je jen výjimka: druhý obětovaný kus napájený z pinu 9, bez relé.
+
 Obětovaný testovací tag, **ne** golden. Baterie **ven**. Napájení z CC Debugger **pin 9 (3.3 V)** propojeného s **pin 2** (TVCC sense).
 
 ```bash

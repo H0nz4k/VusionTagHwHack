@@ -9,6 +9,7 @@
 | `art/ovhack.bin` | EXP-069 OpenVusionHack 11248 B |
 | `art/money.bin` | EXP-069 Shut up and take my money |
 | `ov26_exp069_host.txt` | 069 host DONE CRCs |
+| `ov26_exp070_host.txt` | 070 flash+send utility HIL |
 | `ov26_exp038.json` | NFC-0 TWN4 probe |
 | `ov26_exp040_por.bin` | NFC-A ACK0=01 |
 | `ov26_exp043_por.bin` | NFC-B ACKAB=00 |
