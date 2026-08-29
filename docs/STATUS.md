@@ -22,5 +22,6 @@ Exit 0 jen po DONE. GPIO20 jednou na `send` (nebo `--no-twn4-gpio`, pokud relé 
 | OVMB protocol 11248 B | 066 | **PASS** (no EPD) |
 | CoG stays init during chunks | 067 | **PASS** |
 | CoG stream + 0x12 | 068 | **PASS** UART BUSY 0→1, sklo rastr A |
+| Known artwork via NFC | 069 | **PASS** ovhack + money, poslední ovhack |
 
 Milestone: `milestone/nfc-image-transfer`.

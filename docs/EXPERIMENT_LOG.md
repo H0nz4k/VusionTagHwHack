@@ -4,6 +4,14 @@ Přidávej nové experimenty nahoru.
 
 ---
 
+### EXP-20260829-069 — NFC known artwork BINs
+
+**Status:** **PASS** host ovhack `D9331F86` + money `ADCEA5C4` + ovhack znovu (poslední na skle). Bez reflashe.
+
+`docs/experiments/EXP-069.md`. `captures/nfc/art/`.
+
+---
+
 ### EXP-20260829-068 — 11248 B → CoG → 0x12
 
 **Status:** **PASS** A/B/A DONE; faults rc≠0; UART `REF=01` BUSY `00→01` GOT=`2BF0`; sklo `ov26_exp068_visual.png` černý+červený rastr A

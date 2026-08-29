@@ -1,0 +1,3 @@
+ovhack D9331F86 DONE 235 chunks 354.59s rc=0
+money  ADCEA5C4 DONE 235 chunks 357.36s rc=0 retry=1
+ovhack D9331F86 DONE 235 chunks 354.37s rc=0  (left on glass)

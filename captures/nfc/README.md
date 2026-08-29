@@ -6,6 +6,9 @@
 | `ov26_exp068_uart.bin` | 068 first UART recap INIT/P10/P13/REF |
 | `ov26_exp068b_uart.bin` | 068b BUSY 00→01 after 0x12 |
 | `ov26_exp068b_uart.txt` | 068b extracted UART lines |
+| `art/ovhack.bin` | EXP-069 OpenVusionHack 11248 B |
+| `art/money.bin` | EXP-069 Shut up and take my money |
+| `ov26_exp069_host.txt` | 069 host DONE CRCs |
 | `ov26_exp038.json` | NFC-0 TWN4 probe |
 | `ov26_exp040_por.bin` | NFC-A ACK0=01 |
 | `ov26_exp043_por.bin` | NFC-B ACKAB=00 |
