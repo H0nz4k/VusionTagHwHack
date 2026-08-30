@@ -1,5 +1,17 @@
 # Hardware Map
 
+Kusovník, fotky stolu a PCB: [`PROJECT.md`](PROJECT.md) · [`GALLERY.md`](GALLERY.md) · `captures/ov26_lab_bench.png`.
+
+TWN4 USB: **BCM GPIO20** (Pi pin 38), stejné NO active-low. `twn4-on` / `twn4-off`. Fail-safe idle = 17, 27, 21 **i 20** `dh`.
+
+NFC (OVĚŘENO sourozenec EXP-040+): SDA **P0_4**, SCL **P0_6**, FD **P1_1**, I²C `0xAA`/`0xAB`, NTAG I²C Plus 1K UID `04367F5A2D7280`.
+
+EPD sada (PWR/CS/MOSI/SCLK/DC/BUSY/RESET) jako celek **OVĚŘENO** vizuálně EXP-030…033. Jednotlivé piny bez A/B continuity pořád z GL340 mapy.
+
+TAG2 / pin 9: jen druhý obětovaný kus, baterie ven, USB přímo do Pi. Viz sourozenecký `FLASH_DIRECT.md`.
+
+---
+
 ## CC2510 důležité piny — OVĚŘENO / vysoká jistota
 
 ```text
@@ -42,6 +54,7 @@ Všechny spínané kontakty jsou **NO**, cívka **active-low**:
 BCM GPIO17  Pi pin 11  tag ~3 V
 BCM GPIO27  Pi pin 13  3× relé: RESET_N + DD + DC
 BCM GPIO21  Pi pin 40  CC Debugger USB +5 V (ne GND)
+BCM GPIO20  Pi pin 38  TWN4 USB +5 V (ne tag, ne USB data)
 
 dl / GPIO LOW  = cívka ON  = NO sepne  = spojeno
 dh / GPIO HIGH = cívka OFF = NO otevře = odpojeno
@@ -52,7 +65,7 @@ Trvale spojené:
 - DVDD → debugger pin 2 (TVCC sense)
 - debugger pin 9 (3V3) **nepřipojený**
 
-Fail-safe idle = **17, 27 i 21 `dh`**: tag off, debug odříznutý, USB debugger bez 5 V.
+Fail-safe idle = **17, 27, 21 i 20 `dh`**: tag off, debug odříznutý, debugger USB i TWN4 USB bez 5 V.
 
 Programátor (`ov26-relays.sh attach`):
 
@@ -77,34 +90,34 @@ UART CP2102 má vlastní USB; GPIO21 ho nespíná.
 - EXP-013: USB ručně znovu zastrčené až po tag+debug ON → `cc-tool` viděl CC2510, zelená LED.
 - EXP-012 `No target` při enumeraci bez 3 V / bez USB cyklu.
 
-## Kandidátní GPIO mapa — EPD je REFERENCE, ne OVĚŘENO
+## GPIO mapa — EPD sada a NFC I²C OVĚŘENO, flash stále HYPOTÉZA
 
-EPD signály: **EXACT-MODEL REFERENCE** (Balhar GU140 + Pervasive Figure 5-1) složená s **RELATED-MODEL** GL340 CC2510 piny. Shoda sady signálů zvyšuje jistotu. Na našem kusu identita **není** OVĚŘENO. Detail `docs/EPD_REFERENCE.md`.
+EPD signály jako **sada** řídí E2266JS0C2 (**OVĚŘENO** EXP-030…033). Jednotlivé piny bez A/B continuity = pořád GL340/Balhar REFERENCE. Detail `docs/EPD_REFERENCE.md`.
 
 ```text
-P0_0 -> EPD_PWR (active LOW)     REFERENCE GL340 + power switch Fig 5-1
-P0_1 -> EPD_CS                   REFERENCE GL340 + FPC 12
+P0_0 -> EPD_PWR (active LOW)     OVĚŘENO (sada)
+P0_1 -> EPD_CS                   OVĚŘENO (sada)
 P0_2 -> leave input/untouched     mimo first-refresh (MISO)
-P0_3 -> EPD_MOSI USART0 Alt1     REFERENCE GL340 + FPC 14 SDA
-P0_4 -> NFC SDA                  RELATED-MODEL
-P0_5 -> EPD_SCLK USART0 Alt1     REFERENCE GL340 + FPC 13 SCL
-P0_6 -> NFC SCL                  RELATED-MODEL
+P0_3 -> EPD_MOSI USART0 Alt1     OVĚŘENO (sada); NENÍ UART
+P0_4 -> NFC SDA                  OVĚŘENO ACK 0xAA
+P0_5 -> EPD_SCLK USART0 Alt1     OVĚŘENO (sada)
+P0_6 -> NFC SCL                  OVĚŘENO ACK 0xAA
 P0_7 -> unknown
 
 P1_0 -> NFC/flash power          RELATED-MODEL
-P1_1 -> NFC FD                   RELATED-MODEL
-P1_2 -> EPD_DC                   REFERENCE GL340 + FPC 11
-P1_3 -> EPD_BUSY (ready = HIGH)  REFERENCE GL340 + FPC 9; HIL identita INCONCLUSIVE
-P1_4 -> external flash CS
-P1_5 -> flash SCLK
-P1_6 -> flash MOSI / diagnostic UART TX   OVĚŘENO UART
-P1_7 -> flash MISO
+P1_1 -> NFC FD                   OVĚŘENO pulse
+P1_2 -> EPD_DC                   OVĚŘENO (sada)
+P1_3 -> EPD_BUSY (ready = HIGH)  OVĚŘENO cyklus po 0x12 (~15 s)
+P1_4 -> external flash CS        HYPOTÉZA
+P1_5 -> flash SCLK               HYPOTÉZA
+P1_6 -> flash MOSI / UART TX     OVĚŘENO UART
+P1_7 -> flash MISO               HYPOTÉZA
 
-P2_0 -> EPD_RESET candidate      REFERENCE; storm z EXP-006 = HISTORICAL, kauzalita UNKNOWN
-P2_1 -> LED control / debug DD   OVĚŘENO debug + LED
-P2_2 -> LED boost / debug DC     OVĚŘENO debug + LED
-P2_3 -> 32 kHz crystal           OVĚŘENO continuity
-P2_4 -> 32 kHz crystal           OVĚŘENO continuity
+P2_0 -> EPD_RESET                OVĚŘENO H-L-H isolated; storm EXP-006 HISTORICAL
+P2_1 -> LED / debug DD           OVĚŘENO
+P2_2 -> LED boost / debug DC     OVĚŘENO
+P2_3 -> 32 kHz crystal           OVĚŘENO continuity — NIKDY GPIO
+P2_4 -> 32 kHz crystal           OVĚŘENO continuity — NIKDY GPIO
 ```
 
 ## P2 LED — REFERENCE GL340 + GU140 stav

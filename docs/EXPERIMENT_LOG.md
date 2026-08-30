@@ -2,6 +2,18 @@
 
 Přidávej nové experimenty nahoru.
 
+NFC EXP-038…071, RF EXP-034…037 a TagSet EXP-070/071 jsou v sourozenci  
+`tools/Debugger/OpenVusion_GU140_Cursor_Agent_Project/docs/EXPERIMENT_LOG.md`.  
+Souhrn: [`PROJECT.md`](PROJECT.md), [`nfc/README.md`](nfc/README.md), [`rf/README.md`](rf/README.md).
+
+---
+
+### DOC-20260830 — kompletní zpráva SW/HW + fotky
+
+**Status:** dokumentace (není HIL experiment)
+
+Zapsáno: inventář `tools/` (ElaTool, HWSniff, Donge, WaterFall, TagStudio, GL340, …), NFC/RF stav, galerie PCB a skla. Commit na `research/gu140`.
+
 ---
 
 ### EXP-20260828-033 — OpenVusionHack first content

@@ -172,4 +172,9 @@ CLKCON (CC2510):
 
 ## Nejbližší otevřená otázka
 
-1. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+1. CC2500 3.3 V SPI na Pi (RF-E), pak OTA PING.
+2. LED: společný sink vs tři FET (fyzické měření, TAG OFF).
+3. TAG2 / velký štítek: potvrdit DEV a clip pin 2↔9 před flashem.
+4. External flash JEDEC ID.
+
+NFC I²C / SHOW / mailbox: souhrn v [`nfc/README.md`](nfc/README.md) — na siliconu **OVĚŘENO** (sourozenec).

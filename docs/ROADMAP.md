@@ -56,22 +56,24 @@ Po každém EXP commit + log. Bez konzistentního PASS nepokračovat.
 - [ ] only then controlled write tests
 
 ## Phase 6 — NFC
-- [ ] detect I2C device
-- [ ] safe reads
-- [ ] session/config understanding
-- [ ] SRAM mailbox
-- [ ] CRC/payload framing
+- [x] detect I2C device (EXP-040 ACK 0xAA) — sourozenec
+- [x] safe EEPROM reads
+- [x] SHOW sloty TWN4 + Android NDEF (v0.10g / v0.10i)
+- [x] SRAM mailbox OVMB + EPD (v0.12b, EXP-066…071)
+- [ ] Android mailbox (celý obraz z telefonu)
+- [ ] stock NDEF/SES protokol (záměrně ne)
 
 ## Phase 7 — LEDs
 - [x] isolate P2_1/P2_2 behavior from debugger (EXP-016 UART stable, colors pending)
-- [ ] map white/RGB
+- [ ] map white/RGB (společný sink vs FET — fyzické měření)
 - [ ] safe driver API
 
 ## Phase 8 — RF
-- [ ] understand stock/reference RF architecture
-- [ ] receive-only diagnostics first
-- [ ] controlled TX only after baseline
-- [ ] packet framing
+- [x] vlastní profil (ne stock Vusion) — `OVH_RF_PROFILE_0`
+- [x] RF-A/B/C UART dump / IDLE / RX (EXP-034…036)
+- [x] pasivní observatoř nRF52840 + WaterFall (energy only)
+- [ ] RF-D/E/F/G OTA — **blok: CC2500 na Pi není**
+- [ ] packet PING/PONG = `milestone/rf-first-packet`
 
 ## Phase 9 — Integrated firmware
 - [ ] scheduler/state machine
