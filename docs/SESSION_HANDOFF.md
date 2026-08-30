@@ -7,9 +7,11 @@ Na stejném stole později běžely (sourozenec, DEV only): `v0.10i BIG` SHOW a 
 
 Před flashem vždy `cc-tool -t` = CC2510 a `ov26-relays.sh attach` (nebo `idle` + přímý USB u TAG2).
 
-## Velký tag (TAG2) — čeká na člověka
+## Velký tag (TAG2) / BIG sklo
 
-Clip debugger pin 2 (TVCC) ↔ pin 9 (3.3 V), baterie ven, USB debuggeru **přímo** do Pi. Relé 17/27/21/20 zůstat `dh`. Agent **neflashuje**, dokud nepřijde potvrzení DEV + zapojení.
+2026-08-31: originál BIG byl **locked** → wipe + `v0.10i` SHOW (volba 4 = bílá). Bez baterie, klema **9↔2**, GPIO21 = VDD. USB po flashi nevytahovat, pokud má MCU běžet. Pin 9 EPD refresh **ne OVĚŘENO**.
+
+Domácí použití / I²C čidla / nápady s RF: [`HOME_USE.md`](HOME_USE.md).
 
 ## Encoding
 

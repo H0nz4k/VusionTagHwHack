@@ -22,7 +22,7 @@ Na obětovaném DEV tagu běží vlastní SDCC firmware. Displej, NFC i laborato
 | External flash | neidentifikováno | otevřené |
 | LED RGB kanály | common-anode; sink není MCU GPIO | **částečně OVĚŘENO** |
 
-**Nejbližší otevřená práce:** vlastní rádio (chybí CC2500 na Pi), flash, LED sink, velký tag (TAG2 / pin 9), Android mailbox (telefon umí jen číslo slotu).
+**Nejbližší otevřená práce:** vlastní rádio (chybí CC2500 na Pi), flash, LED sink, BIG sklo native rozlišení, Android mailbox. Domácí nápady + I²C čidla: [`HOME_USE.md`](HOME_USE.md).
 
 ---
 

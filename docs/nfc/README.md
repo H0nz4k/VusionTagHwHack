@@ -1,5 +1,7 @@
 # NFC na GU140
 
+**Proč NFC existuje a proč to není cesta do původního FW:** [`WHY_NFC.md`](WHY_NFC.md).
+
 Stock Vusion Active NFC **neimplementujeme**. Vlastní cesta: TWN4 nebo telefon → NTAG I²C Plus 1K → CC2510 I²C → EPD.
 
 Kód a HIL experimenty EXP-038…071 žijí v sourozeneckém checkoutu `tools/Debugger/OpenVusion_GU140_Cursor_Agent_Project` (větev `feature/tagset`). Zde je souhrn, který v `research/gu140` dřív chyběl.

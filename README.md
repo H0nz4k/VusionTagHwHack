@@ -12,6 +12,8 @@ Vlastní firmware na elektronickém cenovkovém štítku **VUSION 2.6 BWR GU140*
 
 Později: NFC SHOW a mailbox 11 248 B (OVĚŘENO v sourozeneckém checkoutu `feature/tagset`). Rádio OTA ještě ne — chybí CC2500 na Pi. Pasivní 2.4 GHz observatoř (nRF52840 + WaterFall) je samostatná větev.
 
+Domácí nápady (počasí, kalendář, odpad, I²C čidla, BIG denní list): [`docs/HOME_USE.md`](docs/HOME_USE.md).
+
 ## Co to je
 
 Originální firmware na jednom obětovaném DEV kusu je smazaný. Na tom kusu běží vlastní SDCC firmware: UART, EPD B/W/R, NFC I²C (SHOW + mailbox).
@@ -22,6 +24,18 @@ stabilní boot → UART → GPIO → EPD refresh → B/W/R → obsah
 ```
 
 Cíl není „hacknout síť“, ale pochopit hardware a postavit kontrolovaný stack.
+
+## Proč je na štítku NFC
+
+NFC **není** backdoor do firmwaru. Je to blízký kanál (telefon / čtečka u kusu). Rádio je dálkový update (obchodní AP, u nás později Pi + CC2500).
+
+Telefon píše do **NTAG** (EEPROM / SRAM). CC2510 si to přečte po I²C (P0_4/P0_6), až pole zmizí. Do 32 kB flash MCU NFC nesahá.
+
+V originálu NFC umí: NDEF URL na imagotag + SES ID, **Active NFC** (listování přednahraných stránek), krátký mailbox, identifikaci kusu. To jsme na stock NTAGu četli (ElaTool). **Neimplementujeme** stock protokol — náš SHOW je jen `1`–`4` / `OVH`+n, mailbox je vlastní OVMB.
+
+Původní program je v zamčené flashi CC2510. Po `erase` (DEV, BIG 2026-08-31) je pryč. NTAG dump ho nevrátí. Zpět jen s HEX dumpem MCU z doby před wipe. Stock/golden nemazat.
+
+Celé: [`docs/nfc/WHY_NFC.md`](docs/nfc/WHY_NFC.md).
 
 ## Hardware (zkráceně)
 
@@ -67,7 +81,7 @@ RED   = plane10 0, plane13 1
 AGENTS.md     pravidla agenta
 docs/PROJECT.md   tato výzkumná zpráva
 docs/SOFTWARE.md  ElaTool, Donge, WaterFall, TagStudio, …
-docs/nfc/         SHOW + mailbox
+docs/nfc/         SHOW + mailbox + proč NFC (WHY_NFC.md)
 docs/rf/          dvě RF větve
 firmware/         SDCC (EPD řada v0.3–v0.4)
 captures/         UART + fotky skla + PCB
